@@ -94,12 +94,12 @@ int main(void)
   adc_calibration();
   delay_ms(10);
 //--------------------------------------------------------------------
-  EXTI8_Config();
   EXTI9_Config();
-  EXTI3_Config();
+  EXTI0_Config();
   EXTI1_Config();
-  EXTI4_Config();
-  EXTI6_Config();
+  EXTI2_Config();
+  EXTI5_Config();
+	EXTI10_Config();
 
   // Инициализация накачки
   PumpTimerConfig();
@@ -107,7 +107,7 @@ int main(void)
 
   DataUpdate.Need_batt_voltage_update = ENABLE;
 
-  if(!GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_6))
+  if(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_0))
     hidden_menu = DISABLE;       // Закрытие сервисных пунктов меню
 
   sound_activate();
@@ -149,7 +149,7 @@ int main(void)
       }
 ///////////////////////////////////////////////////////////////////////////////
     }
-    if((!Power.USB_active) && (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_9)))
+    if((!Power.USB_active) && (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_9)))
     {
       usb_activate(0x0);        // Если питание USB начало подаваться включаем USB
     }

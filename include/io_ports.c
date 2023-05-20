@@ -48,7 +48,7 @@ void io_init(void)
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
-  GPIO_SetBits(GPIOA, GPIO_Pin_10);      // Переключаем в режим 3 вольта
+  GPIO_ResetBits(GPIOA, GPIO_Pin_10);      // Переключаем в режим 3 вольта
   //GPIO_ResetBits(GPIOA,GPIO_Pin_7);// Переключаем в режим 3 вольта
 
   // ===============================================================================================  

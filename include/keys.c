@@ -417,7 +417,7 @@ void minus_poweroff(uint32_t * param)   // выключение
 // =======================================================
 // Де-Инициализация прерывания датчика 1
 
-  EXTI_InitStructure.EXTI_Line = EXTI_Line8;    // Номер EXTI
+  EXTI_InitStructure.EXTI_Line = EXTI_Line5;    // Номер EXTI
   EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;   // Режим прерывания
   EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;        // Триггер по нарастающему фронту
   EXTI_InitStructure.EXTI_LineCmd = DISABLE;    // Включаем
@@ -429,12 +429,26 @@ void minus_poweroff(uint32_t * param)   // выключение
   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x0F;
   NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;
   NVIC_Init(&NVIC_InitStructure);
+	
+// Де-Инициализация прерывания датчика 2	
+	EXTI_InitStructure.EXTI_Line = EXTI_Line10;    // Номер EXTI
+  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;   // Режим прерывания
+  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;        // Триггер по нарастающему фронту
+  EXTI_InitStructure.EXTI_LineCmd = DISABLE;     // Включаем
+  EXTI_Init(&EXTI_InitStructure);       // записиваем конфигурацию
+
+  // Описываем канал прерывания
+  NVIC_InitStructure.NVIC_IRQChannel = EXTI15_10_IRQn;    // канал
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x0F;
+  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x0F;
+  NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;
+  NVIC_Init(&NVIC_InitStructure);
+
 // =======================================================
   NVIC_InitStructure.NVIC_IRQChannel = COMP_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
   NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;
   NVIC_Init(&NVIC_InitStructure);
-
 
 /////////////////////////////////////////////////////
   /* Enable the alarm  A */
@@ -490,7 +504,7 @@ void minus_poweroff(uint32_t * param)   // выключение
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, DISABLE);
 /////////////////////////////////////////////////////
 
-  while (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_6))
+  while (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_2))
   {
     PWR_EnterSTOPMode(PWR_Regulator_LowPower, PWR_STOPEntry_WFI);       // Переходим в сон
   }
@@ -567,9 +581,9 @@ void keys_proccessing(void)
   /////////////////////////////////
   if(key & 0x2)                 // Кнопка +
   {
-    while (!GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_3));
-    while (!GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_4));
-    while (!GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_6));
+    while (!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_0));
+    while (!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_1));
+    while (!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_2));
     delay_ms(10);
     DataUpdate.Need_display_update = ENABLE;
 
@@ -656,9 +670,9 @@ void keys_proccessing(void)
   /////////////////////////////////
   if(key & 0x4)                 // Кнопка -
   {
-    while (!GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_3));
-    while (!GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_4));
-    while (!GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_6));
+    while (!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_0));
+    while (!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_1));
+    while (!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_2));
     delay_ms(10);
     DataUpdate.Need_display_update = ENABLE;
 
@@ -743,9 +757,9 @@ void keys_proccessing(void)
   /////////////////////////////////
   if(key & 0x1)                 // Кнопка Меnu
   {
-    while (!GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_3));
-    while (!GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_4));
-    while (!GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_6));
+    while (!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_0));
+    while (!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_1));
+    while (!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_2));
 
     DataUpdate.Need_display_update = ENABLE;
     LcdClear();                 // Очищаем фрейм буфер и дисплей

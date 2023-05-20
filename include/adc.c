@@ -98,14 +98,14 @@ void ADC_Batt_Read(void)
   while (PWR_GetFlagStatus(PWR_FLAG_VREFINTRDY) == DISABLE);
   // Ножка изиерения напряжения АКБ
   GPIO_StructInit(&GPIO_InitStructure);
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14;    // Ножка
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;    // Ножка
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;  // Аналоговый режим
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;      // Без подтяжки
   GPIO_Init(GPIOB, &GPIO_InitStructure);        // Загружаем конфигурацию
 
   // ===============================================================================================  
   //Подключение токосемной цепочки
-  GPIO_StructInit(&GPIO_InitStructure);
+  /*GPIO_StructInit(&GPIO_InitStructure);
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;    // Ножка
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
   GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
@@ -114,7 +114,7 @@ void ADC_Batt_Read(void)
   GPIO_Init(GPIOB, &GPIO_InitStructure);        // Загружаем конфигурацию
   ADC_RegularChannelConfig(ADC1, ADC_Channel_20, 1, ADC_SampleTime_384Cycles);  // Конфигурирование канала
 
-  GPIO_ResetBits(GPIOB, GPIO_Pin_15);   // Подключаем токосемник
+  GPIO_ResetBits(GPIOB, GPIO_Pin_15);   // Подключаем токосемник*/
   ADCData.Batt_voltage_raw = 0;
   for (i = 0; i < 10; i++)
   {
@@ -126,7 +126,8 @@ void ADC_Batt_Read(void)
   // ===============================================================================================  
   // Отключаем токосемную цепь
   GPIO_StructInit(&GPIO_InitStructure);
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15 | GPIO_Pin_14;
+  //GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15 | GPIO_Pin_14;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
   GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_400KHz;

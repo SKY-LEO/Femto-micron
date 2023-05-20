@@ -264,8 +264,8 @@ void reload_active_isotop_time()
 
 void check_wakeup_keys(void)
 {
-  if((!GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_3)
-      && GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_4) && !GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_6)) || Power.Display_active)
+  if((!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_0)
+      && GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_1) && !GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_2)) || Power.Display_active)
   {
     if((Settings.Sound == 1) || (Settings.Sound == 2))
       sound_activate();
@@ -421,10 +421,10 @@ void sleep_mode(FunctionalState sleep)
     {
       RTC_ITConfig(RTC_IT_WUT, DISABLE);
 
-      GPIO_SetBits(GPIOC, GPIO_Pin_13); // Выключаем подсветку                                  
+      //GPIO_SetBits(GPIOC, GPIO_Pin_13); // Выключаем подсветку                                  
 
       display_off();            // выключить дисплей
-      GPIO_ResetBits(GPIOA, GPIO_Pin_7);        // Фиксируем режим 1.8 вольта, с низким потреблением ножки
+      GPIO_SetBits(GPIOA, GPIO_Pin_10);        // Фиксируем режим 1.8 вольта, с низким потреблением ножки
 
       delay_ms(1000);           // подождать установки напряжения
       DataUpdate.Need_batt_voltage_update = ENABLE;     // разрешить работу АЦП
@@ -438,7 +438,7 @@ void sleep_mode(FunctionalState sleep)
     } else
     {
       RTC_ITConfig(RTC_IT_WUT, DISABLE);
-      GPIO_SetBits(GPIOA, GPIO_Pin_7);  // Переключаем в режим 3 вольта
+      GPIO_ResetBits(GPIOA, GPIO_Pin_10);  // Переключаем в режим 3 вольта
       delay_ms(400);            // подождать установки напряжения
       display_on();             // включить дисплей
       DataUpdate.Need_batt_voltage_update = ENABLE;     // разрешить работу АЦП

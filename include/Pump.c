@@ -132,7 +132,7 @@ void PumpPrescaler(void)
     voltage = ADCData.Batt_voltage;
   }
 
-  if(GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_9))
+  if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_9))
   {                             // Если подано внешнее питание
     pump_period = (Settings.v4_target_pump * 4200) / 4400;      // расчет целевой накачки (Пример 1,75мкс*4.2В/4.4В напряжение USB=1.25мкс)
   } else

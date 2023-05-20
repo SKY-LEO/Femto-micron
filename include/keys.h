@@ -14,7 +14,7 @@ extern void plus_sleep(uint32_t * param);
 extern void minus_sleep(uint32_t * param);
 
 extern void plus_on(uint32_t * param);
-extern void minus_off(uint32_t * param);
+extern void minus_off(uint32_t *param);
 
 extern void plus_one_ref(uint32_t * param);
 extern void minus_one_ref(uint32_t * param);

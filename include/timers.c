@@ -18,7 +18,7 @@ void sound_activate(void)
       TIM_Cmd(TIM3, ENABLE);
       Power.Sound_active = ENABLE;
       if((Settings.Vibro == 1) || ((Settings.Vibro > 1) && (Alarm.Alarm_active == ENABLE)))
-        GPIO_SetBits(GPIOA, GPIO_Pin_15);       // Активируем вибромотор
+        GPIO_SetBits(GPIOA, GPIO_Pin_0);       // Активируем вибромотор
     }
   }
 }
@@ -43,7 +43,7 @@ void sound_deactivate(void)
   Power.Sound_active = DISABLE;
   Sound_key_pressed = DISABLE;
 
-  GPIO_ResetBits(GPIOA, GPIO_Pin_15);   // де-активируем вибромотор
+  GPIO_ResetBits(GPIOA, GPIO_Pin_0);   // де-активируем вибромотор
 
 }
 
@@ -97,12 +97,12 @@ void timer10_Config(void)       // генерация звука
 // ===============================================================================================  
   // Динамик
   GPIO_StructInit(&GPIO_InitStructure);
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;    // Ножка
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;    // Ножка
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
   GPIO_Init(GPIOB, &GPIO_InitStructure);        // Загружаем конфигурацию
-  GPIO_PinAFConfig(GPIOB, GPIO_PinSource12, GPIO_AF_TIM10);
+  GPIO_PinAFConfig(GPIOB, GPIO_PinSource8, GPIO_AF_TIM10);
 // ===============================================================================================  
 
   TIM_TimeBaseInit(TIM10, &TIM_BaseConfig);
