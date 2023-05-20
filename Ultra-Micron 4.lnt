@@ -1,0 +1,16 @@
+-iC:\lint\lnt
+-i.\include
+-i.\include\control
+-i.\include\display
+-i.\STM32L1xx_StdPeriph_Lib_V1.3.1\Libraries\STM32L1xx_StdPeriph_Driver\inc
+-i.\STM32L1xx_StdPeriph_Lib_V1.3.1\Project\STM32L1xx_StdPeriph_Templates
+-i.\STM32_USB-FS-Device_Lib_V4.0.0\Projects\VirtualComport_Loopback\inc
+-i.\STM32_USB-FS-Device_Lib_V4.0.0\Libraries\STM32_USB-FS-Device_Driver\inc
+-i.\STM32_USB-FS-Device_Lib_V4.0.0\Projects\VirtualComport_Loopback\inc
+-i.\STM32L1xx_StdPeriph_Lib_V1.3.1\Libraries\CMSIS\Include
+-iC:\Keil_v5\ARM\ARMCC\include
+-iC:\Проекты\Ультра-микрон\firmware\RTE\_Ultra-Micron_4.02_
+-iC:\Keil_v5\ARM\PACK\Keil\STM32L1xx_DFP\1.0.2\Device\Include
+-iC:\Keil_v5\ARM\CMSIS\Include
+..\..\..\Keil_v5\ARM\BIN\CO-RV.LNT
+ -d"Ultra-Micron 4.02+" -d__UVISION_VERSION=522 -dSTM32L1XX_MD -dUSE_STDPERIPH_DRIVER -dUSE_STM32L152_EVAL -dSTM32L1XX_MD -dversion_401 -u C:\Проекты\Ультра-микрон\firmware\include\stm32l1xx_it.c

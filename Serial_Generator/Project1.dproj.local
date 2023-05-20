@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.964,C:\Проекты\Ультра-микрон\firmware\Serial_Generator\Serials.dfm=C:\Users\Быканов Андрей\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.033,C:\Проекты\Ультра-микрон\firmware\Serial_Generator\Project1.dproj=C:\Users\Быканов Андрей\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.940,=C:\Users\Быканов Андрей\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.964,C:\Проекты\Ультра-микрон\firmware\Serial_Generator\Serials.pas=C:\Users\Быканов Андрей\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>
