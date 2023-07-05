@@ -33,7 +33,7 @@
 .\obj\eeprom.o: include\clock.h
 .\obj\eeprom.o: include\dac.h
 .\obj\eeprom.o: include\delay.h
-.\obj\eeprom.o: .\include\display\ext2760.h
+.\obj\eeprom.o: .\include\display\extssd1306.h
 .\obj\eeprom.o: include\eeprom.h
 .\obj\eeprom.o: include\flash_save.h
 .\obj\eeprom.o: include\io_ports.h

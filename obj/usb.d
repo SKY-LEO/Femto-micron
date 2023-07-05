@@ -33,7 +33,7 @@
 .\obj\usb.o: include\clock.h
 .\obj\usb.o: include\dac.h
 .\obj\usb.o: include\delay.h
-.\obj\usb.o: .\include\display\ext2760.h
+.\obj\usb.o: .\include\display\extssd1306.h
 .\obj\usb.o: include\eeprom.h
 .\obj\usb.o: include\flash_save.h
 .\obj\usb.o: include\io_ports.h

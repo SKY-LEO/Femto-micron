@@ -34,7 +34,7 @@
 .\obj\services.o: include\clock.h
 .\obj\services.o: include\dac.h
 .\obj\services.o: include\delay.h
-.\obj\services.o: .\include\display\ext2760.h
+.\obj\services.o: .\include\display\extssd1306.h
 .\obj\services.o: include\eeprom.h
 .\obj\services.o: include\flash_save.h
 .\obj\services.o: include\io_ports.h

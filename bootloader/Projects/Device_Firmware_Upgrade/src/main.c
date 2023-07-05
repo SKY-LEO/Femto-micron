@@ -27,7 +27,7 @@
 
 
 /* Includes ------------------------------------------------------------------*/
-
+#include "main.h"
 #include "hw_config.h" 
 #include "usb_lib.h"
 #include "usb_conf.h"
@@ -35,7 +35,7 @@
 #include "usb_pwr.h"
 #include "dfu_mal.h"
 #include "delay.h"
-#include "main.h"
+
 
 /* Private typedef -----------------------------------------------------------*/
 typedef  void (*pFunction)(void);
@@ -72,13 +72,13 @@ GPIO_InitTypeDef   GPIO_InitStructure;
 RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);  
 
 GPIO_StructInit(&GPIO_InitStructure);
-GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_7;
+GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_10;
 GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
 GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
 GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
 GPIO_Init(GPIOA, &GPIO_InitStructure);
-GPIO_SetBits(GPIOA,GPIO_Pin_7);// устанавливаем напряжение на 3 вольта
+GPIO_ResetBits(GPIOA,GPIO_Pin_10);// устанавливаем напряжение на 3 вольта
 delay_ms(100);
   
   DFU_Button_Config();

@@ -34,7 +34,7 @@
 .\obj\stm32l1xx_it.o: include\clock.h
 .\obj\stm32l1xx_it.o: include\dac.h
 .\obj\stm32l1xx_it.o: include\delay.h
-.\obj\stm32l1xx_it.o: .\include\display\ext2760.h
+.\obj\stm32l1xx_it.o: .\include\display\extssd1306.h
 .\obj\stm32l1xx_it.o: include\eeprom.h
 .\obj\stm32l1xx_it.o: include\flash_save.h
 .\obj\stm32l1xx_it.o: include\io_ports.h

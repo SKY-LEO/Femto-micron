@@ -255,11 +255,11 @@ void DFU_Button_Config(void)
 { 
   GPIO_InitTypeDef   GPIO_InitStructure;
 
-  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE); // Подаем тактирование на порт
+  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE); // Подаем тактирование на порт
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;        // Режим ножки "вход"
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;        // Подтяжка к +
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;           // Номер ножки в порту
-  GPIO_Init(GPIOA, &GPIO_InitStructure);              // записиваем конфигурацию
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;           // Номер ножки в порту
+  GPIO_Init(GPIOB, &GPIO_InitStructure);              // записиваем конфигурацию
 }
 
 /*******************************************************************************
@@ -271,7 +271,7 @@ void DFU_Button_Config(void)
 *******************************************************************************/
 uint8_t DFU_Button_Read (void)
 {
-return GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_3);
+return GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_0);
 }
 
 /*******************************************************************************

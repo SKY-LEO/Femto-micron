@@ -33,7 +33,7 @@
 .\obj\interrupt.o: include\clock.h
 .\obj\interrupt.o: include\dac.h
 .\obj\interrupt.o: include\delay.h
-.\obj\interrupt.o: .\include\display\ext2760.h
+.\obj\interrupt.o: .\include\display\extssd1306.h
 .\obj\interrupt.o: include\eeprom.h
 .\obj\interrupt.o: include\flash_save.h
 .\obj\interrupt.o: include\io_ports.h

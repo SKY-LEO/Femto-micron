@@ -34,7 +34,7 @@
 .\obj\pump.o: include\clock.h
 .\obj\pump.o: include\dac.h
 .\obj\pump.o: include\delay.h
-.\obj\pump.o: .\include\display\ext2760.h
+.\obj\pump.o: .\include\display\extssd1306.h
 .\obj\pump.o: include\eeprom.h
 .\obj\pump.o: include\flash_save.h
 .\obj\pump.o: include\io_ports.h
