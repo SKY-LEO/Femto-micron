@@ -47,14 +47,15 @@ FunctionalState Sound_key_pressed = DISABLE;
 /////////////////////////////////////////////////////////////////////////////////////////
 int main(void)
 {
+	
   NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x3000);
 
   set_msi();
-
-  // Отключение отладки
+	
+	// Отключение отладки
   DBGMCU_Config(DBGMCU_SLEEP | DBGMCU_STANDBY | DBGMCU_STOP, DISABLE);
 
-  set_bor();
+	set_bor();
   Power.sleep_now = DISABLE;
 
   DataUpdate.Need_erase_flash = ENABLE;
@@ -78,14 +79,14 @@ int main(void)
 
   timer10_Config();
   tim3_Config();
-  tim4_Config();
+  //tim4_Config();//модуль А
 //--------------------------------------------------------------------
   RTC_Config();                 // Конфигурируем часы с нуля
 //--------------------------------------------------------------------
 // инициализация дисплея
 //--------------------------------------------------------------------
   delay_ms(50);                 // подождать установки напряжения
-  display_on();
+	display_on();
   LcdInit();
   LcdClear();
 //--------------------------------------------------------------------
@@ -94,7 +95,7 @@ int main(void)
   adc_calibration();
   delay_ms(10);
 //--------------------------------------------------------------------
-  EXTI9_Config();
+  //EXTI9_Config();//TODO разобраться с USB TEST
   EXTI0_Config();
   EXTI1_Config();
   EXTI2_Config();

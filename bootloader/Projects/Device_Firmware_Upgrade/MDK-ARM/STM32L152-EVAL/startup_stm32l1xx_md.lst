@@ -4,12 +4,12 @@
 ARM Macro Assembler    Page 1 
 
 
-    1 00000000         ;******************** (C) COPYRIGHT 2012 STMicroelectron
+    1 00000000         ;******************** (C) COPYRIGHT 2015 STMicroelectron
                        ics ********************
     2 00000000         ;* File Name          : startup_stm32l1xx_md.s
     3 00000000         ;* Author             : MCD Application Team
-    4 00000000         ;* Version            : V1.1.1
-    5 00000000         ;* Date               : 09-March-2012
+    4 00000000         ;* Version            : V1.3.3
+    5 00000000         ;* Date               : 20-April-2015
     6 00000000         ;* Description        : STM32L1xx Ultra Low Power Medium
                        -density Devices vector 
     7 00000000         ;*                      table for MDK-ARM toolchain.

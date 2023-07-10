@@ -1290,11 +1290,6 @@ N#ifndef __main_user_H
 N#define __main_user_H
 N
 N
-N#include "smallssd1306.h"
-L 1 "..\inc\smallssd1306.h" 1
-N#ifndef __extsmallssd1306_H
-N#define __extsmallssd1306_H
-N
 N#include "stm32l1xx.h"
 L 1 "..\..\..\Libraries\CMSIS\Device\ST\STM32L1xx\Include\stm32l1xx.h" 1
 N/**
@@ -26657,9 +26652,16 @@ N  * @}
 N  */
 N
 N/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
-L 5 "..\inc\smallssd1306.h" 2
+L 6 "..\inc\main.h" 2
+N#include "smallssd1306.h"
+L 1 "..\inc\smallssd1306.h" 1
+N#ifndef __extsmallssd1306_H
+N#define __extsmallssd1306_H
 N
+N#include "stm32l1xx.h"
 N
+N//#define SSD1306_MIRROR_HORIZ
+N#define SSD1306_MIRROR_VERT
 N//***********************************************************
 N//Настройки контроллера дисплея и переменные для работы с ним
 N//***********************************************************
@@ -26751,7 +26753,10 @@ N
 Nvoid ssd1306_SetDisplayOn(const uint8_t on);
 Nvoid LcdSend(uint8_t data, uint8_t cmd);
 N#endif
-L 6 "..\inc\main.h" 2
+L 7 "..\inc\main.h" 2
+N//#include "SSD1306.h"
+N//#include "test.h"
+N//#include "stm32l1xx_dbgmcu.h"
 N
 Ntypedef struct
 N{
@@ -27082,7 +27087,7 @@ N
 N#include "stm32l1xx.h"
 N
 N
-Nvoid delay_ms(uint32_t ms);
+Nvoid delay_ms(volatile uint32_t ms);
 N
 N
 N#endif
@@ -27368,17 +27373,7 @@ S/* *INDENT-ON* */
 N#endif
 N#endif
 L 7 "..\src\smallssd1306.c" 2
-N#include "my_spi.h"
-L 1 "..\inc\my_spi.h" 1
-N#ifndef _my_spi_H
-N#define _my_spi_H
-N
-N
-Nvoid my_spi_init(void);
-Nvoid SPI_send(unsigned char data);
-N
-N#endif
-L 8 "..\src\smallssd1306.c" 2
+N//#include "my_spi.h"
 N
 N
 Nchar lcd_buf[20];               // текстовый буфер для вывода на LCD
@@ -27389,7 +27384,7 @@ N
 Nvoid display_on()               // Инициализация порта LCD дисплея
 N{
 N	GPIO_InitTypeDef GPIO_InitStructure;
-N
+N	SPI_InitTypeDef SPI_InitStructure;
 N
 N	Power.Display_active = ENABLE;
 N	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
@@ -27399,24 +27394,121 @@ X	RCC_AHBPeriphClockCmd(((uint32_t)0x00000002), ENABLE);
 N	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);
 X	RCC_AHBPeriphClockCmd(((uint32_t)0x00000004), ENABLE);
 N
+N	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE);
+X	RCC_APB2PeriphClockCmd(((uint32_t)0x00001000), ENABLE);
+N	
+N	GPIO_PinAFConfig(GPIOA, GPIO_PinSource5, GPIO_AF_SPI1), 
+X	GPIO_PinAFConfig(((GPIO_TypeDef *) ((((uint32_t)0x40000000) + 0x20000) + 0x0000)), ((uint8_t)0x05), ((uint8_t)0x05)), 
+N	//GPIO_PinAFConfig(GPIOA, GPIO_PinSource6, GPIO_AF_SPI1), 
+N	GPIO_PinAFConfig(GPIOA, GPIO_PinSource7, GPIO_AF_SPI1), 
+X	GPIO_PinAFConfig(((GPIO_TypeDef *) ((((uint32_t)0x40000000) + 0x20000) + 0x0000)), ((uint8_t)0x07), ((uint8_t)0x05)), 
+N	
+N	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_7;
+X	GPIO_InitStructure.GPIO_Pin = ((uint16_t)0x0020) | ((uint16_t)0x0080);
+N	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+N	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
+N	//GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+N	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+N	GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;
+N	GPIO_Init(GPIOA, &GPIO_InitStructure);
+X	GPIO_Init(((GPIO_TypeDef *) ((((uint32_t)0x40000000) + 0x20000) + 0x0000)), &GPIO_InitStructure);
+N
+N	//	GPIO_WriteBit(SCK_MOSI_PORT, SCK_Pin, Bit_SET);
+N	//	GPIO_WriteBit(SCK_MOSI_PORT, MOSI_Pin, Bit_SET);
+N	//	GPIO_WriteBit(SCK_MOSI_PORT, MISO_Pin, Bit_SET);
+N
+N	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
+X	GPIO_InitStructure.GPIO_Pin = ((uint16_t)0x0008);
+N	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+N	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+N	GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;
+N	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
+N	//GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+N
+N	GPIO_Init(GPIOA, &GPIO_InitStructure);
+X	GPIO_Init(((GPIO_TypeDef *) ((((uint32_t)0x40000000) + 0x20000) + 0x0000)), &GPIO_InitStructure);
+N	
+N	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
+X	GPIO_InitStructure.GPIO_Pin = ((uint16_t)0x0010);
+N	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+N	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+N	GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_UP;
+N	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
+N	//GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+N
+N	GPIO_Init(GPIOA, &GPIO_InitStructure);
+X	GPIO_Init(((GPIO_TypeDef *) ((((uint32_t)0x40000000) + 0x20000) + 0x0000)), &GPIO_InitStructure);
+N
+N	//	GPIO_WriteBit(CS_RST_PORT, RST_Pin,Bit_SET);
+N	//	GPIO_WriteBit(CS_RST_PORT, CS_Pin, Bit_SET);
+N
+N	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+X	GPIO_InitStructure.GPIO_Pin = ((uint16_t)0x0004);
+N	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
+N	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+N	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+N	GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;
+N	//GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+N	GPIO_Init(GPIOA, &GPIO_InitStructure);
+X	GPIO_Init(((GPIO_TypeDef *) ((((uint32_t)0x40000000) + 0x20000) + 0x0000)), &GPIO_InitStructure);
+N	
+N	
+N	
+N	
+N	SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
+X	SPI_InitStructure.SPI_Direction = ((uint16_t)0x0000);
+N	//SPI_InitStructure.SPI_Direction = SPI_Direction_1Line_Tx;
+N	// указываем, что наше устройство - Master
+N	SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
+X	SPI_InitStructure.SPI_Mode = ((uint16_t)0x0104);
+N	// передавать будем по 8 бит (=1 байт)
+N	SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
+X	SPI_InitStructure.SPI_DataSize = ((uint16_t)0x0000);
+N	// режим 00
+N	SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;
+X	SPI_InitStructure.SPI_CPOL = ((uint16_t)0x0000);
+N	SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;
+X	SPI_InitStructure.SPI_CPHA = ((uint16_t)0x0000);
+N	SPI_InitStructure.SPI_NSS = SPI_NSS_Soft | SPI_NSSInternalSoft_Set;//SPI_NSS_Soft;
+X	SPI_InitStructure.SPI_NSS = ((uint16_t)0x0200) | ((uint16_t)0x0100);
+N	SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_16;
+X	SPI_InitStructure.SPI_BaudRatePrescaler = ((uint16_t)0x0018);
+N	// передаём данные старшим битом вперёд (т.е. слева направо)
+N	SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
+X	SPI_InitStructure.SPI_FirstBit = ((uint16_t)0x0000);
+N	SPI_InitStructure.SPI_CRCPolynomial = 7;
+N	// внесём настройки в SPI
+N	//SPI_NSSInternalSoftwareConfig(SPI1, SPI_NSSInternalSoft_Set);
+N	SPI_Init(SPI1, &SPI_InitStructure);
+X	SPI_Init(((SPI_TypeDef *) ((((uint32_t)0x40000000) + 0x10000) + 0x3000)), &SPI_InitStructure);
+N	// включим  SPI1
+N	SPI_Cmd(SPI1, ENABLE);
+X	SPI_Cmd(((SPI_TypeDef *) ((((uint32_t)0x40000000) + 0x10000) + 0x3000)), ENABLE);
 N	// ===============================================================================================  
 N	// LCD дисплей
-N	GPIO_StructInit(&GPIO_InitStructure);
-N	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4;
-X	GPIO_InitStructure.GPIO_Pin = ((uint16_t)0x0004) | ((uint16_t)0x0008) | ((uint16_t)0x0010);
+N	/*GPIO_StructInit(&GPIO_InitStructure);
+N	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2 | GPIO_Pin_3;
 N	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
 N	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 N	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
 N	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-N	GPIO_Init(GPIOA, &GPIO_InitStructure);
-X	GPIO_Init(((GPIO_TypeDef *) ((((uint32_t)0x40000000) + 0x20000) + 0x0000)), &GPIO_InitStructure);
+N	GPIO_Init(GPIOA, &GPIO_InitStructure);*/
 N
-N	my_spi_init();
+N	//my_spi_init();
 N
 N	delay_ms(10);
 N
 N	LcdInit();                    // Инициализируем дисплей
 N	LcdClear();
+N}
+N
+N
+Nvoid SPI_send(uint8_t data)
+N{
+N	SPI_I2S_SendData(SPI1, data);
+X	SPI_I2S_SendData(((SPI_TypeDef *) ((((uint32_t)0x40000000) + 0x10000) + 0x3000)), data);
+N	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET);
+X	while (SPI_I2S_GetFlagStatus(((SPI_TypeDef *) ((((uint32_t)0x40000000) + 0x10000) + 0x3000)), ((uint16_t)0x0080)) == SET);
 N}
 N
 N
@@ -27451,10 +27543,10 @@ N	LcdSend(0xB0, lcd_CMD); //Set Page Start Address for Page Addressing Mode,0-7
 X	LcdSend(0xB0, 1); 
 N
 N#ifdef SSD1306_MIRROR_VERT
-S	LcdSend(0xC0, lcd_CMD); // Mirror vertically
+N	LcdSend(0xC0, lcd_CMD); // Mirror vertically
+X	LcdSend(0xC0, 1); 
 N#else
-N	LcdSend(0xC8, lcd_CMD); //Set COM Output Scan Direction
-X	LcdSend(0xC8, 1); 
+S	LcdSend(0xC8, lcd_CMD); //Set COM Output Scan Direction
 N#endif
 N
 N	LcdSend(0x00, lcd_CMD); //---set low column address
@@ -27595,8 +27687,7 @@ N		SPI_send(data); //SPI_I2S_SendData(SPI1, *(&data));
 N		//SPI_send8b(SPI_periph, pBuff, BuffLen); //HAL_SPI_Transmit(&SSD1306_SPI_PORT, buffer, buff_size, HAL_MAX_DELAY);
 N		LCD_CS_H; //HAL_GPIO_WritePin(SSD1306_CS_Port, SSD1306_CS_Pin, GPIO_PIN_SET); // un-select OLED
 X		((GPIO_TypeDef *) ((((uint32_t)0x40000000) + 0x20000) + 0x0000))->BSRRL = ((uint16_t)0x0010);; 
-N		LCD_DC_L;
-X		((GPIO_TypeDef *) ((((uint32_t)0x40000000) + 0x20000) + 0x0000))->BSRRH = ((uint16_t)0x0004);;
+N		//LCD_DC_L;
 N	}
 N}
 N
@@ -27606,7 +27697,7 @@ N	int i = 0;
 N
 N	for (i = 0; i < LCD_CACHSIZE; i++)
 X	for (i = 0; i < 128*32>>3; i++)
-N		LcdCache[i] = 0;            //забиваем всю память 0(черный цвет)
+N		LcdCache[i] = 0x00;            //забиваем всю память 0(черный цвет)
 N	LcdUpdate();
 N}
 N

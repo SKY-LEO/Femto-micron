@@ -25369,21 +25369,22 @@ N/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****
 L 5 "..\inc\delay.h" 2
 N
 N
-Nvoid delay_ms(uint32_t ms);
+Nvoid delay_ms(volatile uint32_t ms);
 N
 N
 N#endif
 L 2 "..\src\delay.c" 2
 N
 N
-Nuint16_t  msTicks = 0;		// counts 1ms timeTicks
+Nvolatile uint32_t msTicks = 0;		// counts 1ms timeTicks
 N
-Nvoid delay_ms(uint32_t ms)
+Nvoid delay_ms(volatile uint32_t ms)
 N{
-N  SysTick_Config(7200);  // настройка таймера на период 1мс и запуск
-N // SysTick_Config(1000);  // настройка таймера на период 1мс и запуск
+N  //SysTick_Config(7200);  // настройка таймера на период 1мс и запуск
+N  //SysTick_Config(1000);  // настройка таймера на период 1мс и запуск
+N	SysTick_Config(SystemCoreClock / 1000);  // настройка таймера на период 1мс и запуск
 N  msTicks=0;
 N  while(msTicks < ms);	  // Ждем пока таймер досчитает до нужного значения
-N  SysTick->CTRL  = 0;     // Отключаем таймер
-X  ((SysTick_Type *) ((0xE000E000UL) + 0x0010UL) )->CTRL  = 0;     
+N  SysTick->CTRL = 0;     // Отключаем таймер
+X  ((SysTick_Type *) ((0xE000E000UL) + 0x0010UL) )->CTRL = 0;     
 N}

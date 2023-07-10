@@ -2,7 +2,6 @@
 .\stm32l152-eval\smallssd1306.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\stm32l152-eval\smallssd1306.o: ..\inc\font5x8.h
 .\stm32l152-eval\smallssd1306.o: ..\inc\main.h
-.\stm32l152-eval\smallssd1306.o: ..\inc\smallssd1306.h
 .\stm32l152-eval\smallssd1306.o: ..\..\..\Libraries\CMSIS\Device\ST\STM32L1xx\Include\stm32l1xx.h
 .\stm32l152-eval\smallssd1306.o: C:\Keil_v5\ARM\CMSIS\Include\core_cm3.h
 .\stm32l152-eval\smallssd1306.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -32,6 +31,6 @@
 .\stm32l152-eval\smallssd1306.o: ..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc\stm32l1xx_usart.h
 .\stm32l152-eval\smallssd1306.o: ..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc\stm32l1xx_wwdg.h
 .\stm32l152-eval\smallssd1306.o: ..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc\misc.h
+.\stm32l152-eval\smallssd1306.o: ..\inc\smallssd1306.h
 .\stm32l152-eval\smallssd1306.o: ..\inc\delay.h
 .\stm32l152-eval\smallssd1306.o: ..\inc\lang.h
-.\stm32l152-eval\smallssd1306.o: ..\inc\my_spi.h

@@ -2,7 +2,11 @@
 #define __main_user_H
 
 
+#include "stm32l1xx.h"
 #include "smallssd1306.h"
+//#include "SSD1306.h"
+//#include "test.h"
+//#include "stm32l1xx_dbgmcu.h"
 
 typedef struct
 {

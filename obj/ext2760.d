@@ -36,6 +36,7 @@
 .\obj\ext2760.o: .\include\dac.h
 .\obj\ext2760.o: .\include\delay.h
 .\obj\ext2760.o: .\include\display\ext2760.h
+.\obj\ext2760.o: .\include\display\ssd1306_2.h
 .\obj\ext2760.o: .\include\eeprom.h
 .\obj\ext2760.o: .\include\flash_save.h
 .\obj\ext2760.o: .\include\io_ports.h

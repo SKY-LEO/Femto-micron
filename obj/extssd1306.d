@@ -65,4 +65,3 @@
 .\obj\extssd1306.o: .\STM32_USB-FS-Device_Lib_V4.0.0\Projects\VirtualComport_Loopback\inc\usb_istr.h
 .\obj\extssd1306.o: .\STM32_USB-FS-Device_Lib_V4.0.0\Projects\VirtualComport_Loopback\inc\usb_pwr.h
 .\obj\extssd1306.o: .\STM32_USB-FS-Device_Lib_V4.0.0\Projects\VirtualComport_Loopback\inc\usb_desc.h
-.\obj\extssd1306.o: .\include\my_spi.h

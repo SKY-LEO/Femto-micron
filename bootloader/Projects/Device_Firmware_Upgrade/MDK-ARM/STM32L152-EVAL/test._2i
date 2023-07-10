@@ -1,0 +1,6 @@
+-c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\STM32L152-EVAL\\" -I ..\inc -I ..\..\..\Libraries\CMSIS\Device\ST\STM32L1xx\Include -I ..\..\..\Libraries\STM32_USB-FS-Device_Driver\inc -I ..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc -I ..\..\..\Utilities\STM32_EVAL -I ..\..\..\Utilities\STM32_EVAL\Common -I ..\..\..\Utilities\STM32_EVAL\STM32L152_EVAL
+-IC:\Keil_v5\ARM\RV31\INC
+-IC:\Keil_v5\ARM\CMSIS\Include
+-IC:\Keil_v5\ARM\Inc\ST\STM32L1xx
+-D__UVISION_VERSION="522" -DUSE_STDPERIPH_DRIVER -DSTM32L1XX_MD -DUSE_STM32L152_EVAL
+-o .\stm32l152-eval\test.o --list_dir ".\\STM32L152-EVAL\\" --list --omf_browse .\stm32l152-eval\test.crf --depend .\stm32l152-eval\test.d --feedback ".\STM32L152-EVAL\STM32L152-EVAL.fed" "..\src\test.c"

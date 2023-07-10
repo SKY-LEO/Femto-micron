@@ -4,34 +4,110 @@
 #include "delay.h"
 #include "extssd1306.h"
 #include "lang.h"
-#include "my_spi.h"
+//#include "my_spi.h"
 
 
 char lcd_buf[20];               // текстовый буфер для вывода на LCD
 unsigned char LcdCache[LCD_CACHSIZE];   // Фреймбуфер
 unsigned int LcdCacheIdx = 0;   // Текущий адрес во фреймбуфере
 
+
+void SPI_send(uint8_t data)
+{
+	SPI_I2S_SendData(SPI1, data);
+	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET);
+}
+
 void display_on()               // Инициализация порта LCD дисплея
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
-
+	SPI_InitTypeDef SPI_InitStructure;
 
 	Power.Display_active = ENABLE;
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);
 
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE);
+
+	GPIO_PinAFConfig(GPIOA, GPIO_PinSource5, GPIO_AF_SPI1),
+		//GPIO_PinAFConfig(GPIOA, GPIO_PinSource6, GPIO_AF_SPI1), 
+		GPIO_PinAFConfig(GPIOA, GPIO_PinSource7, GPIO_AF_SPI1),
+
+		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_7;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
+	//GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+	//	GPIO_WriteBit(SCK_MOSI_PORT, SCK_Pin, Bit_SET);
+	//	GPIO_WriteBit(SCK_MOSI_PORT, MOSI_Pin, Bit_SET);
+	//	GPIO_WriteBit(SCK_MOSI_PORT, MISO_Pin, Bit_SET);
+
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
+	//GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
+	//GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+	//	GPIO_WriteBit(CS_RST_PORT, RST_Pin,Bit_SET);
+	//	GPIO_WriteBit(CS_RST_PORT, CS_Pin, Bit_SET);
+
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	//GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+
+
+
+	SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
+	//SPI_InitStructure.SPI_Direction = SPI_Direction_1Line_Tx;
+	// указываем, что наше устройство - Master
+	SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
+	// передавать будем по 8 бит (=1 байт)
+	SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
+	// режим 00
+	SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;
+	SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;
+	SPI_InitStructure.SPI_NSS = SPI_NSS_Soft | SPI_NSSInternalSoft_Set;//SPI_NSS_Soft;
+	SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_16;
+	// передаём данные старшим битом вперёд (т.е. слева направо)
+	SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
+	SPI_InitStructure.SPI_CRCPolynomial = 7;
+	// внесём настройки в SPI
+	//SPI_NSSInternalSoftwareConfig(SPI1, SPI_NSSInternalSoft_Set);
+	SPI_Init(SPI1, &SPI_InitStructure);
+	// включим  SPI1
+	SPI_Cmd(SPI1, ENABLE);
 	// ===============================================================================================  
 	// LCD дисплей
-	GPIO_StructInit(&GPIO_InitStructure);
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4;
+	/*GPIO_StructInit(&GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2 | GPIO_Pin_3;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-	GPIO_Init(GPIOA, &GPIO_InitStructure);
+	GPIO_Init(GPIOA, &GPIO_InitStructure);*/
 
-	my_spi_init();
+	//my_spi_init();
 
 	delay_ms(10);
 
@@ -47,10 +123,13 @@ void display_off()              // Инициализация порта LCD дисплея
 
 	Power.Display_active = DISABLE;
 
+	SPI_Cmd(SPI1, DISABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, DISABLE);
+
 	// ===============================================================================================  
 	// LCD дисплей
 	GPIO_StructInit(&GPIO_InitStructure);
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_7;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
@@ -197,7 +276,7 @@ void LcdSend(uint8_t data, uint8_t cmd) //Sends data to display controller
 		SPI_send(data); //SPI_I2S_SendData(SPI1, *(&data));
 		//SPI_send8b(SPI_periph, pBuff, BuffLen); //HAL_SPI_Transmit(&SSD1306_SPI_PORT, buffer, buff_size, HAL_MAX_DELAY);
 		LCD_CS_H; //HAL_GPIO_WritePin(SSD1306_CS_Port, SSD1306_CS_Pin, GPIO_PIN_SET); // un-select OLED
-		LCD_DC_L;
+		//LCD_DC_L;
 	}
 }
 
@@ -206,7 +285,7 @@ void LcdClear(void)             //Clears the display
 	int i = 0;
 
 	for (i = 0; i < LCD_CACHSIZE; i++)
-		LcdCache[i] = 0;            //забиваем всю память 0(черный цвет)
+		LcdCache[i] = 0x00;            //забиваем всю память 0(черный цвет)
 	LcdUpdate();
 }
 
@@ -215,7 +294,7 @@ void LcdClear_massive(void)     //Clears the display
 	int i = 0;
 
 	for (i = 0; i < LCD_CACHSIZE; i++)
-		LcdCache[i] = 0;            //забиваем всю память 0
+		LcdCache[i] = 0x00;            //забиваем всю память 0
 }
 
 
@@ -503,7 +582,7 @@ void clean_lcd_buf(void)        //очистка текстового буфера
 	char i = 0;
 
 	for (i = 0; i < 20; i++)
-		lcd_buf[i] = 0;
+		lcd_buf[i] = 0x00;
 }
 
 

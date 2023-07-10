@@ -4,7 +4,7 @@
 #include "stm32l1xx.h"
 
 
-void delay_ms(uint32_t ms);
+void delay_ms(volatile uint32_t ms);
 
 
 #endif

@@ -34,11 +34,6 @@ N#ifndef __main_user_H
 N#define __main_user_H
 N
 N
-N#include "smallssd1306.h"
-L 1 "..\inc\smallssd1306.h" 1
-N#ifndef __extsmallssd1306_H
-N#define __extsmallssd1306_H
-N
 N#include "stm32l1xx.h"
 L 1 "..\..\..\Libraries\CMSIS\Device\ST\STM32L1xx\Include\stm32l1xx.h" 1
 N/**
@@ -25401,9 +25396,16 @@ N  * @}
 N  */
 N
 N/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
-L 5 "..\inc\smallssd1306.h" 2
+L 6 "..\inc\main.h" 2
+N#include "smallssd1306.h"
+L 1 "..\inc\smallssd1306.h" 1
+N#ifndef __extsmallssd1306_H
+N#define __extsmallssd1306_H
 N
+N#include "stm32l1xx.h"
 N
+N//#define SSD1306_MIRROR_HORIZ
+N#define SSD1306_MIRROR_VERT
 N//***********************************************************
 N//Настройки контроллера дисплея и переменные для работы с ним
 N//***********************************************************
@@ -25495,7 +25497,10 @@ N
 Nvoid ssd1306_SetDisplayOn(const uint8_t on);
 Nvoid LcdSend(uint8_t data, uint8_t cmd);
 N#endif
-L 6 "..\inc\main.h" 2
+L 7 "..\inc\main.h" 2
+N//#include "SSD1306.h"
+N//#include "test.h"
+N//#include "stm32l1xx_dbgmcu.h"
 N
 Ntypedef struct
 N{
@@ -26388,10 +26393,10 @@ N#if !defined (USE_STM3210B_EVAL) &&  !defined (USE_STM3210E_EVAL) &&  !defined 
 X#if !0L &&  !0L &&  !1L &&  !0L&&  !0L &&  !0L
 S//#define USE_STM3210B_EVAL
 S//#define USE_STM3210E_EVAL
-S//#define USE_STM32L152_EVAL
+S#define USE_STM32L152_EVAL
 S//#define USE_STM32L152D_EVAL
 S//#define USE_STM32373C_EVAL
-S#define USE_STM32303C_EVAL
+S..#define USE_STM32303C_EVAL
 N#endif
 N
 N/*Unique Devices IDs register set*/
@@ -28500,12 +28505,13 @@ N
 N#include "stm32l1xx.h"
 N
 N
-Nvoid delay_ms(uint32_t ms);
+Nvoid delay_ms(volatile uint32_t ms);
 N
 N
 N#endif
 L 38 "..\src\main.c" 2
 N
+N#include "smallssd1306.h"
 N
 N/* Private typedef -----------------------------------------------------------*/
 Ntypedef  void (*pFunction)(void);
@@ -28536,53 +28542,54 @@ N* Return         : None.
 N*******************************************************************************/
 Nint main(void)
 N{
-N  
-NGPIO_InitTypeDef   GPIO_InitStructure;
+N	GPIO_InitTypeDef   GPIO_InitStructure;
 N
-NRCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);  
-XRCC_AHBPeriphClockCmd(((uint32_t)0x00000001), ENABLE);  
-N
-NGPIO_StructInit(&GPIO_InitStructure);
-NGPIO_InitStructure.GPIO_Pin =  GPIO_Pin_10;
-XGPIO_InitStructure.GPIO_Pin =  ((uint16_t)0x0400);
-NGPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-NGPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-NGPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
-NGPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-NGPIO_Init(GPIOA, &GPIO_InitStructure);
-XGPIO_Init(((GPIO_TypeDef *) ((((uint32_t)0x40000000) + 0x20000) + 0x0000)), &GPIO_InitStructure);
-NGPIO_ResetBits(GPIOA,GPIO_Pin_10);// устанавливаем напряжение на 3 вольта
-XGPIO_ResetBits(((GPIO_TypeDef *) ((((uint32_t)0x40000000) + 0x20000) + 0x0000)),((uint16_t)0x0400));
-Ndelay_ms(100);
+N	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);  
+X	RCC_AHBPeriphClockCmd(((uint32_t)0x00000001), ENABLE);  
+N	delay_ms(10);
+N	
+N	GPIO_StructInit(&GPIO_InitStructure);
+N	GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_10;
+X	GPIO_InitStructure.GPIO_Pin =  ((uint16_t)0x0400);
+N	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+N	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+N	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
+N	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+N	GPIO_Init(GPIOA, &GPIO_InitStructure);
+X	GPIO_Init(((GPIO_TypeDef *) ((((uint32_t)0x40000000) + 0x20000) + 0x0000)), &GPIO_InitStructure);
+N	delay_ms(10);
+N	GPIO_SetBits(GPIOA, GPIO_Pin_10);// устанавливаем напряжение на 3 вольта*/
+X	GPIO_SetBits(((GPIO_TypeDef *) ((((uint32_t)0x40000000) + 0x20000) + 0x0000)), ((uint16_t)0x0400));
+N	delay_ms(100);
 N  
 N  DFU_Button_Config();
 N  
-N  /* Check if the Key push-button on STM3210x-EVAL Board is pressed */
+N  //Check if the Key push-button on STM3210x-EVAL Board is pressed 
 N  if(RTC_ReadBackupRegister(RTC_BKP_DR1) != 0x1234)
 X  if(RTC_ReadBackupRegister(((uint32_t)0x00000001)) != 0x1234)
 N  {
 N    if (DFU_Button_Read() != 0x00)
-N    { /* Test if user code is programmed starting from address 0x8003000 */
+N    { // Test if user code is programmed starting from address 0x8003000
 N      if (((*(__IO uint32_t*)ApplicationAddress) & 0x2FFE0000 ) == 0x20000000)
 X      if (((*(volatile uint32_t*)0x08003000) & 0x2FFE0000 ) == 0x20000000)
-N      { /* Jump to user application */
+N      { //Jump to user application
 N  
 N        JumpAddress = *(__IO uint32_t*) (ApplicationAddress + 4);
 X        JumpAddress = *(volatile uint32_t*) (0x08003000 + 4);
 N        Jump_To_Application = (pFunction) JumpAddress;
-N        /* Initialize user application's Stack Pointer */
+N        //Initialize user application's Stack Pointer
 N        __set_MSP(*(__IO uint32_t*) ApplicationAddress);
 X        __set_MSP(*(volatile uint32_t*) 0x08003000);
 N        Jump_To_Application();
 N      }
-N    } /* Otherwise enters DFU mode to allow user to program his application */
+N    } //Otherwise enters DFU mode to allow user to program his application 
 N  } else
 N  {
 N    RTC_WriteBackupRegister(RTC_BKP_DR1,0x0);
 X    RTC_WriteBackupRegister(((uint32_t)0x00000001),0x0);
 N  }
 N
-N  Settings.Display_reverse=2;
+N  //Settings.Display_reverse=2;
 N  display_on();
 N  
 N  lcd_buf[0] = 'D';
@@ -28595,12 +28602,10 @@ N  lcd_buf[6] = 'd';
 N  lcd_buf[7] = 'e';
 N  
 N  LcdString(1, 1);
-N
-N
 N  LcdUpdate();
-N  
+N	
 N  delay_ms(2000);
-N
+N	
 N#if defined (USE_STM32L152D_EVAL)
 X#if 0L
 S  FLASH_Unlock();

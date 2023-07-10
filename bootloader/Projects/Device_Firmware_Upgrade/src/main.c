@@ -36,6 +36,7 @@
 #include "dfu_mal.h"
 #include "delay.h"
 
+#include "smallssd1306.h"
 
 /* Private typedef -----------------------------------------------------------*/
 typedef  void (*pFunction)(void);
@@ -66,44 +67,45 @@ extern char lcd_buf[20];
 *******************************************************************************/
 int main(void)
 {
-  
-GPIO_InitTypeDef   GPIO_InitStructure;
+	GPIO_InitTypeDef   GPIO_InitStructure;
 
-RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);  
-
-GPIO_StructInit(&GPIO_InitStructure);
-GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_10;
-GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
-GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-GPIO_Init(GPIOA, &GPIO_InitStructure);
-GPIO_ResetBits(GPIOA,GPIO_Pin_10);// устанавливаем напряжение на 3 вольта
-delay_ms(100);
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);  
+	delay_ms(10);
+	
+	GPIO_StructInit(&GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_10;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+	delay_ms(10);
+	GPIO_SetBits(GPIOA, GPIO_Pin_10);// устанавливаем напряжение на 3 вольта*/
+	delay_ms(100);
   
   DFU_Button_Config();
   
-  /* Check if the Key push-button on STM3210x-EVAL Board is pressed */
+  //Check if the Key push-button on STM3210x-EVAL Board is pressed 
   if(RTC_ReadBackupRegister(RTC_BKP_DR1) != 0x1234)
   {
     if (DFU_Button_Read() != 0x00)
-    { /* Test if user code is programmed starting from address 0x8003000 */
+    { // Test if user code is programmed starting from address 0x8003000
       if (((*(__IO uint32_t*)ApplicationAddress) & 0x2FFE0000 ) == 0x20000000)
-      { /* Jump to user application */
+      { //Jump to user application
   
         JumpAddress = *(__IO uint32_t*) (ApplicationAddress + 4);
         Jump_To_Application = (pFunction) JumpAddress;
-        /* Initialize user application's Stack Pointer */
+        //Initialize user application's Stack Pointer
         __set_MSP(*(__IO uint32_t*) ApplicationAddress);
         Jump_To_Application();
       }
-    } /* Otherwise enters DFU mode to allow user to program his application */
+    } //Otherwise enters DFU mode to allow user to program his application 
   } else
   {
     RTC_WriteBackupRegister(RTC_BKP_DR1,0x0);
   }
 
-  Settings.Display_reverse=2;
+  //Settings.Display_reverse=2;
   display_on();
   
   lcd_buf[0] = 'D';
@@ -116,12 +118,10 @@ delay_ms(100);
   lcd_buf[7] = 'e';
   
   LcdString(1, 1);
-
-
   LcdUpdate();
-  
+	
   delay_ms(2000);
-
+	
 #if defined (USE_STM32L152D_EVAL)
   FLASH_Unlock();
   FLASH_ClearFlag(FLASH_FLAG_OPTVERRUSR);

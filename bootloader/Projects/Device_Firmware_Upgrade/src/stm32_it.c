@@ -160,7 +160,7 @@ void PendSV_Handler(void)
 *******************************************************************************/
 void SysTick_Handler(void)
 {
-  extern uint32_t msTicks;
+  extern volatile uint32_t msTicks;//add volatile
   msTicks++;		// инкремент счётчика времени
 
 }

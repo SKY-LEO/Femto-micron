@@ -77,8 +77,8 @@ void main_screen()
     // Индикация батарейки и выключение питания при разряде
     if(Settings.AB_mode == 0)
     {
-      if(ADCData.Batt_voltage < 3500)
-        minus_poweroff(0x00);   // Если меньше 3.5В выключаем прибор.
+      //if(ADCData.Batt_voltage < 3500)
+        //minus_poweroff(0x00);   // Если меньше 3.5В выключаем прибор. TEST
 			
 			battery_procent = ADCData.Batt_voltage;
       battery_procent -= 3500;

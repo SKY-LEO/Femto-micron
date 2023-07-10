@@ -138,7 +138,7 @@
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp>Main</pFcarmGrp>
@@ -333,7 +333,7 @@
             <v6WtE>0</v6WtE>
             <v6Rtti>0</v6Rtti>
             <VariousControls>
-              <MiscControls>--debug</MiscControls>
+              <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER, USE_STM32L152_EVAL, STM32L1XX_MD version_401</Define>
               <Undefine></Undefine>
               <IncludePath>.\include;.\include\control;.\include\display;.\STM32L1xx_StdPeriph_Lib_V1.3.1\Libraries\STM32L1xx_StdPeriph_Driver\inc;.\STM32L1xx_StdPeriph_Lib_V1.3.1\Project\STM32L1xx_StdPeriph_Templates;.\STM32_USB-FS-Device_Lib_V4.0.0\Projects\VirtualComport_Loopback\inc;.\STM32_USB-FS-Device_Lib_V4.0.0\Libraries\STM32_USB-FS-Device_Driver\inc;.\STM32_USB-FS-Device_Lib_V4.0.0\Projects\VirtualComport_Loopback\inc;.\STM32L1xx_StdPeriph_Lib_V1.3.1\Libraries\CMSIS\Include</IncludePath>
@@ -761,61 +761,6 @@
               <FilePath>.\include\delay.c</FilePath>
             </File>
             <File>
-              <FileName>ext2760.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\include\display\ext2760.c</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>2</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                  <ComprImg>1</ComprImg>
-                </CommonProperty>
-                <FileArmAds>
-                  <Cads>
-                    <interw>2</interw>
-                    <Optim>1</Optim>
-                    <oTime>2</oTime>
-                    <SplitLS>2</SplitLS>
-                    <OneElfS>2</OneElfS>
-                    <Strict>2</Strict>
-                    <EnumInt>2</EnumInt>
-                    <PlainCh>2</PlainCh>
-                    <Ropi>2</Ropi>
-                    <Rwpi>2</Rwpi>
-                    <wLevel>2</wLevel>
-                    <uThumb>2</uThumb>
-                    <uSurpInc>2</uSurpInc>
-                    <uC99>2</uC99>
-                    <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>0</vShortEn>
-                    <vShortWch>0</vShortWch>
-                    <v6Lto>0</v6Lto>
-                    <v6WtE>2</v6WtE>
-                    <v6Rtti>2</v6Rtti>
-                    <VariousControls>
-                      <MiscControls></MiscControls>
-                      <Define></Define>
-                      <Undefine></Undefine>
-                      <IncludePath></IncludePath>
-                    </VariousControls>
-                  </Cads>
-                </FileArmAds>
-              </FileOption>
-            </File>
-            <File>
               <FileName>io_ports.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\include\io_ports.c</FilePath>
@@ -954,6 +899,16 @@
                   </Cads>
                 </FileArmAds>
               </FileOption>
+            </File>
+            <File>
+              <FileName>ext2760.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\include\display\ext2760.c</FilePath>
+            </File>
+            <File>
+              <FileName>ssd1306_2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\include\display\ssd1306_2.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1976,61 +1931,6 @@
               <FilePath>.\include\delay.c</FilePath>
             </File>
             <File>
-              <FileName>ext2760.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\include\display\ext2760.c</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>2</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                  <ComprImg>1</ComprImg>
-                </CommonProperty>
-                <FileArmAds>
-                  <Cads>
-                    <interw>2</interw>
-                    <Optim>1</Optim>
-                    <oTime>2</oTime>
-                    <SplitLS>2</SplitLS>
-                    <OneElfS>2</OneElfS>
-                    <Strict>2</Strict>
-                    <EnumInt>2</EnumInt>
-                    <PlainCh>2</PlainCh>
-                    <Ropi>2</Ropi>
-                    <Rwpi>2</Rwpi>
-                    <wLevel>2</wLevel>
-                    <uThumb>2</uThumb>
-                    <uSurpInc>2</uSurpInc>
-                    <uC99>2</uC99>
-                    <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>0</vShortEn>
-                    <vShortWch>0</vShortWch>
-                    <v6Lto>0</v6Lto>
-                    <v6WtE>2</v6WtE>
-                    <v6Rtti>2</v6Rtti>
-                    <VariousControls>
-                      <MiscControls></MiscControls>
-                      <Define></Define>
-                      <Undefine></Undefine>
-                      <IncludePath></IncludePath>
-                    </VariousControls>
-                  </Cads>
-                </FileArmAds>
-              </FileOption>
-            </File>
-            <File>
               <FileName>io_ports.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\include\io_ports.c</FilePath>
@@ -2119,6 +2019,16 @@
               <FileName>Pump.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\include\Pump.c</FilePath>
+            </File>
+            <File>
+              <FileName>ext2760.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\include\display\ext2760.c</FilePath>
+            </File>
+            <File>
+              <FileName>ssd1306_2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\include\display\ssd1306_2.c</FilePath>
             </File>
           </Files>
         </Group>

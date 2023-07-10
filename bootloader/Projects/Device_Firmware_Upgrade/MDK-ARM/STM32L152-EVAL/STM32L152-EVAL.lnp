@@ -11,7 +11,6 @@
 ".\stm32l152-eval\stm32_it.o"
 ".\stm32l152-eval\delay.o"
 ".\stm32l152-eval\smallssd1306.o"
-".\stm32l152-eval\my_spi.o"
 ".\stm32l152-eval\system_stm32l1xx_1.o"
 ".\stm32l152-eval\startup_stm32l1xx_md.o"
 ".\stm32l152-eval\usb_core.o"
@@ -34,9 +33,7 @@
 ".\stm32l152-eval\stm32l1xx_sdio.o"
 ".\stm32l152-eval\stm32l1xx_rtc.o"
 ".\stm32l152-eval\stm32l152_eval.o"
---library_type=microlib
---feedback ".\STM32L152-EVAL\STM32L152-EVAL.fed" --feedback_image=none
---strict --scatter ".\STM32L152-EVAL\STM32L152-EVAL.sct"
+--library_type=microlib --strict --scatter ".\STM32L152-EVAL\STM32L152-EVAL.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list ".\STM32L152-EVAL\STM32L152-EVAL.map" -o .\STM32L152-EVAL\STM32L152-EVAL.axf

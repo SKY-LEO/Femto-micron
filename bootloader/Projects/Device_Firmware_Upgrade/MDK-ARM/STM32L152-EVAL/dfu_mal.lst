@@ -25960,10 +25960,10 @@ N#if !defined (USE_STM3210B_EVAL) &&  !defined (USE_STM3210E_EVAL) &&  !defined 
 X#if !0L &&  !0L &&  !1L &&  !0L&&  !0L &&  !0L
 S//#define USE_STM3210B_EVAL
 S//#define USE_STM3210E_EVAL
-S//#define USE_STM32L152_EVAL
+S#define USE_STM32L152_EVAL
 S//#define USE_STM32L152D_EVAL
 S//#define USE_STM32373C_EVAL
-S#define USE_STM32303C_EVAL
+S..#define USE_STM32303C_EVAL
 N#endif
 N
 N/*Unique Devices IDs register set*/

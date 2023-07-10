@@ -43,7 +43,6 @@
 ".\obj\power.o"
 ".\obj\pump.o"
 ".\obj\extssd1306.o"
-".\obj\my_spi.o"
 ".\obj\main.o"
 ".\obj\usb_core.o"
 ".\obj\usb_init.o"

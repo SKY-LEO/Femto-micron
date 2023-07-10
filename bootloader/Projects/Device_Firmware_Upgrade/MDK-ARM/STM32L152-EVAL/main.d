@@ -1,6 +1,5 @@
 .\stm32l152-eval\main.o: ..\src\main.c
 .\stm32l152-eval\main.o: ..\inc\main.h
-.\stm32l152-eval\main.o: ..\inc\smallssd1306.h
 .\stm32l152-eval\main.o: ..\..\..\Libraries\CMSIS\Device\ST\STM32L1xx\Include\stm32l1xx.h
 .\stm32l152-eval\main.o: C:\Keil_v5\ARM\CMSIS\Include\core_cm3.h
 .\stm32l152-eval\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -30,6 +29,7 @@
 .\stm32l152-eval\main.o: ..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc\stm32l1xx_usart.h
 .\stm32l152-eval\main.o: ..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc\stm32l1xx_wwdg.h
 .\stm32l152-eval\main.o: ..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc\misc.h
+.\stm32l152-eval\main.o: ..\inc\smallssd1306.h
 .\stm32l152-eval\main.o: ..\inc\hw_config.h
 .\stm32l152-eval\main.o: ..\inc\platform_config.h
 .\stm32l152-eval\main.o: ..\..\..\Utilities\STM32_EVAL\STM32L152_EVAL\stm32l152_eval.h

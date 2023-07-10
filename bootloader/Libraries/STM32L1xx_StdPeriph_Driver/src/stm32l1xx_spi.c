@@ -591,7 +591,7 @@ void SPI_I2S_SendData(SPI_TypeDef* SPIx, uint16_t Data)
 {
   /* Check the parameters */
   assert_param(IS_SPI_ALL_PERIPH(SPIx));
-  
+	
   /* Write in the DR register the data to be sent */
   SPIx->DR = Data;
 }

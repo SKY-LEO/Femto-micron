@@ -26576,7 +26576,7 @@ N{
 N  /* Check the parameters */
 N  assert_param(IS_SPI_ALL_PERIPH(SPIx));
 X  ((void)0);
-N  
+N	
 N  /* Write in the DR register the data to be sent */
 N  SPIx->DR = Data;
 N}

@@ -69,10 +69,10 @@
 #if !defined (USE_STM3210B_EVAL) &&  !defined (USE_STM3210E_EVAL) &&  !defined (USE_STM32L152_EVAL) &&  !defined (USE_STM32L152D_EVAL)&&  !defined (USE_STM32373C_EVAL) &&  !defined (USE_STM32303C_EVAL)
 //#define USE_STM3210B_EVAL
 //#define USE_STM3210E_EVAL
-//#define USE_STM32L152_EVAL
+#define USE_STM32L152_EVAL
 //#define USE_STM32L152D_EVAL
 //#define USE_STM32373C_EVAL
-#define USE_STM32303C_EVAL
+..#define USE_STM32303C_EVAL
 #endif
 
 /*Unique Devices IDs register set*/

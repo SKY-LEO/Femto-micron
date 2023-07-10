@@ -1,16 +1,22 @@
-;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Wed Jul 05 19:07:47 2023
+;#<FEEDBACK># ARM Linker, 5060422: Last Updated: Sat Jul 08 22:58:56 2023
 ;VERSION 0.2
 ;FILE delay.o
 __asm___7_delay_c_msTicks____REV16 <= USED 0
 __asm___7_delay_c_msTicks____REVSH <= USED 0
 ;FILE dfu_mal.o
+MAL_Init <= USED 0
 __asm___9_dfu_mal_c_MAL_Init____REV16 <= USED 0
 __asm___9_dfu_mal_c_MAL_Init____REVSH <= USED 0
 ;FILE flash_if.o
+FLASH_If_Init <= USED 0
 __asm___10_flash_if_c_79a35935____REV16 <= USED 0
 __asm___10_flash_if_c_79a35935____REVSH <= USED 0
 ;FILE hw_config.o
+DFU_Button_Config <= USED 0
+DFU_Button_Read <= USED 0
 Enter_LowPowerMode <= USED 0
+Set_System <= USED 0
+Set_USBClock <= USED 0
 __asm___11_hw_config_c_25f922fc____REV16 <= USED 0
 __asm___11_hw_config_c_25f922fc____REVSH <= USED 0
 ;FILE main.o
@@ -22,12 +28,10 @@ NVIC_SystemLPConfig <= USED 0
 SysTick_CLKSourceConfig <= USED 0
 __asm___6_misc_c_d0fc1254____REV16 <= USED 0
 __asm___6_misc_c_d0fc1254____REVSH <= USED 0
-;FILE my_spi.o
-__asm___8_my_spi_c_eb4f319e____REV16 <= USED 0
-__asm___8_my_spi_c_eb4f319e____REVSH <= USED 0
-;FILE smallssd1306.o
-__asm___14_smallssd1306_c_0d8770eb____REV16 <= USED 0
-__asm___14_smallssd1306_c_0d8770eb____REVSH <= USED 0
+;FILE ssd1306_2.o
+Initialize_SPI <= USED 0
+__asm___11_ssd1306_2_c_988c322d____REV16 <= USED 0
+__asm___11_ssd1306_2_c_988c322d____REVSH <= USED 0
 ;FILE startup_stm32l1xx_md.o
 ;FILE stm32_it.o
 __asm___10_stm32_it_c_bb8ca80c____REV16 <= USED 0
@@ -68,6 +72,7 @@ EXTI_ClearFlag <= USED 0
 EXTI_DeInit <= USED 0
 EXTI_GenerateSWInterrupt <= USED 0
 EXTI_GetFlagStatus <= USED 0
+EXTI_Init <= USED 0
 EXTI_StructInit <= USED 0
 __asm___16_stm32l1xx_exti_c_28b3b60e____REV16 <= USED 0
 __asm___16_stm32l1xx_exti_c_28b3b60e____REVSH <= USED 0
@@ -83,6 +88,7 @@ DATA_EEPROM_Lock <= USED 0
 DATA_EEPROM_ProgramByte <= USED 0
 DATA_EEPROM_ProgramHalfWord <= USED 0
 DATA_EEPROM_ProgramWord <= USED 0
+DATA_EEPROM_Unlock <= USED 0
 FLASH_FastProgramWord <= USED 0
 FLASH_GetFlagStatus <= USED 0
 FLASH_ITConfig <= USED 0
@@ -107,6 +113,7 @@ FLASH_PrefetchBufferCmd <= USED 0
 FLASH_ReadAccess64Cmd <= USED 0
 FLASH_SLEEPPowerDownCmd <= USED 0
 FLASH_SetLatency <= USED 0
+FLASH_Unlock <= USED 0
 __asm___17_stm32l1xx_flash_c_a2a150d6____REV16 <= USED 0
 __asm___17_stm32l1xx_flash_c_a2a150d6____REVSH <= USED 0
 ;FILE stm32l1xx_flash_ramfunc.o
@@ -119,15 +126,14 @@ __asm___25_stm32l1xx_flash_ramfunc_c_5c93427a____REV16 <= USED 0
 __asm___25_stm32l1xx_flash_ramfunc_c_5c93427a____REVSH <= USED 0
 ;FILE stm32l1xx_gpio.o
 GPIO_DeInit <= USED 0
-GPIO_PinAFConfig <= USED 0
 GPIO_PinLockConfig <= USED 0
 GPIO_ReadInputData <= USED 0
+GPIO_ReadInputDataBit <= USED 0
 GPIO_ReadOutputData <= USED 0
 GPIO_ReadOutputDataBit <= USED 0
-GPIO_SetBits <= USED 0
+GPIO_ResetBits <= USED 0
 GPIO_ToggleBits <= USED 0
 GPIO_Write <= USED 0
-GPIO_WriteBit <= USED 0
 __asm___16_stm32l1xx_gpio_c_f8e8e39a____REV16 <= USED 0
 __asm___16_stm32l1xx_gpio_c_f8e8e39a____REVSH <= USED 0
 ;FILE stm32l1xx_i2c.o
@@ -186,6 +192,7 @@ __asm___15_stm32l1xx_pwr_c_0c2a8b75____REVSH <= USED 0
 ;FILE stm32l1xx_rcc.o
 RCC_AHBPeriphClockLPModeCmd <= USED 0
 RCC_AHBPeriphResetCmd <= USED 0
+RCC_APB1PeriphClockCmd <= USED 0
 RCC_APB1PeriphClockLPModeCmd <= USED 0
 RCC_APB1PeriphResetCmd <= USED 0
 RCC_APB2PeriphClockLPModeCmd <= USED 0
@@ -252,6 +259,7 @@ RTC_ITConfig <= USED 0
 RTC_Init <= USED 0
 RTC_OutputConfig <= USED 0
 RTC_OutputTypeConfig <= USED 0
+RTC_ReadBackupRegister <= USED 0
 RTC_RefClockCmd <= USED 0
 RTC_SetAlarm <= USED 0
 RTC_SetDate <= USED 0
@@ -272,6 +280,7 @@ RTC_TimeStructInit <= USED 0
 RTC_WaitForSynchro <= USED 0
 RTC_WakeUpClockConfig <= USED 0
 RTC_WakeUpCmd <= USED 0
+RTC_WriteBackupRegister <= USED 0
 RTC_WriteProtectionCmd <= USED 0
 __asm___15_stm32l1xx_rtc_c_81435638____REV16 <= USED 0
 __asm___15_stm32l1xx_rtc_c_81435638____REVSH <= USED 0
@@ -314,6 +323,7 @@ I2S_Init <= USED 0
 I2S_StructInit <= USED 0
 SPI_BiDirectionalLineConfig <= USED 0
 SPI_CalculateCRC <= USED 0
+SPI_Cmd <= USED 0
 SPI_DataSizeConfig <= USED 0
 SPI_GetCRC <= USED 0
 SPI_GetCRCPolynomial <= USED 0
@@ -325,6 +335,7 @@ SPI_I2S_GetFlagStatus <= USED 0
 SPI_I2S_GetITStatus <= USED 0
 SPI_I2S_ITConfig <= USED 0
 SPI_I2S_ReceiveData <= USED 0
+SPI_Init <= USED 0
 SPI_NSSInternalSoftwareConfig <= USED 0
 SPI_SSOutputCmd <= USED 0
 SPI_StructInit <= USED 0
@@ -389,6 +400,7 @@ __asm___10_usb_core_c_0b05b142____REVSH <= USED 0
 __asm___10_usb_desc_c_9962454c____REV16 <= USED 0
 __asm___10_usb_desc_c_9962454c____REVSH <= USED 0
 ;FILE usb_init.o
+USB_Init <= USED 0
 __asm___10_usb_init_c_USB_Init____REV16 <= USED 0
 __asm___10_usb_init_c_USB_Init____REVSH <= USED 0
 ;FILE usb_int.o
@@ -402,6 +414,8 @@ __asm___10_usb_istr_c_e9471872____REVSH <= USED 0
 __asm___9_usb_mem_c_e1f96de9____REV16 <= USED 0
 __asm___9_usb_mem_c_e1f96de9____REVSH <= USED 0
 ;FILE usb_prop.o
+DFU_SetConfiguration <= USED 0
+DFU_SetDeviceAddress <= USED 0
 __asm___10_usb_prop_c_853da93f____REV16 <= USED 0
 __asm___10_usb_prop_c_853da93f____REVSH <= USED 0
 ;FILE usb_pwr.o

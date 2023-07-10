@@ -638,14 +638,14 @@
               <FilePath>..\src\stm32_it.c</FilePath>
             </File>
             <File>
-              <FileName>ext2760.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\ext2760.c</FilePath>
-            </File>
-            <File>
               <FileName>delay.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>smallssd1306.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\smallssd1306.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2722,14 +2722,14 @@
               <FilePath>..\src\stm32_it.c</FilePath>
             </File>
             <File>
-              <FileName>ext2760.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\ext2760.c</FilePath>
-            </File>
-            <File>
               <FileName>delay.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>smallssd1306.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\smallssd1306.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -4806,14 +4806,14 @@
               <FilePath>..\src\stm32_it.c</FilePath>
             </File>
             <File>
-              <FileName>ext2760.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\ext2760.c</FilePath>
-            </File>
-            <File>
               <FileName>delay.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>smallssd1306.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\smallssd1306.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -6366,13 +6366,13 @@
       <pCCUsed>5060422::V5.06 update 4 (build 422)::ARMCC</pCCUsed>
       <TargetOption>
         <TargetCommonOption>
-          <Device>STM32L152CB</Device>
+          <Device>STM32L151CB</Device>
           <Vendor>STMicroelectronics</Vendor>
           <Cpu>IRAM(0x20000000-0x20003FFF) IROM(0x8000000-0x801FFFF) CLOCK(8000000) CPUTYPE("Cortex-M3")</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile>"STARTUP\ST\STM32L1xx\startup_stm32l1xx_md.s" ("STM32L1xx Medium density Startup Code")</StartupFile>
           <FlashDriverDll>ULP2CM3(-O207 -S8 -C0 -FO7 -FD20000000 -FC800 -FN1 -FF0STM32L1xx_128 -FS08000000 -FL020000)</FlashDriverDll>
-          <DeviceId>5247</DeviceId>
+          <DeviceId>5244</DeviceId>
           <RegisterFile>stm32l1xx.h</RegisterFile>
           <MemoryEnv></MemoryEnv>
           <Cmp></Cmp>
@@ -6501,7 +6501,7 @@
             <RestoreSysVw>1</RestoreSysVw>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>0</TargetSelection>
+          <TargetSelection>5</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -6515,7 +6515,7 @@
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
             <InitializationFile></InitializationFile>
-            <Driver>BIN\UL2CM3.DLL</Driver>
+            <Driver>STLink\ST-LINKIII-KEIL_SWO.dll</Driver>
           </TargetDlls>
         </DebugOption>
         <Utilities>
@@ -6523,7 +6523,7 @@
             <UseTargetDll>1</UseTargetDll>
             <UseExternalTool>0</UseExternalTool>
             <RunIndependent>0</RunIndependent>
-            <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
+            <UpdateFlashBeforeDebugging>0</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
             <DriverSelection>4096</DriverSelection>
           </Flash1>
@@ -6585,7 +6585,7 @@
             <RoSelD>3</RoSelD>
             <RwSelD>3</RwSelD>
             <CodeSel>0</CodeSel>
-            <OptFeed>1</OptFeed>
+            <OptFeed>0</OptFeed>
             <NoZi1>0</NoZi1>
             <NoZi2>0</NoZi2>
             <NoZi3>0</NoZi3>
@@ -6665,7 +6665,7 @@
               <OCR_RVCT4>
                 <Type>1</Type>
                 <StartAddress>0x8000000</StartAddress>
-                <Size>0x3000</Size>
+                <Size>0x20000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
                 <Type>1</Type>
@@ -7042,14 +7042,14 @@
               <FilePath>..\src\stm32_it.c</FilePath>
             </File>
             <File>
-              <FileName>ext2760.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\ext2760.c</FilePath>
-            </File>
-            <File>
               <FileName>delay.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>smallssd1306.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\smallssd1306.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -9326,14 +9326,14 @@
               <FilePath>..\src\stm32_it.c</FilePath>
             </File>
             <File>
-              <FileName>ext2760.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\ext2760.c</FilePath>
-            </File>
-            <File>
               <FileName>delay.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>smallssd1306.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\smallssd1306.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -11610,14 +11610,14 @@
               <FilePath>..\src\stm32_it.c</FilePath>
             </File>
             <File>
-              <FileName>ext2760.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\ext2760.c</FilePath>
-            </File>
-            <File>
               <FileName>delay.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>smallssd1306.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\smallssd1306.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -13894,14 +13894,14 @@
               <FilePath>..\src\stm32_it.c</FilePath>
             </File>
             <File>
-              <FileName>ext2760.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\ext2760.c</FilePath>
-            </File>
-            <File>
               <FileName>delay.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>smallssd1306.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\smallssd1306.c</FilePath>
             </File>
           </Files>
         </Group>

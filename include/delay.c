@@ -1,9 +1,9 @@
 #include "main.h"
 
-uint32_t msTicks = 0;           // counts 1ms timeTicks
+volatile uint32_t msTicks = 0;           // counts 1ms timeTicks
 
 #pragma O0
-void delay_ms(uint32_t ms)
+void delay_ms(volatile uint32_t ms)
 {
 
   if(SysTick_Config(SystemCoreClock / 1000))
