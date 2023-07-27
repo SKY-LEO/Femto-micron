@@ -77,14 +77,14 @@ void EXTI9_Config(void)
   EXTI_InitTypeDef EXTI_InitStructure;
 
   // Описываем ножку
-  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);   // Подаем тактирование на порт
+  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);   // Подаем тактирование на порт
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;  // Режим ножки "вход"
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;      // Без подтяжки
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;     // Номер ножки в порту
-  GPIO_Init(GPIOA, &GPIO_InitStructure);        // записиваем конфигурацию
+  GPIO_Init(GPIOB, &GPIO_InitStructure);        // записиваем конфигурацию
 
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);        // Подаем тактирование на SYSCFG
-  SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOA, EXTI_PinSource9); // Подключаем EXTI к ножке
+  SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOB, EXTI_PinSource9); // Подключаем EXTI к ножке
 
   // Описываем EXTI
   EXTI_InitStructure.EXTI_Line = EXTI_Line9;    // Номер EXTI

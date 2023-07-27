@@ -143,7 +143,7 @@ void eeprom_apply_settings(uint32_t addr)
     return;
 
   // контраст и реверс дисплея
-  if((addr == 0x0C) || (addr == 0x08))
+  if((addr == 0x0C) || (addr == 0x08) || (addr == 0xF4))
   {
     display_off();
     delay_ms(200);

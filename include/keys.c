@@ -278,10 +278,10 @@ void plus_amodul_engage(uint32_t * param)
   }
   Data.AMODULE_fon[0] = 0;
 
-  Set_next_B_alarm_wakeup();
-  RTC_ITConfig(RTC_IT_ALRB, ENABLE);
-  RTC_AlarmCmd(RTC_Alarm_B, ENABLE);
-  RTC_ClearFlag(RTC_FLAG_ALRBF);
+  //TEST Set_next_B_alarm_wakeup();
+  //RTC_ITConfig(RTC_IT_ALRB, ENABLE);
+  //RTC_AlarmCmd(RTC_Alarm_B, ENABLE);
+  //RTC_ClearFlag(RTC_FLAG_ALRBF);
 
   Data.menu_select = 0;
   Data.modul_menu_select = 0;
@@ -375,11 +375,11 @@ void plus_reboot(uint32_t * param)      // перезагрузка
     USB_off();
   LcdClear_massive();
   sprintf(lcd_buf, LANG_REBOOTPR);      // Пишем в буфер значение счетчика
-  LcdString(1, 5);              // // Выводим обычным текстом содержание буфера
+  LcdString(1, 1);              // // Выводим обычным текстом содержание буфера
   sprintf(lcd_buf, LANG_DONTOTO1);      // Пишем в буфер значение счетчика
-  LcdString(1, 7);              // // Выводим обычным текстом содержание буфера
+  LcdString(1, 2);              // // Выводим обычным текстом содержание буфера
   sprintf(lcd_buf, LANG_DONTOTO2);      // Пишем в буфер значение счетчика
-  LcdString(1, 8);              // // Выводим обычным текстом содержание буфера
+  LcdString(1, 3);              // // Выводим обычным текстом содержание буфера
 
   LcdUpdate();                  // записываем данные из сформированного фрейм-буфера на дисплей
   delay_ms(3000);
@@ -400,11 +400,11 @@ void minus_poweroff(uint32_t * param)   // выключение
     USB_off();
   LcdClear_massive();
   sprintf(lcd_buf, LANG_POWEROFF);      // Пишем в буфер значение счетчика
-  LcdString(1, 5);              // // Выводим обычным текстом содержание буфера
+  LcdString(1, 1);              // // Выводим обычным текстом содержание буфера
   sprintf(lcd_buf, LANG_DONTOTO1);      // Пишем в буфер значение счетчика
-  LcdString(1, 7);              // // Выводим обычным текстом содержание буфера
+  LcdString(1, 2);              // // Выводим обычным текстом содержание буфера
   sprintf(lcd_buf, LANG_DONTOTO2);      // Пишем в буфер значение счетчика
-  LcdString(1, 8);              // // Выводим обычным текстом содержание буфера
+  LcdString(1, 3);              // // Выводим обычным текстом содержание буфера
 
   LcdUpdate();                  // записываем данные из сформированного фрейм-буфера на дисплей
 
@@ -513,11 +513,11 @@ void minus_poweroff(uint32_t * param)   // выключение
 
   LcdClear_massive();
   sprintf(lcd_buf, LANG_REBOOTPR);      // Пишем в буфер значение счетчика
-  LcdString(1, 5);              // // Выводим обычным текстом содержание буфера
+  LcdString(1, 1);              // // Выводим обычным текстом содержание буфера
   sprintf(lcd_buf, LANG_DONTOTO1);      // Пишем в буфер значение счетчика
-  LcdString(1, 7);              // // Выводим обычным текстом содержание буфера
+  LcdString(1, 2);              // // Выводим обычным текстом содержание буфера
   sprintf(lcd_buf, LANG_DONTOTO2);      // Пишем в буфер значение счетчика
-  LcdString(1, 8);              // // Выводим обычным текстом содержание буфера
+  LcdString(1, 3);              // // Выводим обычным текстом содержание буфера
 
   LcdUpdate();                  // записываем данные из сформированного фрейм-буфера на дисплей
 
@@ -576,6 +576,7 @@ void keys_proccessing(void)
 {
   extern uint16_t key;
   extern SettingsDef Settings;
+	delay_ms(100);//TEST для дребезга джойстика
 //  int i;
 
   /////////////////////////////////
@@ -760,7 +761,7 @@ void keys_proccessing(void)
     while (!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_0));
     while (!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_1));
     while (!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_2));
-
+		 
     DataUpdate.Need_display_update = ENABLE;
     LcdClear();                 // Очищаем фрейм буфер и дисплей
 

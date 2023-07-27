@@ -4,7 +4,8 @@
 #include "stm32l1xx.h"
 
 //#define SSD1306_MIRROR_HORIZ
-#define SSD1306_MIRROR_VERT
+//#define SSD1306_MIRROR_VERT
+//#define SSD1306_INVERSE_COLOR
 //***********************************************************
 //Настройки контроллера дисплея и переменные для работы с ним
 //***********************************************************
@@ -88,7 +89,7 @@ void Draw_fon_graph(uint8_t x_start, uint8_t x_end, uint8_t y_start, uint8_t y_e
     uint32_t spec);
 void Draw_speedup(uint8_t x_start, uint8_t x_end, uint8_t y_start, uint8_t y_end);
 void Draw_fon_digit(uint8_t line, uint8_t start_char, uint8_t seconds, uint32_t fonmodule_val, uint8_t label, uint8_t accentuation);
-void LcdBatt(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, uint32_t persent);     //рисуем батарейку с заполнением в %
+void LcdBatt(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, uint32_t persent, uint8_t is_charging);     //рисуем батарейку с заполнением в %
 void LcdClear_massive(void);
 void display_on(void);
 void display_off(void);

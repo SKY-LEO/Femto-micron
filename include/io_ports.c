@@ -25,16 +25,16 @@ void io_init(void)
   GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_All & ~GPIO_Pin_0 & ~GPIO_Pin_1 & ~GPIO_Pin_2 & ~GPIO_Pin_4 & ~GPIO_Pin_5 
-			& ~GPIO_Pin_8 & ~GPIO_Pin_9 & ~GPIO_Pin_13;
+			& ~GPIO_Pin_8 & ~GPIO_Pin_12 & ~GPIO_Pin_13;
   GPIO_Init(GPIOB, &GPIO_InitStructure);
   GPIO_ResetBits(GPIOB, GPIO_InitStructure.GPIO_Pin);   // Отключаем токосемник
 
   // Порт B
   GPIO_StructInit(&GPIO_InitStructure);
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT; // ????? ????? "????"
-  GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_OD; //стоит проверить TEST
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
   GPIO_Init(GPIOB, &GPIO_InitStructure);
   GPIO_ResetBits(GPIOB, GPIO_InitStructure.GPIO_Pin);   // Отключаем токосемник
 
@@ -104,13 +104,23 @@ void io_init(void)
   GPIO_Init(GPIOB, &GPIO_InitStructure);
 
 // ===============================================================================================  
-  //Конфигурируем ножку для детектора USB(Batt stat) при заряде 0, при окончании 1
+  //Конфигурируем ножку для зарядки акума, при заряде 0, при окончании 1
+  GPIO_StructInit(&GPIO_InitStructure);
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN; // Аналоговый режим TEST
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
+	//GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;
+  GPIO_Init(GPIOA, &GPIO_InitStructure);
+	
+	// ===============================================================================================  
+  //Конфигурируем ножку для детектора USB
   GPIO_StructInit(&GPIO_InitStructure);
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN; // Цифровой вход
-  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP; //Подтяжка к питанию
-  GPIO_Init(GPIOA, &GPIO_InitStructure);
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;  // GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_AN;         // Аналоговый режим
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+  GPIO_Init(GPIOB, &GPIO_InitStructure);
 
   // ===============================================================================================  
   // Ножка вибрика
@@ -127,13 +137,13 @@ void io_init(void)
 // ===============================================================================================  
   // Ножка изиерения напряжения АКБ
   GPIO_StructInit(&GPIO_InitStructure);
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;      // Ножка
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;      // Ножка
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
   GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
   GPIO_Init(GPIOB, &GPIO_InitStructure);        // Загружаем конфигурацию
-  GPIO_SetBits(GPIOB, GPIO_InitStructure.GPIO_Pin);     // Отключаем токосемник
+  GPIO_SetBits(GPIOB, GPIO_InitStructure.GPIO_Pin);     // Отключаем токосемник Надо ли? TEST
 
 // ===============================================================================================  
   // Ножка LCDLED

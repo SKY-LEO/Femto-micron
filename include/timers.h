@@ -2,12 +2,14 @@
 #define __timers_user_H
 
 
-void tim2_Config(void);
+//void tim2_Config(void);
 void tim3_Config(void);
 void tim4_Config(void);
-void timer9_Config(void);
+void key_long_timer_Config(void);
+//void timer9_Config(void);
 void timer10_Config(void);
 void sound_activate(void);
 void sound_deactivate(void);
 void reset_TIM_prescallers_and_Compare(void);
+void key_long_timer_Disable(void);
 #endif

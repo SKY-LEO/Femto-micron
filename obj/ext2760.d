@@ -35,8 +35,7 @@
 .\obj\ext2760.o: .\include\clock.h
 .\obj\ext2760.o: .\include\dac.h
 .\obj\ext2760.o: .\include\delay.h
-.\obj\ext2760.o: .\include\display\ext2760.h
-.\obj\ext2760.o: .\include\display\ssd1306_2.h
+.\obj\ext2760.o: .\include\display\extssd1306.h
 .\obj\ext2760.o: .\include\eeprom.h
 .\obj\ext2760.o: .\include\flash_save.h
 .\obj\ext2760.o: .\include\io_ports.h
@@ -66,3 +65,4 @@
 .\obj\ext2760.o: .\STM32_USB-FS-Device_Lib_V4.0.0\Projects\VirtualComport_Loopback\inc\usb_istr.h
 .\obj\ext2760.o: .\STM32_USB-FS-Device_Lib_V4.0.0\Projects\VirtualComport_Loopback\inc\usb_pwr.h
 .\obj\ext2760.o: .\STM32_USB-FS-Device_Lib_V4.0.0\Projects\VirtualComport_Loopback\inc\usb_desc.h
+.\obj\ext2760.o: include\display\ext2760.h

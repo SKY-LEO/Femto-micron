@@ -14,16 +14,16 @@
       <pCCUsed>5060422::V5.06 update 4 (build 422)::ARMCC</pCCUsed>
       <TargetOption>
         <TargetCommonOption>
-          <Device>STM32L151CCUx</Device>
+          <Device>STM32L151CBUx</Device>
           <Vendor>STMicroelectronics</Vendor>
           <PackID>Keil.STM32L1xx_DFP.1.4.1</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
-          <Cpu>IRAM(0x20000000,0x00008000) IROM(0x08000000,0x00040000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
+          <Cpu>IRAM(0x20000000,0x00004000) IROM(0x08000000,0x00020000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
-          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0STM32L1xx_256 -FS08000000 -FL040000 -FP0($$Device:STM32L151CCUx$CMSIS\Flash\STM32L1xx_256.FLM))</FlashDriverDll>
+          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0STM32L1xx_128 -FS08000000 -FL020000 -FP0($$Device:STM32L151CBUx$CMSIS\Flash\STM32L1xx_128.FLM))</FlashDriverDll>
           <DeviceId>0</DeviceId>
-          <RegisterFile>$$Device:STM32L151CCUx$Drivers\CMSIS\Device\ST\STM32L1xx\Include\stm32l1xx.h</RegisterFile>
+          <RegisterFile>$$Device:STM32L151CBUx$Drivers\CMSIS\Device\ST\STM32L1xx\Include\stm32l1xx.h</RegisterFile>
           <MemoryEnv></MemoryEnv>
           <Cmp></Cmp>
           <Asm></Asm>
@@ -33,7 +33,7 @@
           <SLE66CMisc></SLE66CMisc>
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile>$$Device:STM32L151CCUx$CMSIS\SVD\STM32L151.svd</SFDFile>
+          <SFDFile>$$Device:STM32L151CBUx$CMSIS\SVD\STM32L151.svd</SFDFile>
           <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
@@ -138,7 +138,7 @@
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3>"" ()</Flash3>
+          <Flash3></Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp>Main</pFcarmGrp>
@@ -244,12 +244,12 @@
               <IRAM>
                 <Type>0</Type>
                 <StartAddress>0x20000000</StartAddress>
-                <Size>0x8000</Size>
+                <Size>0x4000</Size>
               </IRAM>
               <IROM>
                 <Type>1</Type>
                 <StartAddress>0x8000000</StartAddress>
-                <Size>0x40000</Size>
+                <Size>0x20000</Size>
               </IROM>
               <XRAM>
                 <Type>0</Type>
@@ -274,7 +274,7 @@
               <OCR_RVCT4>
                 <Type>1</Type>
                 <StartAddress>0x8003000</StartAddress>
-                <Size>0xbfff</Size>
+                <Size>0x20000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
                 <Type>1</Type>
@@ -299,7 +299,7 @@
               <OCR_RVCT9>
                 <Type>0</Type>
                 <StartAddress>0x20000000</StartAddress>
-                <Size>0x8000</Size>
+                <Size>0x4000</Size>
               </OCR_RVCT9>
               <OCR_RVCT10>
                 <Type>0</Type>
@@ -901,14 +901,9 @@
               </FileOption>
             </File>
             <File>
-              <FileName>ext2760.c</FileName>
+              <FileName>extssd1306.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\include\display\ext2760.c</FilePath>
-            </File>
-            <File>
-              <FileName>ssd1306_2.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\include\display\ssd1306_2.c</FilePath>
+              <FilePath>.\include\display\extssd1306.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2021,14 +2016,9 @@
               <FilePath>.\include\Pump.c</FilePath>
             </File>
             <File>
-              <FileName>ext2760.c</FileName>
+              <FileName>extssd1306.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\include\display\ext2760.c</FilePath>
-            </File>
-            <File>
-              <FileName>ssd1306_2.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\include\display\ssd1306_2.c</FilePath>
+              <FilePath>.\include\display\extssd1306.c</FilePath>
             </File>
           </Files>
         </Group>

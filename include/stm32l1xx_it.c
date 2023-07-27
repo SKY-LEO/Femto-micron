@@ -132,9 +132,15 @@ void EXTI1_IRQHandler(void)
           key |= 0x1;           // Кнопка Меnu
         }
       }
+			if(!Power.Display_active && timer6_is_on == 0)
+			{
+				timer6_is_on = 1;
+				menu_key_long = 0;
+				key_long_timer_Config();
+			}
       Sound_key_pressed = ENABLE;
       Alarm.Tick_beep_count = 0;
-      check_wakeup_keys();
+			clear_sleep_time();
     }
     EXTI_ClearITPendingBit(EXTI_Line1);
   }
@@ -150,11 +156,17 @@ void EXTI2_IRQHandler(void)
     {
       if(Power.Display_active)
       {
-        key |= 0x4;             // Кнопка -
+        if(Settings.Display_reverse == 0x00)
+				{
+					key |= 0x2;             // Кнопка -
+				}else
+				{
+					key |= 0x4;             // Кнопка +
+				}
       }
       Sound_key_pressed = ENABLE;
       Alarm.Tick_beep_count = 0;
-      check_wakeup_keys();
+			clear_sleep_time();
     }
     EXTI_ClearITPendingBit(EXTI_Line2);
   }
@@ -171,11 +183,18 @@ void EXTI0_IRQHandler(void)
     {
       if(Power.Display_active)
       {
-        key |= 0x2;             // Кнопка +
+        if(Settings.Display_reverse == 0x00)
+				{
+					key |= 0x4;             // Кнопка +
+				}else
+				{
+					key |= 0x2;             // Кнопка -
+				}
       }
       Sound_key_pressed = ENABLE;
       Alarm.Tick_beep_count = 0;
-      check_wakeup_keys();
+			clear_sleep_time();
+      //check_wakeup_keys(); TEST
     }
   }
 }
@@ -223,7 +242,7 @@ void EXTI9_5_IRQHandler(void)
 
 // =======================================================
 // Прерывание по импульсу от датчика 2
-void EXTI15_10_IRQHandler(void)
+/*void EXTI15_10_IRQHandler(void)
 {
   if(EXTI_GetITStatus(EXTI_Line10) != RESET)
   {
@@ -250,7 +269,7 @@ void EXTI15_10_IRQHandler(void)
     }
   }
 
-}
+}*/
 
 
 // ========================================================
@@ -301,6 +320,29 @@ void TIM3_IRQHandler(void)
   }
 }
 
+
+// ========================================================
+// долгое нажатие на кнопку menu
+/*void TIM6_IRQHandler(void)
+{
+  if(TIM_GetITStatus(TIM6, TIM_IT_Update) != RESET)
+  {
+    TIM_ClearITPendingBit(TIM6, TIM_IT_Update);
+    if(!poweroff_state)
+    {
+      if(!Power.Display_active)
+      {
+        if(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_1))
+				{
+					menu_key_long++;
+				}else
+				{
+					tim6_Disable();
+				}
+      }
+    }
+  }
+}*/
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -394,12 +436,29 @@ void RTC_Alarm_IRQHandler(void)
   if(RTC_GetITStatus(RTC_IT_ALRB) != RESET)
   {
     RTC_ClearITPendingBit(RTC_IT_ALRB);
-
     if(!poweroff_state)
     {
-      Set_next_B_alarm_wakeup();        // установить таймер просыпания на +1 секунду
+				if(!Power.Display_active)
+				{
+					if(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_1))
+					{
+						menu_key_long++;
+						if(!check_wakeup_keys())
+						{
+							Set_next_B_alarm_wakeup();        // установить таймер просыпания на +1 секунду
+						}else
+						{
+							key_long_timer_Disable();
+							menu_key_long = 0;
+						}
+					}else
+					{
+						key_long_timer_Disable();
+						menu_key_long = 0;
+					}
+				}
 
-      if(Settings.AMODUL_mode != 0)     // Если модуль-А активирован, обрабатываем его массив
+      /*if(Settings.AMODUL_mode != 0)     // Если модуль-А активирован, обрабатываем его массив
       {
         for (i = 59; i > 0; i--)
         {
@@ -428,9 +487,9 @@ void RTC_Alarm_IRQHandler(void)
 
         }
         DataUpdate.Need_display_update = ENABLE;
-      }
+      }*/
 
-      Power.sleep_time = Settings.Sleep_time;
+      //Power.sleep_time = Settings.Sleep_time;
     }
 
   }

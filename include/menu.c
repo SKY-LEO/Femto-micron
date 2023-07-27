@@ -19,11 +19,12 @@ MenuItem Menu_list[max_struct_index] = {
 
 // Приватные пункты меню
 {0x01, 0xFFFF,  LANG_BETA_MEAS,	"*",					"*",			"*",						0x00,												0x00,		0x00,		0x00,		&plus_ab_engage,	0x00,			0x00,							0x00},
-{0x01, 0x0C, 		LANG_CONTRAST,	"",						"",				"%u",						&Settings.contrast,					0,			15,			0,			&plus,						1,				&minus,						1},
-{0x01, 0x08, 		LANG_REVERSE,		LANG_OFF,			"",				"%u",						&Settings.Display_reverse,	0,			5,			2,			&plus,						1,				&minus,						1},
+{0x01, 0x0C, 		LANG_CONTRAST,	"",						"",				"%u",						&Settings.contrast,					1,			25,			10,			&plus,						1,				&minus,						1},
+{0x01, 0x08, 		LANG_REVERSE,		LANG_OFF,			LANG_ON,	"",						  &Settings.Display_reverse,	0x00,		0x01,		0x00,		&plus,						1,				&minus,						1},
+{0x01, 0xF4, 		LANG_INVERSE,		LANG_OFF,			LANG_ON,	"",						  &Settings.Display_inverse,	0x00,		0x01,		0x00,		&plus,						1,				&minus,						1},
 {0x01, 0x54, 		LANG_V4PUMP,		"",						"",				LANG_UV4PUMP,		&Settings.v4_target_pump,		4,			14,			8,			&plus,						1,				&minus,						1},
 {0x01, 0x30, 		LANG_VOLTAGE,		"",						"",				LANG_UV,				&Settings.Geiger_voltage,		300,		450,		380,		&plus,						10,				&minus,						10},
-// Заплатка на бета окно if(menu_struct_index == 15) ! Исправить в коде при изменении порядка пунктов меню!
+// Заплатка на бета окно if(menu_struct_index == 16) ! Исправить в коде при изменении порядка пунктов меню!
 {0x01, 0x6C,		LANG_BWINDOW,		"",						"",				LANG_BWINDOW_,	&Settings.Beta_window,			1,			100,		20,			&plus,						1,				&minus,						1},
 {0x01, 0x70,		LANG_BPROCENT,	"",						"",				LANG_BPROCENT_,	&Settings.Beta_procent,			1,			100,		37,			&plus,						1,				&minus,						1},
 {0x01, 0xFFFF,	LANG_REF_VOLT,	"",						"",				LANG_REF_VOLT_,	&ADCData.Power_voltage,			1202,		1242,		1224,		&plus_one_ref,		0x00,			&minus_one_ref,		0x00},
@@ -72,24 +73,26 @@ void main_screen()
   //uint32_t i = 0, x = 0;
 
   if(Settings.AMODUL_mode == 0)
-
   {
     // Индикация батарейки и выключение питания при разряде
     if(Settings.AB_mode == 0)
     {
-      //if(ADCData.Batt_voltage < 3500)
-        //minus_poweroff(0x00);   // Если меньше 3.5В выключаем прибор. TEST
+      if(ADCData.Batt_voltage < 3500)
+				minus_poweroff(0x00);   // Если меньше 3.5В выключаем прибор.
 			
-			battery_procent = ADCData.Batt_voltage;
-      battery_procent -= 3500;
-      battery_procent /= 5;
-      LcdBatt(84, 19, 84 + 10, 19 + 19, battery_procent);
+			if(Data.main_menu_stat != 0x0D)
+			{
+				battery_procent = ADCData.Batt_voltage;
+				battery_procent -= 3500;
+				battery_procent /= 5;
+				LcdBatt(104, 2, 104 + 10, 2 + 19, battery_procent, (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_9))); //LcdBatt(84, 19, 84 + 10, 19 + 19, battery_procent); TEST
+			}
     }
 
-    if(Data.main_menu_stat > 12)
+    if(Data.main_menu_stat > 13)
       Data.main_menu_stat = 1;
     if(Data.main_menu_stat < 1)
-      Data.main_menu_stat = 12;
+      Data.main_menu_stat = 13;
 
     if(DataUpdate.Need_update_mainscreen_counters == ENABLE)    // Если требуется обновление счетчиков
     {
@@ -139,18 +142,18 @@ void main_screen()
       switch (Data.main_menu_stat)
       {
       case 0x01:
-        sprintf(lcd_buf, LANG_TIME);    // Пишем в буфер значение счетчика
-        LcdString(1, 4);        // // Выводим обычным текстом содержание буфера
-        sprintf(lcd_buf, LANG_DATE);    // Пишем в буфер значение счетчика
-        LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
+        //sprintf(lcd_buf, LANG_TIME);    // Пишем в буфер значение счетчика
+        //LcdString(1, 4);        // // Выводим обычным текстом содержание буфера
+        //sprintf(lcd_buf, LANG_DATE);    // Пишем в буфер значение счетчика
+        //LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
 
         RTC_GetDate(RTC_Format_BIN, &RTC_DateStructure);
         RTC_GetTime(RTC_Format_BIN, &RTC_TimeStructure);
 
-        sprintf(lcd_buf, "%0.2d.%0.2d.%0.2d", RTC_DateStructure.RTC_Date, RTC_DateStructure.RTC_Month, RTC_DateStructure.RTC_Year);
-        LcdString(7, 5);        // // Выводим обычным текстом содержание буфера
-        sprintf(lcd_buf, "%0.2d:%0.2d:%0.2d", RTC_TimeStructure.RTC_Hours, RTC_TimeStructure.RTC_Minutes, RTC_TimeStructure.RTC_Seconds);
-        LcdString(7, 4);        // // Выводим обычным текстом содержание буфера
+				sprintf(lcd_buf, "%0.2d:%0.2d:%0.2d,", RTC_TimeStructure.RTC_Hours, RTC_TimeStructure.RTC_Minutes, RTC_TimeStructure.RTC_Seconds);
+        LcdString(1, 4);        // // Выводим обычным текстом содержание буфера
+        sprintf(lcd_buf, "%0.2d.%0.2d.%0.4d", RTC_DateStructure.RTC_Date, RTC_DateStructure.RTC_Month, RTC_DateStructure.RTC_Year+2000);
+        LcdString(11, 4);        // // Выводим обычным текстом содержание буфера
 
         break;
         // -----------------------------------------
@@ -165,7 +168,7 @@ void main_screen()
         {
           sprintf(lcd_buf, LANG_9UMKZV, convert_mkr_sv(Data.Max_fon));  // Пишем в буфер значение счетчика
         }
-        LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
+        LcdString(9, 4);        // // Выводим обычным текстом содержание буфера
         break;
         // -----------------------------------------
       case 0x03:
@@ -186,7 +189,7 @@ void main_screen()
         {
           sprintf(lcd_buf, LANG_DOSECALC);      // Пишем в буфер значение счетчика
         }
-        LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
+        LcdString(9, 4);        // // Выводим обычным текстом содержание буфера
         break;
         // -----------------------------------------
       case 0x04:
@@ -206,7 +209,7 @@ void main_screen()
         {
           sprintf(lcd_buf, LANG_DOSECALC);      // Пишем в буфер значение счетчика
         }
-        LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
+        LcdString(9, 4);        // // Выводим обычным текстом содержание буфера
         break;
         // -----------------------------------------
       case 0x05:
@@ -227,7 +230,7 @@ void main_screen()
           sprintf(lcd_buf, LANG_DOSECALC);      // Пишем в буфер значение счетчика
         }
 
-        LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
+        LcdString(9, 4);        // // Выводим обычным текстом содержание буфера
         break;
         // -----------------------------------------
       case 0x06:
@@ -248,7 +251,7 @@ void main_screen()
           sprintf(lcd_buf, LANG_DOSECALC);      // Пишем в буфер значение счетчика
         }
 
-        LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
+        LcdString(9, 4);        // // Выводим обычным текстом содержание буфера
         break;
         // -----------------------------------------
 
@@ -271,7 +274,7 @@ void main_screen()
           sprintf(lcd_buf, LANG_DOSECALC);      // Пишем в буфер значение счетчика
         }
 
-        LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
+        LcdString(9, 4);        // // Выводим обычным текстом содержание буфера
         break;
         // -----------------------------------------
 
@@ -294,7 +297,7 @@ void main_screen()
           sprintf(lcd_buf, LANG_DOSECALC);      // Пишем в буфер значение счетчика
         }
 
-        LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
+        LcdString(9, 4);        // // Выводим обычным текстом содержание буфера
         break;
         // -----------------------------------------
 				
@@ -317,7 +320,7 @@ void main_screen()
           sprintf(lcd_buf, LANG_DOSECALC);      // Пишем в буфер значение счетчика
         }
 
-        LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
+        LcdString(9, 4);        // // Выводим обычным текстом содержание буфера
         break;
         // -----------------------------------------
 				
@@ -340,7 +343,7 @@ void main_screen()
           sprintf(lcd_buf, LANG_DOSECALC);      // Пишем в буфер значение счетчика
         }
 
-        LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
+        LcdString(9, 4);        // // Выводим обычным текстом содержание буфера
         break;
         // -----------------------------------------
 				
@@ -363,7 +366,7 @@ void main_screen()
           sprintf(lcd_buf, LANG_DOSECALC);      // Пишем в буфер значение счетчика
         }
 
-        LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
+        LcdString(9, 4);        // // Выводим обычным текстом содержание буфера
         break;
         // -----------------------------------------
 				
@@ -385,7 +388,19 @@ void main_screen()
 						sprintf(lcd_buf, LANG_DOSECALC);      // Пишем в буфер значение счетчика
 					}
 				
-        LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
+        LcdString(9, 4);        // // Выводим обычным текстом содержание буфера
+        break;
+        // -----------------------------------------
+					
+				// -----------------------------------------
+			case 0x0D:
+				if((Settings.Second_count / 4) > 100)
+				{
+					Draw_fon_graph(2, 126, 3, 29, SMALL_SIZE, Detector_massive, Detector_massive_pointer, NORMAL);
+				} else
+				{
+					Draw_fon_graph(2, 126, 3, 29, BIG_SIZE, Detector_massive, Detector_massive_pointer, NORMAL);
+				}
         break;
         // -----------------------------------------
 
@@ -396,7 +411,7 @@ void main_screen()
     {
       // Режим "Замер А-В"
       if(Settings.AB_mode > 0)
-        Draw_fon_digit(4, 1, 0, Data.fon_level, BETA, 0);
+        Draw_fon_digit(2, 3, 0, Data.fon_level, BETA, 0);//Draw_fon_digit(4, 1, 0, Data.fon_level, BETA, 0); TEST
     }
 
     if(Settings.Cal_mode == 1)
@@ -408,32 +423,38 @@ void main_screen()
       LcdString(1, 2);          // // Выводим обычным текстом содержание буфера    
     } else
     {
-      if(!Settings.units)
-      {
-        Draw_fon_digit(1, 1, 0, Data.fon_level, MKRH, 1);
-      } else
-      {
-        Draw_fon_digit(1, 1, 0, Data.fon_level, SIVERT, 1);
-      }
+			if(Settings.AB_mode == 0)
+			{
+				if(Data.main_menu_stat != 0x0D)
+				{
+					if(!Settings.units)
+					{
+						Draw_fon_digit(1, 1, 0, Data.fon_level, MKRH, 1);
+					} else
+					{
+						Draw_fon_digit(1, 1, 0, Data.fon_level, SIVERT, 1);
+					}
+				}
+			}
     }
-    if((Settings.Second_count / 4) > 100)
+    /*if((Settings.Second_count / 4) > 100)
     {
       Draw_fon_graph(2, 94, 67 - 25, 67, SMALL_SIZE, Detector_massive, Detector_massive_pointer, NORMAL);
     } else
     {
       Draw_fon_graph(2, 94, 67 - 25, 67, BIG_SIZE, Detector_massive, Detector_massive_pointer, NORMAL);
-    }
+    }*///TEST
 
-    if(Data.auto_speedup_factor > 1)
+    if(Data.auto_speedup_factor > 1 && Data.main_menu_stat != 0x0D)//TEST if(Data.auto_speedup_factor > 1)
     {
       Draw_speedup(2, 94, 67 - 25, 67);
       sprintf(lcd_buf, "x%2u", Data.auto_speedup_factor);       // Пишем в буфер значение счетчика
       LcdString(12, 3);         // // Выводим обычным текстом содержание буфера
     }
-  } else
+  } /*else
   {
     amodul_screen();
-  }
+  }*/ //TEST
 
   LcdUpdate();                  // записываем данные из сформированного фрейм-буфера на дисплей
 
@@ -444,7 +465,7 @@ void main_screen()
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-void amodul_screen()
+/*void amodul_screen()
 {
   uint32_t epsi = 100;
 	uint32_t battery_procent;
@@ -525,7 +546,7 @@ void amodul_screen()
       Draw_fon_graph(2, 94, 67 - 25, 67, BIG_SIZE, Data.AMODULE_fon, 0, MODUL);
 
       break;
-/*    case 3:
+			case 3://TEST было закоменчено
 
       sprintf(lcd_buf, LANG_SPECT_MARK_TEXT1);  // Пишем в буфер значение счетчика
       LcdString(1, 1);          // // Выводим обычным текстом содержание буфера
@@ -536,13 +557,12 @@ void amodul_screen()
       Draw_fon_graph(2, 96, 67 - 38, 67, SMALL_SIZE, Data.AMODULE_len, 0, SPECTR);
 
       break;
-*/
-    }
+ }
   } else
   {
     menu_screen(AMODUL_menu_mode);
   }
-}
+}*/
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -552,8 +572,8 @@ void amodul_screen()
 // Отрисовка меню
 void menu_screen(uint32_t mode)
 {
-  char para_string[20];
-  char tmp_string[20];
+  char para_string[21];
+  char tmp_string[21];
   uint16_t menu_page, i, j, max_element, selects_menu;
 
   ////////////////////////////////////////////
@@ -704,7 +724,7 @@ void menu_screen(uint32_t mode)
       }
     }
     // Заплатка на бета окно
-    if((menu_struct_index == 15) && (mode == NORMAL_menu_mode))
+    if((menu_struct_index == 16) && (mode == NORMAL_menu_mode))
     {
       tmp = *structures[menu_struct_index].Parameter_value;
       tmp = tmp / 10;
@@ -757,47 +777,47 @@ void stat_screen()
   case 0:
     sprintf(lcd_buf, LANG_STAT);
     LcdStringInv(1, 1);
-    sprintf(lcd_buf, LANG_VOLTAGE);     // Выводим на дисплей
+    sprintf(lcd_buf, LANG_VOLTAGE_PUMP);     // Выводим на дисплей
     LcdString(1, 2);            // // Выводим обычным текстом содержание буфера на строку 8
-    sprintf(lcd_buf, LANG_AKB3VVV);     // Выводим на дисплей
+    sprintf(lcd_buf, LANG_AKB3VVV_IMP);     // Выводим на дисплей
     LcdString(1, 3);            // // Выводим обычным текстом содержание буфера на строку 8
     //sprintf(lcd_buf, "%3i%%", cal_read(ADCData.Batt_voltage));  // Выводим на дисплей
     sprintf(lcd_buf, "%1i.%02i", ADCData.Batt_voltage / 1000, (ADCData.Batt_voltage % 1000) / 10);      // Выводим на дисплей
     LcdString(1, 4);            // // Выводим обычным текстом содержание буфера на строку 8
     sprintf(lcd_buf, "|%1i.%02i", ADCData.Power_voltage / 1000, (ADCData.Power_voltage % 1000) / 10);   // Выводим на дисплей
-    LcdString(6, 4);            // // Выводим обычным текстом содержание буфера на строку 8
+    LcdString(5, 4);            // // Выводим обычным текстом содержание буфера на строку 8
     sprintf(lcd_buf, "|%3is", Settings.Second_count);   // Выводим на дисплей
-    LcdString(12, 4);           // // Выводим обычным текстом содержание буфера на строку 8
-    sprintf(lcd_buf, LANG_PUMP);        // Выводим на дисплей
-    LcdString(1, 6);            // // Выводим обычным текстом содержание буфера на строку 8
-    sprintf(lcd_buf, LANG_IMPMINAR);    // Выводим на дисплей
-    LcdString(1, 7);            // // Выводим обычным текстом содержание буфера на строку 8
+    LcdString(10, 4);           // // Выводим обычным текстом содержание буфера на строку 8
+    //sprintf(lcd_buf, LANG_PUMP);        // Выводим на дисплей
+    //LcdString(1, 6);            // // Выводим обычным текстом содержание буфера на строку 8
+   // sprintf(lcd_buf, LANG_IMPMINAR);    // Выводим на дисплей
+    //LcdString(1, 7);            // // Выводим обычным текстом содержание буфера на строку 8
     if(PumpData.pump_counter_avg_impulse_by_1sec[1] == 0)
     {
       sprintf(lcd_buf, LANG_CALC2);
     }                           // Выводим на дисплей
     else
       sprintf(lcd_buf, "%5i ", PumpData.pump_counter_avg_impulse_by_1sec[1]);   // Выводим на дисплей
-    LcdString(1, 8);            // // Выводим обычным текстом содержание буфера на строку 8
-    sprintf(lcd_buf, LANG_4IDN, Data.working_days);     // Выводим на дисплей
-    LcdString(9, 8);            // // Выводим обычным текстом содержание буфера на строку 8
+    LcdString(16, 4);            // // Выводим обычным текстом содержание буфера на строку 8
+    //sprintf(lcd_buf, LANG_4IDN, Data.working_days);     // Выводим на дисплей
+    //LcdString(9, 8);            // // Выводим обычным текстом содержание буфера на строку 8
     break;
   case 1:
 
     sprintf(lcd_buf, LANG_ABOUT);
     LcdStringInv(1, 1);
     sprintf(lcd_buf, LANG_DOZIK);
-    LcdString(1, 3);
+    LcdString(1, 2);
     sprintf(lcd_buf, LANG_AUTHOR);
-    LcdString(1, 4);
-    sprintf(lcd_buf, LANG_CITY);
-    LcdString(1, 5);
-    sprintf(lcd_buf, LANG_SITE);
-    LcdString(1, 6);
+    LcdString(1, 3);
+    //sprintf(lcd_buf, LANG_CITY);
+    //LcdString(1, 5);
+    //sprintf(lcd_buf, LANG_SITE);
+    //LcdString(1, 6);
     sprintf(lcd_buf, LANG_BUILD);
-    LcdString(1, 7);
-    sprintf(lcd_buf, "     %s", __DATE__);
-    LcdString(1, 8);
+    LcdString(1, 4);
+    sprintf(lcd_buf, " %s", __DATE__);
+    LcdString(10, 4);
     break;
   default:
     Data.stat_screen_number = 0;

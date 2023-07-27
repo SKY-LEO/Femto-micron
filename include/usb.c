@@ -364,7 +364,7 @@ void USB_work()
           Data.enter_menu_item = DISABLE;
           Data.screen = 1;
           hidden_menu = ENABLE;
-          GPIO_ResetBits(GPIOC, GPIO_Pin_13);
+          //GPIO_ResetBits(GPIOC, GPIO_Pin_13);
           current_rcvd_pointer++;
           break;
 
@@ -382,7 +382,7 @@ void USB_work()
           plus_rad_reset(0x0);
           plus_doze_reset(0x0);
           full_erase_flash();
-          GPIO_SetBits(GPIOC, GPIO_Pin_13);
+          //GPIO_SetBits(GPIOC, GPIO_Pin_13);
           current_rcvd_pointer++;
           break;
 
@@ -533,6 +533,7 @@ void USB_off()
   //GPIO_InitTypeDef GPIO_InitStructure;
 //---------------------------------------------Отключение USB------------------------------------
   Power.USB_active = DISABLE;
+	Power.charging = DISABLE;
   PowerOff();
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_USB, DISABLE);
   set_msi();

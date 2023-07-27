@@ -12,6 +12,8 @@ DataDef Data;
 PumpDataDef PumpData;
 
 uint16_t key;                   // массив нажатых кнопок [012]
+uint8_t menu_key_long;//TEST
+uint8_t timer6_is_on;//TEST
 
 uint16_t Detector_massive[Detector_massive_pointer_max + 1];
 uint32_t ram_Doze_massive[doze_length + 1];     // 1 ячейка = 10 минут, на протяжении суток
@@ -56,7 +58,6 @@ int main(void)
   DBGMCU_Config(DBGMCU_SLEEP | DBGMCU_STANDBY | DBGMCU_STOP, DISABLE);
 
 	set_bor();
-  Power.sleep_now = DISABLE;
 
   DataUpdate.Need_erase_flash = ENABLE;
   Data.main_menu_stat = 1;
@@ -76,6 +77,7 @@ int main(void)
   Power.USB_active = DISABLE;
   Power.sleep_time = Settings.Sleep_time;
   Power.Display_active = ENABLE;
+	Power.charging = DISABLE;
 
   timer10_Config();
   tim3_Config();
@@ -95,12 +97,12 @@ int main(void)
   adc_calibration();
   delay_ms(10);
 //--------------------------------------------------------------------
-  //EXTI9_Config();//TODO разобраться с USB TEST
+  EXTI9_Config();//TODO разобраться с USB TEST
   EXTI0_Config();
   EXTI1_Config();
   EXTI2_Config();
-  EXTI5_Config();
-	EXTI10_Config();
+  EXTI5_Config(); // счетчик №1
+	//EXTI10_Config(); счетчик №2 
 
   // Инициализация накачки
   PumpTimerConfig();
@@ -114,7 +116,7 @@ int main(void)
   sound_activate();
   delay_ms(500);                // подождать установки напряжения
   sound_deactivate();
-	
+
   while (1)
 /////////////////////////////////
   {
@@ -128,7 +130,6 @@ int main(void)
 
     ////////////////////////////////////////////////////
 
-
     if((Power.sleep_time > 0) && (!Power.Display_active))
       sleep_mode(DISABLE);      // Если дисплей еще выключен, а счетчик сна уже отсчитывает, поднимаем напряжение и включаем дисплей
 
@@ -136,7 +137,9 @@ int main(void)
     {
       check_isotop_time();      // Проверка наличия калибровки
       if(Power.sleep_time == 0 && !Alarm.Alarm_active)
-        sleep_mode(ENABLE);     // Счетчик сна досчитал до нуля, а дисплей еще активен, то выключаем его и понижаем напряжение
+			{
+				sleep_mode(ENABLE);     // Счетчик сна досчитал до нуля, а дисплей еще активен, то выключаем его и понижаем напряжение
+			}
       if(DataUpdate.Need_display_update == ENABLE)
       {
         DataUpdate.Need_display_update = DISABLE;
@@ -150,8 +153,9 @@ int main(void)
       }
 ///////////////////////////////////////////////////////////////////////////////
     }
-    if((!Power.USB_active) && (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_9)))
+    if((!Power.USB_active) && (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_9)))
     {
+			Power.charging = ENABLE;
       usb_activate(0x0);        // Если питание USB начало подаваться включаем USB
     }
 

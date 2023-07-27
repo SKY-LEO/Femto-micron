@@ -184,3 +184,50 @@ void tim4_Config()              // Модуль-А - поиск
 }
 
 /////////////////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+void key_long_timer_Config()              // Долгое нажатие кнопки menu
+{
+  /*TIM_TimeBaseInitTypeDef TIM_BaseConfig;
+  NVIC_InitTypeDef NVIC_InitStructure;
+
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM6, ENABLE);
+
+  TIM_TimeBaseStructInit(&TIM_BaseConfig);
+
+  TIM_BaseConfig.TIM_Prescaler = (uint16_t) (SystemCoreClock / 10) - 1;        // Делитель (1 тик = 100мс)
+  TIM_BaseConfig.TIM_ClockDivision = 0;
+  TIM_BaseConfig.TIM_Period = 10;       // Общее количество тиков
+  TIM_BaseConfig.TIM_CounterMode = TIM_CounterMode_Up;
+
+  TIM_ARRPreloadConfig(TIM6, ENABLE);
+  TIM_TimeBaseInit(TIM6, &TIM_BaseConfig);
+
+  NVIC_InitStructure.NVIC_IRQChannel = TIM6_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_Init(&NVIC_InitStructure);
+
+  TIM_ITConfig(TIM6, TIM_IT_Update, ENABLE);
+
+  TIM6->EGR |= 0x0001;          // Устанавливаем бит UG для принудительного сброса счетчика
+  TIM_Cmd(TIM6, ENABLE);*/
+	Set_next_B_alarm_wakeup();
+  RTC_ITConfig(RTC_IT_ALRB, ENABLE);
+  RTC_AlarmCmd(RTC_Alarm_B, ENABLE);
+  RTC_ClearFlag(RTC_FLAG_ALRBF);
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+
+void key_long_timer_Disable()
+{
+	//TIM_ITConfig(TIM6, TIM_IT_Update, DISABLE);
+	//TIM_Cmd(TIM6, DISABLE);
+	RTC_AlarmCmd(RTC_Alarm_B, DISABLE);
+  RTC_ITConfig(RTC_IT_ALRB, DISABLE);
+  RTC_ClearFlag(RTC_FLAG_ALRBF);
+	timer6_is_on = 0;
+}

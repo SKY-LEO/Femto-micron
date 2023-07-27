@@ -1,7 +1,7 @@
 #ifndef __services_user_H
 #define __services_user_H
 
-void check_wakeup_keys(void);
+uint8_t check_wakeup_keys(void);
 FunctionalState check_license(void);
 float convert_mkr_sv(uint32_t);
 void recalculate_fon(void);
@@ -15,5 +15,6 @@ void sleep_mode(FunctionalState sleep);
 FunctionalState check_license(void);
 float convert_mkr_sv(uint32_t);
 void check_isotop_time(void);
+void clear_sleep_time(void);
 
 #endif

@@ -56,7 +56,6 @@ void Set_next_B_alarm_wakeup(void)
 
   RTC_ClearFlag(RTC_FLAG_ALRBF);
   RTC_AlarmCmd(RTC_Alarm_B, ENABLE);
-
 }
 
 

@@ -262,10 +262,27 @@ void reload_active_isotop_time()
 // ===============================================================================================
 
 
-void check_wakeup_keys(void)
+uint8_t check_wakeup_keys(void)
 {
-  if((!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_0)
-      && GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_1) && !GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_2)) || Power.Display_active)
+  //if((!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_0)
+  //    && GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_1) && !GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_2)) || Power.Display_active)TEST
+	uint8_t flag = 0x00;
+	if(menu_key_long > 0x01)
+  {	
+		key_long_timer_Disable();
+    if((Settings.Sound == 1) || (Settings.Sound == 2))
+      sound_activate();
+    Power.sleep_time = Settings.Sleep_time;
+		flag = 0x01;
+  }
+	return flag;
+}
+
+// ===============================================================================================
+
+void clear_sleep_time(void)
+{
+  if(Power.Display_active)
   {
     if((Settings.Sound == 1) || (Settings.Sound == 2))
       sound_activate();
@@ -273,8 +290,6 @@ void check_wakeup_keys(void)
   }
 
 }
-
-// ===============================================================================================
 // лицухи
 //----------------------------------------------------------------
 /*
@@ -424,12 +439,13 @@ void sleep_mode(FunctionalState sleep)
       //GPIO_SetBits(GPIOC, GPIO_Pin_13); // Выключаем подсветку                                  
 
       display_off();            // выключить дисплей
-      GPIO_SetBits(GPIOA, GPIO_Pin_10);        // Фиксируем режим 1.8 вольта, с низким потреблением ножки
+      GPIO_ResetBits(GPIOA, GPIO_Pin_10);        // Фиксируем режим 1.8 вольта, с низким потреблением ножки
 
       delay_ms(1000);           // подождать установки напряжения
       DataUpdate.Need_batt_voltage_update = ENABLE;     // разрешить работу АЦП
       adc_check_event();        // запустить преобразование
       delay_ms(100);            // подождать установки напряжения
+			
 
       //PWR_FastWakeUpCmd(ENABLE);
       PWR_UltraLowPowerCmd(ENABLE);
@@ -438,7 +454,7 @@ void sleep_mode(FunctionalState sleep)
     } else
     {
       RTC_ITConfig(RTC_IT_WUT, DISABLE);
-      GPIO_ResetBits(GPIOA, GPIO_Pin_10);  // Переключаем в режим 3 вольта
+      GPIO_SetBits(GPIOA, GPIO_Pin_10);  // Переключаем в режим 3 вольта
       delay_ms(400);            // подождать установки напряжения
       display_on();             // включить дисплей
       DataUpdate.Need_batt_voltage_update = ENABLE;     // разрешить работу АЦП

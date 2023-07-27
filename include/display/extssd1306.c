@@ -7,7 +7,7 @@
 //#include "my_spi.h"
 
 
-char lcd_buf[20];               // текстовый буфер для вывода на LCD
+char lcd_buf[21];               // текстовый буфер для вывода на LCD
 unsigned char LcdCache[LCD_CACHSIZE];   // Фреймбуфер
 unsigned int LcdCacheIdx = 0;   // Текущий адрес во фреймбуфере
 
@@ -120,6 +120,8 @@ void display_off()              // Инициализация порта LCD дисплея
 {
 
 	GPIO_InitTypeDef GPIO_InitStructure;
+	LcdClear();
+	ssd1306_SetDisplayOn(0);
 
 	Power.Display_active = DISABLE;
 
@@ -165,11 +167,21 @@ void LcdInit()
 
 	LcdSend(0xB0, lcd_CMD); //Set Page Start Address for Page Addressing Mode,0-7
 
-#ifdef SSD1306_MIRROR_VERT
+	if(Settings.Display_reverse == 0x00)
+	{
+		LcdSend(0xC0, lcd_CMD);
+		LcdSend(0xA1, lcd_CMD); //--set segment re-map 0 to 127 - CHECK
+	}
+	else if (Settings.Display_reverse == 0x01)
+	{
+		LcdSend(0xC8, lcd_CMD);
+		LcdSend(0xA0, lcd_CMD); // Mirror horizontally
+	}
+/*#ifdef SSD1306_MIRROR_VERT
 	LcdSend(0xC0, lcd_CMD); // Mirror vertically
 #else
 	LcdSend(0xC8, lcd_CMD); //Set COM Output Scan Direction
-#endif
+#endif*/
 
 	LcdSend(0x00, lcd_CMD); //---set low column address
 	LcdSend(0x10, lcd_CMD); //---set high column address
@@ -178,21 +190,29 @@ void LcdInit()
 
 	//установка контраста
 	LcdSend(0x81, lcd_CMD);
-	LcdSend(0xFF, lcd_CMD);//от 0x00 до 0xFF LcdSend(0x96 + Settings.contrast, lcd_CMD)
+	LcdSend(0x05 + 0xA * Settings.contrast, lcd_CMD);//от 0x00 до 0xFF LcdSend(0x96 + Settings.contrast, lcd_CMD)
 	//
 
 
-#ifdef SSD1306_MIRROR_HORIZ
+/*#ifdef SSD1306_MIRROR_HORIZ
 	LcdSend(0xA0, lcd_CMD); // Mirror horizontally
 #else
 	LcdSend(0xA1, lcd_CMD); //--set segment re-map 0 to 127 - CHECK
-#endif
+#endif*/
 
-#ifdef SSD1306_INVERSE_COLOR
+	if(Settings.Display_inverse == 0x00)
+	{
+		LcdSend(0xA6, lcd_CMD); //--set normal color
+	}
+	else if(Settings.Display_inverse == 0x01)
+	{
+		LcdSend(0xA7, lcd_CMD); //--set inverse color
+	}
+/*#ifdef SSD1306_INVERSE_COLOR
 	LcdSend(0xA7, lcd_CMD); //--set inverse color
 #else
 	LcdSend(0xA6, lcd_CMD); //--set normal color
-#endif
+#endif*/
 
 	// Set multiplex ratio.
 #if (SSD1306_HEIGHT == 128)
@@ -308,7 +328,7 @@ void LcdPixel(unsigned char x, unsigned char y, unsigned char mode)     //Displa
 	if (y > LCD_Y_RES)
 		return;
 
-	index = (((int)(y) >> 3) * 96) + x;  //считаем номер байта в массиве памяти дисплея
+	index = (((int)(y) >> 3) * 128) + x;  //считаем номер байта в массиве памяти дисплея index = (((int)(y) >> 3) * 96) + x; TEST
 	offset = y - ((y >> 3) << 3); //считаем номер бита в этом байте
 
 	data = LcdCache[index];       //берем байт по найденному индексу
@@ -417,10 +437,10 @@ void LcdString(unsigned char x, unsigned char y)        //Displays a string at c
 {
 	unsigned char i = 0;
 
-	if (x > 17 || y > 8)
+	if (x > 21 || y > 4)//TEST if (x > 17 || y > 8)
 		return;
 	LcdGotoXYFont(x, y);
-	for (i = 0; i < 17; i++)
+	for (i = 0; i < 21; i++)//TEST for (i = 0; i < 17; i++)
 		if (lcd_buf[i])
 			LcdChr(lcd_buf[i]);
 	clean_lcd_buf();
@@ -456,8 +476,8 @@ void LcdChrBold(int ch)         //Displays a bold character at current cursor lo
 
 		LcdCache[LcdCacheIdx] = b;  //копируем байты в экранный буфер
 		LcdCache[LcdCacheIdx + 1] = b;      //дублируем для получения жирного шрифта
-		LcdCache[LcdCacheIdx + 96] = a;
-		LcdCache[LcdCacheIdx + 97] = a;
+		LcdCache[LcdCacheIdx + 128] = a;//LcdCache[LcdCacheIdx + 96] = a; TEST
+		LcdCache[LcdCacheIdx + 129] = a;//LcdCache[LcdCacheIdx + 97] = a; TEST
 		LcdCacheIdx = LcdCacheIdx + 2;
 	}
 	LcdCache[LcdCacheIdx++] = 0x00;       //для пробела между символами
@@ -467,10 +487,10 @@ void LcdChrBold(int ch)         //Displays a bold character at current cursor lo
 void LcdStringBold(unsigned char x, unsigned char y)    //Displays a string at current cursor location
 {
 	unsigned char i = 0;
-	if (x > 17 || y > 8)
+	if (x > 21 || y > 4)//TEST if (x > 17 || y > 8)
 		return;
 	LcdGotoXYFont(x, y);
-	for (i = 0; i < 17 - x; i++)
+	for (i = 0; i < 21 - x; i++)//for (i = 0; i < 17 - x; i++) TEST
 		if (lcd_buf[i])
 			LcdChrBold(lcd_buf[i]);
 	clean_lcd_buf();
@@ -503,7 +523,7 @@ void LcdChrBig(int ch)          //Displays a character at current cursor locatio
 		a |= (c & 0x04) * 12;
 		a |= (c & 0x08) * 24;
 		LcdCache[LcdCacheIdx] = b;
-		LcdCache[LcdCacheIdx + 96] = a;
+		LcdCache[LcdCacheIdx + 128] = a;//LcdCache[LcdCacheIdx + 96] = a; TEST
 		LcdCacheIdx = LcdCacheIdx + 1;
 	}
 
@@ -514,10 +534,10 @@ void LcdStringBig(unsigned char x, unsigned char y)     //Displays a string at c
 {
 	unsigned char i = 0;
 
-	if (x > 17 || y > 8)
+	if (x > 21 || y > 4)//TEST if (x > 17 || y > 8)
 		return;
 	LcdGotoXYFont(x, y);
-	for (i = 0; i < 17 - x; i++)
+	for (i = 0; i < 21 - x; i++)//for (i = 0; i < 17 - x; i++) TEST
 		if (lcd_buf[i])
 			LcdChrBig(lcd_buf[i]);
 	clean_lcd_buf();
@@ -528,10 +548,10 @@ void LcdStringInv(unsigned char x, unsigned char y)     //Displays a string at c
 {
 	unsigned char i = 0;
 
-	if (x > 17 || y > 8)
+	if (x > 21 || y > 4)//TEST if (x > 17 || y > 8)
 		return;
 	LcdGotoXYFont(x, y);
-	for (i = 0; i < 17 - x; i++)
+	for (i = 0; i < 21; i++)//for (i = 0; i < 17 - x; i++) TEST
 		if (lcd_buf[i])
 			LcdChrInv(lcd_buf[i]);
 	clean_lcd_buf();
@@ -540,7 +560,7 @@ void LcdStringInv(unsigned char x, unsigned char y)     //Displays a string at c
 
 void LcdGotoXYFont(unsigned char x, unsigned char y)    //Sets cursor location to xy location. Range: 1,1 .. 14,6
 {
-	LcdCacheIdx = ((int)(y)-1) * 96 + ((int)(x)-1) * 6;
+	LcdCacheIdx = ((int)(y)-1) * 128 + ((int)(x)-1) * 6; //LcdCacheIdx = ((int)(y)-1) * 96 + ((int)(x)-1) * 6; TEST
 }
 
 void LcdChr(int ch)             //Displays a character at current cursor location and increment cursor location
@@ -581,7 +601,7 @@ void clean_lcd_buf(void)        //очистка текстового буфера
 {
 	char i = 0;
 
-	for (i = 0; i < 20; i++)
+	for (i = 0; i < 21; i++)
 		lcd_buf[i] = 0x00;
 }
 
@@ -598,6 +618,7 @@ void Draw_fon_graph(uint8_t x_start, uint8_t x_end, uint8_t y_start, uint8_t y_e
 	uint32_t q = 0, i = 0, j = 0, pointer = 0;
 	uint32_t scalling_factor = 0;
 
+	LcdClear_massive();//TEST
 	for (i = x_start; i <= x_end; i++)
 	{
 		for (j = y_start; j <= y_end; j++)
@@ -929,7 +950,7 @@ void Draw_fon_digit(uint8_t line, uint8_t start_char, uint8_t invert, uint32_t f
 
 
 
-void LcdBatt(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, uint32_t persent)      //рисуем батарейку с заполнением в %
+void LcdBatt(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, uint32_t persent, uint8_t is_charged)      //рисуем батарейку с заполнением в %
 {
 	uint32_t horizon_line = 0, horizon_line2 = 0, i = 0;
 	if (persent > 100)
@@ -941,11 +962,79 @@ void LcdBatt(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, uint32_t persen
 	LcdLine(x1 + 7, y1 - 1, x2 - 7, y1 - 1, 1);
 	LcdLine(x1 + 7, y1 - 2, x2 - 7, y1 - 2, 1);
 
-	horizon_line = persent * (y2 - y1 - 1) / 100;
-	for (i = 0; i < horizon_line; i++)
+	if(Power.charging && !is_charged)
+	{
+		/*LcdPixel(x1+2+5, y1+2+2, PIXEL_ON);
+		
+		LcdPixel(x1+2+4, y1+2+3, PIXEL_ON);
+		LcdPixel(x1+2+5, y1+2+3, PIXEL_ON);
+		
+		LcdPixel(x1+2+3, y1+2+4, PIXEL_ON);
+		LcdPixel(x1+2+4, y1+2+4, PIXEL_ON);
+		LcdPixel(x1+2+5, y1+2+4, PIXEL_ON);
+		
+		LcdPixel(x1+2+2, y1+2+5, PIXEL_ON);
+		LcdPixel(x1+2+3, y1+2+5, PIXEL_ON);
+		LcdPixel(x1+2+4, y1+2+5, PIXEL_ON);
+		
+		LcdPixel(x1+2+1, y1+2+6, PIXEL_ON);
+		LcdPixel(x1+2+2, y1+2+6, PIXEL_ON);
+		LcdPixel(x1+2+3, y1+2+6, PIXEL_ON);
+		LcdPixel(x1+2+4, y1+2+6, PIXEL_ON);
+		
+		LcdPixel(x1+2+1, y1+2+7, PIXEL_ON);
+		LcdPixel(x1+2+2, y1+2+7, PIXEL_ON);
+		LcdPixel(x1+2+3, y1+2+7, PIXEL_ON);
+		LcdPixel(x1+2+4, y1+2+7, PIXEL_ON);
+		LcdPixel(x1+2+5, y1+2+7, PIXEL_ON);
+		
+		LcdPixel(x1+2+1, y1+2+8, PIXEL_ON);
+		LcdPixel(x1+2+2, y1+2+8, PIXEL_ON);
+		LcdPixel(x1+2+3, y1+2+8, PIXEL_ON);
+		LcdPixel(x1+2+4, y1+2+8, PIXEL_ON);
+		LcdPixel(x1+2+5, y1+2+8, PIXEL_ON);
+		
+		LcdPixel(x1+2+3, y1+2+9, PIXEL_ON);
+		LcdPixel(x1+2+4, y1+2+9, PIXEL_ON);
+		LcdPixel(x1+2+5, y1+2+9, PIXEL_ON);
+		LcdPixel(x1+2+6, y1+2+9, PIXEL_ON);
+		
+		LcdPixel(x1+2+3, y1+2+10, PIXEL_ON);
+		LcdPixel(x1+2+4, y1+2+10, PIXEL_ON);
+		LcdPixel(x1+2+5, y1+2+10, PIXEL_ON);
+		
+		LcdPixel(x1+2+2, y1+2+11, PIXEL_ON);
+		LcdPixel(x1+2+3, y1+2+11, PIXEL_ON);
+		LcdPixel(x1+2+4, y1+2+11, PIXEL_ON);
+		
+		LcdPixel(x1+2+2, y1+2+12, PIXEL_ON);
+		LcdPixel(x1+2+3, y1+2+12, PIXEL_ON);
+		
+		LcdPixel(x1+2+2, y1+2+13, PIXEL_ON);*/
+		LcdPixel(x1+2+3, y1+2+1, PIXEL_ON);
+		LcdLine(x1 + 2 + 2, y1 + 2 + 2, x1 + 2 + 3, y1 + 2 + 2, 1);
+		LcdLine(x1 + 2 + 2, y1 + 2 + 3, x1 + 2 + 3, y1 + 2 + 3, 1);
+		LcdLine(x1 + 2 + 1, y1 + 2 + 4, x1 + 2 + 3, y1 + 2 + 4, 1);
+		LcdLine(x1 + 2 + 1, y1 + 2 + 5, x1 + 2 + 3, y1 + 2 + 5, 1);
+		LcdLine(x1 + 2, y1 + 2 + 6, x1 + 2 + 3, y1 + 2 + 6, 1);
+		LcdLine(x1 + 2, y1 + 2 + 7, x1 + 2 + 6, y1 + 2 + 7, 1);
+		LcdLine(x1 + 2, y1 + 2 + 8, x1 + 2 + 6, y1 + 2 + 8, 1);
+		LcdLine(x1 + 2 + 3, y1 + 2 + 9, x1 + 2 + 6, y1 + 2 + 9, 1);
+		LcdLine(x1 + 2 + 3, y1 + 2 + 10, x1 + 2 + 5, y1 + 2 + 10, 1);
+		LcdLine(x1 + 2 + 3, y1 + 2 + 11, x1 + 2 + 5, y1 + 2 + 11, 1);
+		LcdLine(x1 + 2 + 3, y1 + 2 + 12, x1 + 2 + 4, y1 + 2 + 12, 1);
+		LcdLine(x1 + 2 + 3, y1 + 2 + 13, x1 + 2 + 4, y1 + 2 + 13, 1);
+		LcdPixel(x1+2+3, y1+2+14, PIXEL_ON);
+	}else
+	{
+		horizon_line = persent * (y2 - y1 - 1) / 100;
+		for (i = 0; i < horizon_line; i++)
 		LcdLine(x1 + 1, y2 - 1 - i, x2 - 1, y2 - 1 - i, 1);
-
-	horizon_line2 = (y2 - y1 - 1);
-	for (i = horizon_line2; i > horizon_line; i--)
+		horizon_line2 = (y2 - y1 - 1);
+		for (i = horizon_line2; i > horizon_line; i--)
 		LcdLine(x1 + 1, y2 - 1 - i, x2 - 1, y2 - 1 - i, 0);
+	}
 }
+
+
+

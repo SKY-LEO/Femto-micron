@@ -9,7 +9,7 @@ typedef enum
 
 /* Private define ------------------------------------------------------------*/
 #define DATA_EEPROM_START_ADDR     0x08080000
-#define DATA_EEPROM_END_ADDR       0x08081FFF
+#define DATA_EEPROM_END_ADDR       0x080827FF//0x08081FFF - для CCU
 #define DATA_EEPROM_PAGE_SIZE      0x8
 
 #define Batt_cal_massive_address																0x200

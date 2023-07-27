@@ -94,17 +94,32 @@ void ADC_Batt_Read(void)
 {
   GPIO_InitTypeDef GPIO_InitStructure;
   uint32_t i;
+	//uint16_t temp, res;//test
+	//uint16_t* c1 = ((uint16_t*)((uint32_t)0x1FF8007A));
+	//uint16_t* c2 = ((uint16_t*)((uint32_t)0x1FF8007E));
+	//uint16_t temp_c1 = *c1;
+	//uint16_t temp_c2 = *c2;
 
   while (PWR_GetFlagStatus(PWR_FLAG_VREFINTRDY) == DISABLE);
   // Ножка изиерения напряжения АКБ
   GPIO_StructInit(&GPIO_InitStructure);
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;    // Ножка
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;    // Ножка //нету ADC на этой ноге! заменим на PB12
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;  // Аналоговый режим
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;      // Без подтяжки
   GPIO_Init(GPIOB, &GPIO_InitStructure);        // Загружаем конфигурацию
 
   // ===============================================================================================  
   //Подключение токосемной цепочки
+	GPIO_StructInit(&GPIO_InitStructure);
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_400KHz;
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+  GPIO_Init(GPIOB, &GPIO_InitStructure);
+	ADC_RegularChannelConfig(ADC1, ADC_Channel_18, 1, ADC_SampleTime_384Cycles);  // Конфигурирование канала
+	GPIO_SetBits(GPIOB, GPIO_Pin_8);
+  
   /*GPIO_StructInit(&GPIO_InitStructure);
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;    // Ножка
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
@@ -115,6 +130,7 @@ void ADC_Batt_Read(void)
   ADC_RegularChannelConfig(ADC1, ADC_Channel_20, 1, ADC_SampleTime_384Cycles);  // Конфигурирование канала
 
   GPIO_ResetBits(GPIOB, GPIO_Pin_15);   // Подключаем токосемник*/
+	
   ADCData.Batt_voltage_raw = 0;
   for (i = 0; i < 10; i++)
   {
@@ -125,13 +141,39 @@ void ADC_Batt_Read(void)
   ADCData.Batt_voltage_raw /= 10;
   // ===============================================================================================  
   // Отключаем токосемную цепь
-  GPIO_StructInit(&GPIO_InitStructure);
+  /*GPIO_StructInit(&GPIO_InitStructure);
   //GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15 | GPIO_Pin_14;
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-  GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_400KHz;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
   GPIO_Init(GPIOB, &GPIO_InitStructure);
-  GPIO_SetBits(GPIOB, GPIO_InitStructure.GPIO_Pin);     // Подключаем токосемник
+  GPIO_ResetBits(GPIOB, GPIO_InitStructure.GPIO_Pin);     // Подключаем токосемник*/
+	
+	  // Динамик
+  GPIO_StructInit(&GPIO_InitStructure);
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;    // Ножка
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
+  GPIO_Init(GPIOB, &GPIO_InitStructure);        // Загружаем конфигурацию
+  GPIO_PinAFConfig(GPIOB, GPIO_PinSource8, GPIO_AF_TIM10);
+	
+	//===============================TEMPERATURE================
+	
+	/*ADC_TempSensorVrefintCmd(ENABLE); 
+	delay_ms(100);//test
+	ADC_RegularChannelConfig(ADC1, ADC_Channel_16, 1, ADC_SampleTime_384Cycles);  // Конфигурирование канала
+	temp = 0;
+	for (i = 0; i < 10; i++)
+  {
+    ADC_SoftwareStartConv(ADC1);        // Стартуем преобразование
+    while (ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC) == RESET);     // Тупо ждем завершения преобразования
+    temp += ADC_GetConversionValue(ADC1);
+  }
+	temp /= 10;
+	res = (80 / (temp_c2-temp_c1))*(temp-temp_c1) + 30;
+	temp = res;
+	ADC_RegularChannelConfig(ADC1, ADC_Channel_16, 1, ADC_SampleTime_384Cycles);  // Конфигурирование канала*/
 }

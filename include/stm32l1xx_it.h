@@ -55,6 +55,7 @@ extern "C"
   void EXTI15_10_IRQHandler(void);
   void TIM9_IRQHandler(void);
   void TIM10_IRQHandler(void);
+	void TIM6_IRQHandler(void);
   void RTC_WKUP_IRQHandler(void);
   void COMP_IRQHandler(void);
   void Pump_now(FunctionalState pump);

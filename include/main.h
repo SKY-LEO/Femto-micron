@@ -152,6 +152,8 @@ typedef struct
   uint32_t AB_mode;             // 0-выкл 1-гамма 2-альфа-бета
   uint32_t VRef;
   uint32_t Pump_aggressive;
+	
+	uint32_t Display_inverse;     // переворот дисплея
 } SettingsDef;
 
 
@@ -184,7 +186,7 @@ typedef struct
   FunctionalState Sound_active; // В данный подается звук
   FunctionalState Display_active;       // Включен дисплей
   FunctionalState USB_active;   // Включен USB
-  FunctionalState sleep_now;    // Активность сна
+	FunctionalState charging;     // Зарядка устройства TEST
 
   uint32_t APB1ENR;             //
 
@@ -195,6 +197,8 @@ typedef struct
 
 static __IO uint8_t timer_is_reload = 0;        // counts 1ms timeTicks
 extern uint16_t key;            // массив нажатых кнопок [012]
+extern uint8_t menu_key_long;//TEST
+extern uint8_t timer6_is_on;//TEST
 extern uint32_t ix;
 extern uint32_t ix_update;
 
@@ -246,7 +250,7 @@ extern uint32_t Detector_AB_massive[15];        // 1 минута, интервалами по 4 се
 
 #define FLASH_PAGE_SIZE                 0x100   // (НЕ ТРОГАТЬ! развилится оптимизация USB обмена!!)
 #define FLASH_START_ADDR                0x0800F000
-#define FLASH_END_ADDR                  0x08039400 //0x08041B00 //0x0801FFFF
+#define FLASH_END_ADDR                  0x0801FFFF //0x08039400 
 #define FLASH_MAX_PAGE                  (FLASH_END_ADDR - FLASH_START_ADDR) / FLASH_PAGE_SIZE // 10FFF -> 10F, 32B00 -> 32B, 2A400 -> 2A4
 #define FLASH_MAX_ELEMENT               FLASH_MAX_PAGE * (FLASH_PAGE_SIZE >> 3) //10F * 20 = 21E0 = 8672, 32B * 20 = 6560 = 25952, 2A4 * 20 = 5480 = 21632
 

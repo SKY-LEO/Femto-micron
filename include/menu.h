@@ -2,10 +2,10 @@
 #define __menu_user_H
 #include <STM32L1xx.h>
 
-#define max_string_len 16       // максимальная длинна строки
-#define max_string_count 8      // максимальное количество строк
+#define max_string_len 21       // максимальная длинна строки 16 TEST
+#define max_string_count 4      // максимальное количество строк 8 TEST
 #define max_public_string_count 10      // максимальное количество строк публичного меню
-#define max_struct_index 21     // максимальное количество пунктов меню
+#define max_struct_index 22     // максимальное количество пунктов меню
 #define start_offset 2          // на сколько строк сместить вниз меню
 
 #define modul_max_struct_index 12       // максимальное количество пунктов меню
