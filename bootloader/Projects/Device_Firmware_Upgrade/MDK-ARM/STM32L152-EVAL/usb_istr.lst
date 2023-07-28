@@ -28064,7 +28064,7 @@ X  if (wIstr & (0x0800) & wInterrupt_Mask)
 N  {
 N
 N    /* check if SUSPEND is possible */
-N    if (fSuspendEnabled && (bDeviceState==CONFIGURED))// хглемемхе CHANGE !!!! АШКН if (fSuspendEnabled)
+N    if (fSuspendEnabled)// хглемемхе CHANGE !!!! АШКН if (fSuspendEnabled) TEST fSuspendEnabled && (bDeviceState==CONFIGURED)
 N    {
 N      Suspend();
 N    }

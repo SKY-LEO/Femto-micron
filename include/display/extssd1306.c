@@ -31,13 +31,11 @@ void display_on()               // Инициализация порта LCD дисплея
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE);
 
 	GPIO_PinAFConfig(GPIOA, GPIO_PinSource5, GPIO_AF_SPI1),
-		//GPIO_PinAFConfig(GPIOA, GPIO_PinSource6, GPIO_AF_SPI1), 
-		GPIO_PinAFConfig(GPIOA, GPIO_PinSource7, GPIO_AF_SPI1),
-
-		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_7;
+	GPIO_PinAFConfig(GPIOA, GPIO_PinSource7, GPIO_AF_SPI1),
+	
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_7;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
-	//GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
@@ -1027,6 +1025,10 @@ void LcdBatt(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, uint32_t persen
 		LcdPixel(x1+2+3, y1+2+14, PIXEL_ON);
 	}else
 	{
+		if(is_charged)
+		{
+			deactivate_charge_gpio();
+		}
 		horizon_line = persent * (y2 - y1 - 1) / 100;
 		for (i = 0; i < horizon_line; i++)
 		LcdLine(x1 + 1, y2 - 1 - i, x2 - 1, y2 - 1 - i, 1);

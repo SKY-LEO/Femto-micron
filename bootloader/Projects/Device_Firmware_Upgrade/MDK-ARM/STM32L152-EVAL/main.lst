@@ -25404,8 +25404,6 @@ N#define __extsmallssd1306_H
 N
 N#include "stm32l1xx.h"
 N
-N//#define SSD1306_MIRROR_HORIZ
-N#define SSD1306_MIRROR_VERT
 N//***********************************************************
 N//Настройки контроллера дисплея и переменные для работы с ним
 N//***********************************************************
@@ -28558,7 +28556,7 @@ N	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
 N	GPIO_Init(GPIOA, &GPIO_InitStructure);
 X	GPIO_Init(((GPIO_TypeDef *) ((((uint32_t)0x40000000) + 0x20000) + 0x0000)), &GPIO_InitStructure);
 N	delay_ms(10);
-N	GPIO_SetBits(GPIOA, GPIO_Pin_10);// устанавливаем напряжение на 3 вольта*/
+N	GPIO_SetBits(GPIOA, GPIO_Pin_10);// устанавливаем напряжение на 3 вольта
 X	GPIO_SetBits(((GPIO_TypeDef *) ((((uint32_t)0x40000000) + 0x20000) + 0x0000)), ((uint16_t)0x0400));
 N	delay_ms(100);
 N  

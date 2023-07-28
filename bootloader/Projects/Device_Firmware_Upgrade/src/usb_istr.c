@@ -140,7 +140,7 @@ void USB_Istr(void)
   {
 
     /* check if SUSPEND is possible */
-    if (fSuspendEnabled && (bDeviceState==CONFIGURED))// хглемемхе CHANGE !!!! АШКН if (fSuspendEnabled)
+    if (fSuspendEnabled)// хглемемхе CHANGE !!!! АШКН if (fSuspendEnabled) TEST fSuspendEnabled && (bDeviceState==CONFIGURED)
     {
       Suspend();
     }

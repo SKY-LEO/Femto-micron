@@ -229,5 +229,5 @@ void key_long_timer_Disable()
 	RTC_AlarmCmd(RTC_Alarm_B, DISABLE);
   RTC_ITConfig(RTC_IT_ALRB, DISABLE);
   RTC_ClearFlag(RTC_FLAG_ALRBF);
-	timer6_is_on = 0;
+	key_long_timer_is_on = 0;
 }

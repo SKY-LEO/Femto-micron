@@ -576,7 +576,7 @@ void keys_proccessing(void)
 {
   extern uint16_t key;
   extern SettingsDef Settings;
-	delay_ms(100);//TEST для дребезга джойстика
+	delay_ms(150);//TEST для дребезга джойстика
 //  int i;
 
   /////////////////////////////////

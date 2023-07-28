@@ -132,9 +132,9 @@ void EXTI1_IRQHandler(void)
           key |= 0x1;           // Кнопка Меnu
         }
       }
-			if(!Power.Display_active && timer6_is_on == 0)
+			if(!Power.Display_active && key_long_timer_is_on == 0)
 			{
-				timer6_is_on = 1;
+				key_long_timer_is_on = 1;
 				menu_key_long = 0;
 				key_long_timer_Config();
 			}

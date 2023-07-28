@@ -21,18 +21,18 @@
 ;;;260      GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;        // Подтяжка к +
 000010  2001              MOVS     r0,#1
 000012  f88d0007          STRB     r0,[sp,#7]
-;;;261      GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;           // Номер ножки в порту
+;;;261      GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_2;           // Номер ножки в порту
+000016  2005              MOVS     r0,#5
 ;;;262      GPIO_Init(GPIOB, &GPIO_InitStructure);              // записиваем конфигурацию
-000016  9000              STR      r0,[sp,#0]
-000018  4669              MOV      r1,sp
-00001a  4802              LDR      r0,|L1.36|
-00001c  f7fffffe          BL       GPIO_Init
+000018  9000              STR      r0,[sp,#0]
+00001a  4669              MOV      r1,sp
+00001c  4801              LDR      r0,|L1.36|
+00001e  f7fffffe          BL       GPIO_Init
 ;;;263    }
-000020  bd1c              POP      {r2-r4,pc}
+000022  bd1c              POP      {r2-r4,pc}
 ;;;264    
                           ENDP
 
-000022  0000              DCW      0x0000
                   |L1.36|
                           DCD      0x40020400
 
@@ -41,16 +41,28 @@
                   DFU_Button_Read PROC
 ;;;271    *******************************************************************************/
 ;;;272    uint8_t DFU_Button_Read (void)
-000000  2101              MOVS     r1,#1
+000000  b510              PUSH     {r4,lr}
 ;;;273    {
-;;;274    return GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_0);
-000002  4801              LDR      r0,|L2.8|
-000004  f7ffbffe          B.W      GPIO_ReadInputDataBit
+;;;274    return GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_0) && GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_2);
+000002  4c07              LDR      r4,|L2.32|
+000004  2101              MOVS     r1,#1
+000006  4620              MOV      r0,r4
+000008  f7fffffe          BL       GPIO_ReadInputDataBit
+00000c  b130              CBZ      r0,|L2.28|
+00000e  2104              MOVS     r1,#4
+000010  4620              MOV      r0,r4
+000012  f7fffffe          BL       GPIO_ReadInputDataBit
+000016  b108              CBZ      r0,|L2.28|
+000018  2001              MOVS     r0,#1
 ;;;275    }
+00001a  bd10              POP      {r4,pc}
+                  |L2.28|
+00001c  2000              MOVS     r0,#0                 ;274
+00001e  bd10              POP      {r4,pc}
 ;;;276    
                           ENDP
 
-                  |L2.8|
+                  |L2.32|
                           DCD      0x40020400
 
                           AREA ||i.Enter_LowPowerMode||, CODE, READONLY, ALIGN=2

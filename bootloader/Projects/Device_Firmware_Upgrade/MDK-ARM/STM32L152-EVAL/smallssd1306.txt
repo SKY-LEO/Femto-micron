@@ -5,21 +5,21 @@
                           AREA ||i.LcdChr||, CODE, READONLY, ALIGN=2
 
                   LcdChr PROC
-;;;310    
-;;;311    void LcdChr(int ch)             //Displays a character at current cursor location and increment cursor location
+;;;220    
+;;;221    void LcdChr(int ch)             //Displays a character at current cursor location and increment cursor location
 000000  b570              PUSH     {r4-r6,lr}
-;;;312    {
-;;;313    	char i = 0;
-;;;314    	if (ch > 0x7f)
-;;;315    	{
-;;;316    		for (i = 0; i < 5; i++)
-;;;317    			LcdCache[LcdCacheIdx++] = lcd_font_table_rus[(ch * 5 + (i)-0x3C0)];     //выделяем байт-столбик из символа и грузим в массив - 5 раз
+;;;222    {
+;;;223    	char i = 0;
+;;;224    	if (ch > 0x7f)
+;;;225    	{
+;;;226    		for (i = 0; i < 5; i++)
+;;;227    			LcdCache[LcdCacheIdx++] = lcd_font_table_rus[(ch * 5 + (i)-0x3C0)];     //выделяем байт-столбик из символа и грузим в массив - 5 раз
 000002  4b15              LDR      r3,|L1.88|
-000004  2100              MOVS     r1,#0                 ;313
+000004  2100              MOVS     r1,#0                 ;223
 000006  4c13              LDR      r4,|L1.84|
-000008  681a              LDR      r2,[r3,#0]            ;314
+000008  681a              LDR      r2,[r3,#0]            ;224
 00000a  eb000580          ADD      r5,r0,r0,LSL #2
-00000e  287f              CMP      r0,#0x7f              ;314
+00000e  287f              CMP      r0,#0x7f              ;224
 000010  dd0e              BLE      |L1.48|
 000012  f50370f2          ADD      r0,r3,#0x1e4
                   |L1.22|
@@ -29,17 +29,17 @@
 00001e  1c49              ADDS     r1,r1,#1
 000020  f8966c40          LDRB     r6,[r6,#0xc40]
 000024  54a6              STRB     r6,[r4,r2]
-000026  b2c9              UXTB     r1,r1                 ;316
-000028  1c52              ADDS     r2,r2,#1              ;316
-00002a  2905              CMP      r1,#5                 ;316
+000026  b2c9              UXTB     r1,r1                 ;226
+000028  1c52              ADDS     r2,r2,#1              ;226
+00002a  2905              CMP      r1,#5                 ;226
 00002c  d3f3              BCC      |L1.22|
 00002e  e00b              B        |L1.72|
                   |L1.48|
-;;;318    	}
-;;;319    	else
-;;;320    	{
-;;;321    		for (i = 0; i < 5; i++)
-;;;322    			LcdCache[LcdCacheIdx++] = lcd_font_table[(ch * 5 + (i)-0xA0)];  //выделяем байт-столбик из символа и грузим в массив - 5 раз        
+;;;228    	}
+;;;229    	else
+;;;230    	{
+;;;231    		for (i = 0; i < 5; i++)
+;;;232    			LcdCache[LcdCacheIdx++] = lcd_font_table[(ch * 5 + (i)-0xA0)];  //выделяем байт-столбик из символа и грузим в массив - 5 раз        
 000030  4809              LDR      r0,|L1.88|
 000032  1d00              ADDS     r0,r0,#4
                   |L1.52|
@@ -48,288 +48,246 @@
 000038  1c49              ADDS     r1,r1,#1
 00003a  f8166ca0          LDRB     r6,[r6,#-0xa0]
 00003e  54a6              STRB     r6,[r4,r2]
-000040  b2c9              UXTB     r1,r1                 ;321
-000042  1c52              ADDS     r2,r2,#1              ;321
-000044  2905              CMP      r1,#5                 ;321
+000040  b2c9              UXTB     r1,r1                 ;231
+000042  1c52              ADDS     r2,r2,#1              ;231
+000044  2905              CMP      r1,#5                 ;231
 000046  d3f5              BCC      |L1.52|
                   |L1.72|
-;;;323    	}
-;;;324    	LcdCache[LcdCacheIdx++] = 0x00;       //добавляем пробел между символами
+;;;233    	}
+;;;234    	LcdCache[LcdCacheIdx++] = 0x00;       //добавляем пробел между символами
 000048  4610              MOV      r0,r2
 00004a  2100              MOVS     r1,#0
 00004c  5421              STRB     r1,[r4,r0]
 00004e  1c50              ADDS     r0,r2,#1
 000050  6018              STR      r0,[r3,#0]  ; LcdCacheIdx
-;;;325    }
+;;;235    }
 000052  bd70              POP      {r4-r6,pc}
-;;;326    
+;;;236    
                           ENDP
 
                   |L1.84|
-                          DCD      ||.bss||+0x14
+                          DCD      ||.bss||+0x15
                   |L1.88|
                           DCD      ||.data||
 
                           AREA ||i.LcdClear||, CODE, READONLY, ALIGN=2
 
                   LcdClear PROC
-;;;257    
-;;;258    void LcdClear(void)             //Clears the display
+;;;179    
+;;;180    void LcdClear(void)             //Clears the display
 000000  2000              MOVS     r0,#0
-;;;259    {
-;;;260    	int i = 0;
-;;;261    
-;;;262    	for (i = 0; i < LCD_CACHSIZE; i++)
-;;;263    		LcdCache[i] = 0x00;            //забиваем всю память 0(черный цвет)
+;;;181    {
+;;;182    	int i = 0;
+;;;183    
+;;;184    	for (i = 0; i < LCD_CACHSIZE; i++)
+;;;185    		LcdCache[i] = 0x00;            //забиваем всю память 0(черный цвет)
 000002  4905              LDR      r1,|L2.24|
-000004  4602              MOV      r2,r0                 ;260
-000006  f44f7300          MOV      r3,#0x200             ;262
+000004  4602              MOV      r2,r0                 ;182
+000006  f44f7300          MOV      r3,#0x200             ;184
                   |L2.10|
 00000a  540a              STRB     r2,[r1,r0]
 00000c  1c40              ADDS     r0,r0,#1
-00000e  4298              CMP      r0,r3                 ;262
+00000e  4298              CMP      r0,r3                 ;184
 000010  dbfb              BLT      |L2.10|
-;;;264    	LcdUpdate();
+;;;186    	LcdUpdate();
 000012  f7ffbffe          B.W      LcdUpdate
-;;;265    }
-;;;266    
+;;;187    }
+;;;188    
                           ENDP
 
 000016  0000              DCW      0x0000
                   |L2.24|
-                          DCD      ||.bss||+0x14
+                          DCD      ||.bss||+0x15
 
                           AREA ||i.LcdGotoXYFont||, CODE, READONLY, ALIGN=2
 
                   LcdGotoXYFont PROC
-;;;305    
-;;;306    void LcdGotoXYFont(unsigned char x, unsigned char y)    //Sets cursor location to xy location. Range: 1,1 .. 14,6
-000000  1e49              SUBS     r1,r1,#1
-;;;307    {
-;;;308    	LcdCacheIdx = ((int)(y)-1) * 96 + ((int)(x)-1) * 6;
-000002  eb010141          ADD      r1,r1,r1,LSL #1
-000006  0149              LSLS     r1,r1,#5
-000008  eb000040          ADD      r0,r0,r0,LSL #1
-00000c  eb010040          ADD      r0,r1,r0,LSL #1
-000010  4901              LDR      r1,|L3.24|
-000012  1f80              SUBS     r0,r0,#6
-000014  6008              STR      r0,[r1,#0]  ; LcdCacheIdx
-;;;309    }
-000016  4770              BX       lr
-;;;310    
+;;;215    
+;;;216    void LcdGotoXYFont(unsigned char x, unsigned char y)    //Sets cursor location to xy location. Range: 1,1 .. 14,6
+000000  01c9              LSLS     r1,r1,#7
+;;;217    {
+;;;218    	LcdCacheIdx = ((int)(y)-1) * 128 + ((int)(x)-1) * 6;
+000002  eb000040          ADD      r0,r0,r0,LSL #1
+000006  3980              SUBS     r1,r1,#0x80
+000008  eb010040          ADD      r0,r1,r0,LSL #1
+00000c  4901              LDR      r1,|L3.20|
+00000e  1f80              SUBS     r0,r0,#6
+000010  6008              STR      r0,[r1,#0]  ; LcdCacheIdx
+;;;219    }
+000012  4770              BX       lr
+;;;220    
                           ENDP
 
-                  |L3.24|
+                  |L3.20|
                           DCD      ||.data||
 
                           AREA ||i.LcdInit||, CODE, READONLY, ALIGN=2
 
                   LcdInit PROC
-;;;118    
-;;;119    void LcdInit()
+;;;81     
+;;;82     void LcdInit()
 000000  b570              PUSH     {r4-r6,lr}
-;;;120    {
-;;;121    	//ресетим дисплей
-;;;122    	// CS = High (not selected)
-;;;123    	LCD_CS_H; //HAL_GPIO_WritePin(SSD1306_CS_Port, SSD1306_CS_Pin, GPIO_PIN_SET);
+;;;83     {
+;;;84     	//ресетим дисплей
+;;;85     	// CS = High (not selected)
+;;;86     	LCD_CS_H; //HAL_GPIO_WritePin(SSD1306_CS_Port, SSD1306_CS_Pin, GPIO_PIN_SET);
 000002  4c3f              LDR      r4,|L4.256|
 000004  2010              MOVS     r0,#0x10
 000006  8320              STRH     r0,[r4,#0x18]
-;;;124    	// Reset the OLED
-;;;125    	LCD_RST_L; //HAL_GPIO_WritePin(SSD1306_Reset_Port, SSD1306_Reset_Pin, GPIO_PIN_RESET);
+;;;87     	// Reset the OLED
+;;;88     	LCD_RST_L; //HAL_GPIO_WritePin(SSD1306_Reset_Port, SSD1306_Reset_Pin, GPIO_PIN_RESET);
 000008  2508              MOVS     r5,#8
 00000a  8365              STRH     r5,[r4,#0x1a]
-;;;126    	delay_ms(10); //HAL_Delay(10);
+;;;89     	delay_ms(10); //HAL_Delay(10);
 00000c  200a              MOVS     r0,#0xa
 00000e  f7fffffe          BL       delay_ms
-;;;127    	LCD_RST_H; //HAL_GPIO_WritePin(SSD1306_Reset_Port, SSD1306_Reset_Pin, GPIO_PIN_SET);
+;;;90     	LCD_RST_H; //HAL_GPIO_WritePin(SSD1306_Reset_Port, SSD1306_Reset_Pin, GPIO_PIN_SET);
 000012  8325              STRH     r5,[r4,#0x18]
-;;;128    	delay_ms(10); //HAL_Delay(10);
+;;;91     	delay_ms(10); //HAL_Delay(10);
 000014  200a              MOVS     r0,#0xa
 000016  f7fffffe          BL       delay_ms
-;;;129    
-;;;130    
-;;;131    	// Wait for the screen to boot
-;;;132    	delay_ms(100); //HAL_Delay(100);
+;;;92     
+;;;93     
+;;;94     	// Wait for the screen to boot
+;;;95     	delay_ms(100); //HAL_Delay(100);
 00001a  2064              MOVS     r0,#0x64
 00001c  f7fffffe          BL       delay_ms
-;;;133    
-;;;134    	// Init OLED
-;;;135    	ssd1306_SetDisplayOn(0); //display off
+;;;96     
+;;;97     	// Init OLED
+;;;98     	ssd1306_SetDisplayOn(0); //display off
 000020  2000              MOVS     r0,#0
 000022  f7fffffe          BL       ssd1306_SetDisplayOn
-;;;136    
-;;;137    	LcdSend(0x20, lcd_CMD); //Set Memory Addressing Mode
+;;;99     
+;;;100    	LcdSend(0x20, lcd_CMD); //Set Memory Addressing Mode
 000026  2101              MOVS     r1,#1
 000028  2020              MOVS     r0,#0x20
 00002a  f7fffffe          BL       LcdSend
-;;;138    	LcdSend(0x00, lcd_CMD); // 00b,Horizontal Addressing Mode; 01b,Vertical Addressing Mode;
+;;;101    	LcdSend(0x00, lcd_CMD); // 00b,Horizontal Addressing Mode; 01b,Vertical Addressing Mode;
 00002e  2101              MOVS     r1,#1
 000030  2000              MOVS     r0,#0
 000032  f7fffffe          BL       LcdSend
-;;;139    	// 10b,Page Addressing Mode (RESET); 11b,Invalid
-;;;140    
-;;;141    	LcdSend(0xB0, lcd_CMD); //Set Page Start Address for Page Addressing Mode,0-7
+;;;102    	// 10b,Page Addressing Mode (RESET); 11b,Invalid
+;;;103    
+;;;104    	LcdSend(0xB0, lcd_CMD); //Set Page Start Address for Page Addressing Mode,0-7
 000036  2101              MOVS     r1,#1
 000038  20b0              MOVS     r0,#0xb0
 00003a  f7fffffe          BL       LcdSend
-;;;142    
-;;;143    #ifdef SSD1306_MIRROR_VERT
-;;;144    	LcdSend(0xC0, lcd_CMD); // Mirror vertically
+;;;105    
+;;;106    	LcdSend(0xC0, lcd_CMD); // Mirror vertically
 00003e  2101              MOVS     r1,#1
 000040  20c0              MOVS     r0,#0xc0
 000042  f7fffffe          BL       LcdSend
-;;;145    #else
-;;;146    	LcdSend(0xC8, lcd_CMD); //Set COM Output Scan Direction
-;;;147    #endif
-;;;148    
-;;;149    	LcdSend(0x00, lcd_CMD); //---set low column address
+;;;107    
+;;;108    	LcdSend(0x00, lcd_CMD); //---set low column address
 000046  2101              MOVS     r1,#1
 000048  2000              MOVS     r0,#0
 00004a  f7fffffe          BL       LcdSend
-;;;150    	LcdSend(0x10, lcd_CMD); //---set high column address
+;;;109    	LcdSend(0x10, lcd_CMD); //---set high column address
 00004e  2101              MOVS     r1,#1
 000050  2010              MOVS     r0,#0x10
 000052  f7fffffe          BL       LcdSend
-;;;151    
-;;;152    	LcdSend(0x40, lcd_CMD); //--set start line address - CHECK
+;;;110    
+;;;111    	LcdSend(0x40, lcd_CMD); //--set start line address - CHECK
 000056  2101              MOVS     r1,#1
 000058  2040              MOVS     r0,#0x40
 00005a  f7fffffe          BL       LcdSend
-;;;153    
-;;;154    	//установка контраста
-;;;155    	LcdSend(0x81, lcd_CMD);
+;;;112    
+;;;113    	//установка контраста
+;;;114    	LcdSend(0x81, lcd_CMD);
 00005e  2101              MOVS     r1,#1
 000060  2081              MOVS     r0,#0x81
 000062  f7fffffe          BL       LcdSend
-;;;156    	LcdSend(0xFF, lcd_CMD);//от 0x00 до 0xFF LcdSend(0x96 + Settings.contrast, lcd_CMD)
+;;;115    	LcdSend(0xFF, lcd_CMD);//от 0x00 до 0xFF LcdSend(0x96 + Settings.contrast, lcd_CMD)
 000066  2101              MOVS     r1,#1
 000068  20ff              MOVS     r0,#0xff
 00006a  f7fffffe          BL       LcdSend
-;;;157    	//
-;;;158    	
-;;;159    
-;;;160    #ifdef SSD1306_MIRROR_HORIZ
-;;;161    	LcdSend(0xA0, lcd_CMD); // Mirror horizontally
-;;;162    #else
-;;;163    	LcdSend(0xA1, lcd_CMD); //--set segment re-map 0 to 127 - CHECK
+;;;116    	//
+;;;117    	
+;;;118    	LcdSend(0xA1, lcd_CMD); //--set segment re-map 0 to 127 - CHECK
 00006e  2101              MOVS     r1,#1
 000070  20a1              MOVS     r0,#0xa1
 000072  f7fffffe          BL       LcdSend
-;;;164    #endif
-;;;165    
-;;;166    #ifdef SSD1306_INVERSE_COLOR
-;;;167    	LcdSend(0xA7, lcd_CMD); //--set inverse color
-;;;168    #else
-;;;169    	LcdSend(0xA6, lcd_CMD); //--set normal color
+;;;119    	LcdSend(0xA6, lcd_CMD); //--set normal color
 000076  2101              MOVS     r1,#1
 000078  20a6              MOVS     r0,#0xa6
 00007a  f7fffffe          BL       LcdSend
-;;;170    #endif
-;;;171    
-;;;172    	// Set multiplex ratio.
-;;;173    #if (SSD1306_HEIGHT == 128)
-;;;174    	// Found in the Luma Python lib for SH1106.
-;;;175    	LcdSend(0xFF, lcd_CMD);
-;;;176    #else
-;;;177    	LcdSend(0xA8, lcd_CMD); //--set multiplex ratio(1 to 64) - CHECK
+;;;120    
+;;;121    	LcdSend(0xA8, lcd_CMD); //--set multiplex ratio(1 to 64) - CHECK
 00007e  2101              MOVS     r1,#1
 000080  20a8              MOVS     r0,#0xa8
 000082  f7fffffe          BL       LcdSend
-;;;178    #endif
-;;;179    
-;;;180    #if (SSD1306_HEIGHT == 32)
-;;;181    	LcdSend(0x1F, lcd_CMD); //
+;;;122    
+;;;123    	LcdSend(0x1F, lcd_CMD);
 000086  2101              MOVS     r1,#1
 000088  201f              MOVS     r0,#0x1f
 00008a  f7fffffe          BL       LcdSend
-;;;182    #elif (SSD1306_HEIGHT == 64)
-;;;183    	LcdSend(0x3F, lcd_CMD); //
-;;;184    #elif (SSD1306_HEIGHT == 128)
-;;;185    	LcdSend(0x3F, lcd_CMD); // Seems to work for 128px high displays too.
-;;;186    #else
-;;;187    #error "Only 32, 64, or 128 lines of height are supported!"
-;;;188    #endif
-;;;189    
-;;;190    	LcdSend(0xA4, lcd_CMD); //0xa4,Output follows RAM content;0xa5,Output ignores RAM content
+;;;124    
+;;;125    
+;;;126    	LcdSend(0xA4, lcd_CMD); //0xa4,Output follows RAM content;0xa5,Output ignores RAM content
 00008e  2101              MOVS     r1,#1
 000090  20a4              MOVS     r0,#0xa4
 000092  f7fffffe          BL       LcdSend
-;;;191    
-;;;192    	LcdSend(0xD3, lcd_CMD); //-set display offset - CHECK
+;;;127    
+;;;128    	LcdSend(0xD3, lcd_CMD); //-set display offset - CHECK
 000096  2101              MOVS     r1,#1
 000098  20d3              MOVS     r0,#0xd3
 00009a  f7fffffe          BL       LcdSend
-;;;193    	LcdSend(0x00, lcd_CMD); //-not offset
+;;;129    	LcdSend(0x00, lcd_CMD); //-not offset
 00009e  2101              MOVS     r1,#1
 0000a0  2000              MOVS     r0,#0
 0000a2  f7fffffe          BL       LcdSend
-;;;194    
-;;;195    	LcdSend(0xD5, lcd_CMD); //--set display clock divide ratio/oscillator frequency
+;;;130    
+;;;131    	LcdSend(0xD5, lcd_CMD); //--set display clock divide ratio/oscillator frequency
 0000a6  2101              MOVS     r1,#1
 0000a8  20d5              MOVS     r0,#0xd5
 0000aa  f7fffffe          BL       LcdSend
-;;;196    	LcdSend(0xF0, lcd_CMD); //--set divide ratio
+;;;132    	LcdSend(0xF0, lcd_CMD); //--set divide ratio
 0000ae  2101              MOVS     r1,#1
 0000b0  20f0              MOVS     r0,#0xf0
 0000b2  f7fffffe          BL       LcdSend
-;;;197    
-;;;198    	LcdSend(0xD9, lcd_CMD); //--set pre-charge period
+;;;133    
+;;;134    	LcdSend(0xD9, lcd_CMD); //--set pre-charge period
 0000b6  2101              MOVS     r1,#1
 0000b8  20d9              MOVS     r0,#0xd9
 0000ba  f7fffffe          BL       LcdSend
-;;;199    	LcdSend(0x22, lcd_CMD); //
+;;;135    	LcdSend(0x22, lcd_CMD); //
 0000be  2101              MOVS     r1,#1
 0000c0  2022              MOVS     r0,#0x22
 0000c2  f7fffffe          BL       LcdSend
-;;;200    
-;;;201    	LcdSend(0xDA, lcd_CMD); //--set com pins hardware configuration - CHECK
+;;;136    
+;;;137    	LcdSend(0xDA, lcd_CMD); //--set com pins hardware configuration - CHECK
 0000c6  2101              MOVS     r1,#1
 0000c8  20da              MOVS     r0,#0xda
 0000ca  f7fffffe          BL       LcdSend
-;;;202    #if (SSD1306_HEIGHT == 32)
-;;;203    	LcdSend(0x02, lcd_CMD);
+;;;138    	LcdSend(0x02, lcd_CMD);
 0000ce  2101              MOVS     r1,#1
 0000d0  2002              MOVS     r0,#2
 0000d2  f7fffffe          BL       LcdSend
-;;;204    #elif (SSD1306_HEIGHT == 64)
-;;;205    	LcdSend(0x12, lcd_CMD);
-;;;206    #elif (SSD1306_HEIGHT == 128)
-;;;207    	LcdSend(0x12, lcd_CMD);
-;;;208    #else
-;;;209    #error "Only 32, 64, or 128 lines of height are supported!"
-;;;210    #endif
-;;;211    
-;;;212    	LcdSend(0xDB, lcd_CMD); //--set vcomh
+;;;139    
+;;;140    
+;;;141    	LcdSend(0xDB, lcd_CMD); //--set vcomh
 0000d6  2101              MOVS     r1,#1
 0000d8  20db              MOVS     r0,#0xdb
 0000da  f7fffffe          BL       LcdSend
-;;;213    	LcdSend(0x20, lcd_CMD); //0x20,0.77xVcc
+;;;142    	LcdSend(0x20, lcd_CMD); //0x20,0.77xVcc
 0000de  2101              MOVS     r1,#1
 0000e0  2020              MOVS     r0,#0x20
 0000e2  f7fffffe          BL       LcdSend
-;;;214    
-;;;215    	LcdSend(0x8D, lcd_CMD); //--set DC-DC enable
+;;;143    
+;;;144    	LcdSend(0x8D, lcd_CMD); //--set DC-DC enable
 0000e6  2101              MOVS     r1,#1
 0000e8  208d              MOVS     r0,#0x8d
 0000ea  f7fffffe          BL       LcdSend
-;;;216    	LcdSend(0x14, lcd_CMD); //
+;;;145    	LcdSend(0x14, lcd_CMD); //
 0000ee  2101              MOVS     r1,#1
 0000f0  2014              MOVS     r0,#0x14
 0000f2  f7fffffe          BL       LcdSend
-;;;217    	ssd1306_SetDisplayOn(1); //--turn on SSD1306 panel
+;;;146    	ssd1306_SetDisplayOn(1); //--turn on SSD1306 panel
 0000f6  e8bd4070          POP      {r4-r6,lr}
 0000fa  2001              MOVS     r0,#1
 0000fc  f7ffbffe          B.W      ssd1306_SetDisplayOn
-;;;218    
-;;;219    
-;;;220    	// Clear screen
-;;;221    	//ssd1306_Fill();
-;;;222    
-;;;223    	// Flush buffer to screen
-;;;224    	//ssd1306_UpdateScreen();
-;;;225    }
-;;;226    
+;;;147    }
+;;;148    
                           ENDP
 
                   |L4.256|
@@ -338,42 +296,42 @@
                           AREA ||i.LcdSend||, CODE, READONLY, ALIGN=2
 
                   LcdSend PROC
-;;;237    
-;;;238    void LcdSend(uint8_t data, uint8_t cmd) //Sends data to display controller
+;;;159    
+;;;160    void LcdSend(uint8_t data, uint8_t cmd) //Sends data to display controller
 000000  b570              PUSH     {r4-r6,lr}
-;;;239    {
-;;;240    	if (cmd == lcd_CMD)
-;;;241    	{
-;;;242    		LCD_CS_L; //HAL_GPIO_WritePin(SSD1306_CS_Port, SSD1306_CS_Pin, GPIO_PIN_RESET); // select OLED
+;;;161    {
+;;;162    	if (cmd == lcd_CMD)
+;;;163    	{
+;;;164    		LCD_CS_L; //HAL_GPIO_WritePin(SSD1306_CS_Port, SSD1306_CS_Pin, GPIO_PIN_RESET); // select OLED
 000002  4c06              LDR      r4,|L5.28|
 000004  2510              MOVS     r5,#0x10
-;;;243    		LCD_DC_L; //HAL_GPIO_WritePin(SSD1306_DC_Port, SSD1306_DC_Pin, GPIO_PIN_RESET); // command
+;;;165    		LCD_DC_L; //HAL_GPIO_WritePin(SSD1306_DC_Port, SSD1306_DC_Pin, GPIO_PIN_RESET); // command
 000006  2204              MOVS     r2,#4
-000008  2901              CMP      r1,#1                 ;240
-;;;244    		SPI_send(data);
-;;;245    		//SPI_I2S_SendData(SPI1, *(&data)); //HAL_SPI_Transmit(&SSD1306_SPI_PORT, (uint8_t*)&byte, 1, HAL_MAX_DELAY);
-;;;246    		LCD_CS_H; //HAL_GPIO_WritePin(SSD1306_CS_Port, SSD1306_CS_Pin, GPIO_PIN_SET); // un-select OLED
-;;;247    	}
-;;;248    	else {
-;;;249    		LCD_CS_L; //HAL_GPIO_WritePin(SSD1306_CS_Port, SSD1306_CS_Pin, GPIO_PIN_RESET); // select OLED
+000008  2901              CMP      r1,#1                 ;162
+;;;166    		SPI_send(data);
+;;;167    		//SPI_I2S_SendData(SPI1, *(&data)); //HAL_SPI_Transmit(&SSD1306_SPI_PORT, (uint8_t*)&byte, 1, HAL_MAX_DELAY);
+;;;168    		LCD_CS_H; //HAL_GPIO_WritePin(SSD1306_CS_Port, SSD1306_CS_Pin, GPIO_PIN_SET); // un-select OLED
+;;;169    	}
+;;;170    	else {
+;;;171    		LCD_CS_L; //HAL_GPIO_WritePin(SSD1306_CS_Port, SSD1306_CS_Pin, GPIO_PIN_RESET); // select OLED
 00000a  8365              STRH     r5,[r4,#0x1a]
 00000c  d004              BEQ      |L5.24|
-;;;250    		LCD_DC_H; //HAL_GPIO_WritePin(SSD1306_DC_Port, SSD1306_DC_Pin, GPIO_PIN_SET); // data
+;;;172    		LCD_DC_H; //HAL_GPIO_WritePin(SSD1306_DC_Port, SSD1306_DC_Pin, GPIO_PIN_SET); // data
 00000e  8322              STRH     r2,[r4,#0x18]
                   |L5.16|
 000010  f7fffffe          BL       SPI_send
-000014  8325              STRH     r5,[r4,#0x18]         ;246
-;;;251    		SPI_send(data); //SPI_I2S_SendData(SPI1, *(&data));
-;;;252    		//SPI_send8b(SPI_periph, pBuff, BuffLen); //HAL_SPI_Transmit(&SSD1306_SPI_PORT, buffer, buff_size, HAL_MAX_DELAY);
-;;;253    		LCD_CS_H; //HAL_GPIO_WritePin(SSD1306_CS_Port, SSD1306_CS_Pin, GPIO_PIN_SET); // un-select OLED
-;;;254    		//LCD_DC_L;
-;;;255    	}
-;;;256    }
+000014  8325              STRH     r5,[r4,#0x18]         ;168
+;;;173    		SPI_send(data); //SPI_I2S_SendData(SPI1, *(&data));
+;;;174    		//SPI_send8b(SPI_periph, pBuff, BuffLen); //HAL_SPI_Transmit(&SSD1306_SPI_PORT, buffer, buff_size, HAL_MAX_DELAY);
+;;;175    		LCD_CS_H; //HAL_GPIO_WritePin(SSD1306_CS_Port, SSD1306_CS_Pin, GPIO_PIN_SET); // un-select OLED
+;;;176    		//LCD_DC_L;
+;;;177    	}
+;;;178    }
 000016  bd70              POP      {r4-r6,pc}
                   |L5.24|
-000018  8362              STRH     r2,[r4,#0x1a]         ;243
+000018  8362              STRH     r2,[r4,#0x1a]         ;165
 00001a  e7f9              B        |L5.16|
-;;;257    
+;;;179    
                           ENDP
 
                   |L5.28|
@@ -382,41 +340,41 @@
                           AREA ||i.LcdString||, CODE, READONLY, ALIGN=2
 
                   LcdString PROC
-;;;292    
-;;;293    void LcdString(unsigned char x, unsigned char y)        //Displays a string at current cursor location
+;;;202    
+;;;203    void LcdString(unsigned char x, unsigned char y)        //Displays a string at current cursor location
 000000  b530              PUSH     {r4,r5,lr}
-;;;294    {
-;;;295    	unsigned char i = 0;
+;;;204    {
+;;;205    	unsigned char i = 0;
 000002  2400              MOVS     r4,#0
-;;;296    
-;;;297    	if (x > 17 || y > 8)
-000004  2811              CMP      r0,#0x11
+;;;206    
+;;;207    	if (x > 21 || y > 4)
+000004  2815              CMP      r0,#0x15
 000006  d810              BHI      |L6.42|
-000008  2908              CMP      r1,#8
+000008  2904              CMP      r1,#4
 00000a  d80e              BHI      |L6.42|
-;;;298    		return;
-;;;299    	LcdGotoXYFont(x, y);
+;;;208    		return;
+;;;209    	LcdGotoXYFont(x, y);
 00000c  f7fffffe          BL       LcdGotoXYFont
-;;;300    	for (i = 0; i < 17; i++)
-;;;301    		if (lcd_buf[i])
+;;;210    	for (i = 0; i < 21; i++)
+;;;211    		if (lcd_buf[i])
 000010  4d06              LDR      r5,|L6.44|
                   |L6.18|
 000012  5d28              LDRB     r0,[r5,r4]
 000014  b108              CBZ      r0,|L6.26|
-;;;302    			LcdChr(lcd_buf[i]);
+;;;212    			LcdChr(lcd_buf[i]);
 000016  f7fffffe          BL       LcdChr
                   |L6.26|
 00001a  1c64              ADDS     r4,r4,#1
-00001c  b2e4              UXTB     r4,r4                 ;300
-00001e  2c11              CMP      r4,#0x11              ;300
+00001c  b2e4              UXTB     r4,r4                 ;210
+00001e  2c15              CMP      r4,#0x15              ;210
 000020  d3f7              BCC      |L6.18|
-;;;303    	clean_lcd_buf();
+;;;213    	clean_lcd_buf();
 000022  e8bd4030          POP      {r4,r5,lr}
 000026  f7ffbffe          B.W      clean_lcd_buf
                   |L6.42|
-;;;304    }
+;;;214    }
 00002a  bd30              POP      {r4,r5,pc}
-;;;305    
+;;;215    
                           ENDP
 
                   |L6.44|
@@ -425,45 +383,33 @@
                           AREA ||i.LcdUpdate||, CODE, READONLY, ALIGN=2
 
                   LcdUpdate PROC
-;;;266    
-;;;267    void LcdUpdate(void)            //Copies the LCD cache into the device RAM
+;;;188    
+;;;189    void LcdUpdate(void)            //Copies the LCD cache into the device RAM
 000000  b570              PUSH     {r4-r6,lr}
-;;;268    {
-;;;269    	/*int i = 0, j = 0;
-;;;270    
-;;;271    	LcdSend(0xB0, lcd_CMD);       //Позицианируем курсор на начало координат
-;;;272    	LcdSend(0x10, lcd_CMD);
-;;;273    	LcdSend(0x00, lcd_CMD);
-;;;274    
-;;;275    	for (i = 0; i < (LCD_Y_RES >> 3); i++)        //грузим данные строками (было деление на 8)
-;;;276    		for (j = LCD_X_RES - 1; j >= 0; j--)        //грузим данные столюиками по 8 пикселей
-;;;277    		{
-;;;278    			LcdSend(LcdCache[((i * LCD_X_RES) + j)], lcd_DATA);       //вычисляем адрес в фрейм буфере, и данные от туда грузим в дисплей.
-;;;279    		}
-;;;280    	*/
-;;;281    	int i = 0, j = 0;
-;;;282    	for (i = 0; i < SSD1306_HEIGHT / 8; i++) {
-;;;283    		LcdSend(0xB0 + i, lcd_CMD); // Set the current RAM page address.
-;;;284    		LcdSend(0x00 + SSD1306_X_OFFSET_LOWER, lcd_CMD);
-;;;285    		LcdSend(0x10 + SSD1306_X_OFFSET_UPPER, lcd_CMD); 
-;;;286    		for (j = LCD_X_RES - 1; j >= 0; j--)
-;;;287    		{
-;;;288    			LcdSend(LcdCache[((i * LCD_X_RES) + j)], lcd_DATA);
+;;;190    {
+;;;191    	int i = 0, j = 0;
+;;;192    	for (i = 0; i < SSD1306_HEIGHT / 8; i++) {
+;;;193    		LcdSend(0xB0 + i, lcd_CMD); // Set the current RAM page address.
+;;;194    		LcdSend(0x00 + SSD1306_X_OFFSET_LOWER, lcd_CMD);
+;;;195    		LcdSend(0x10 + SSD1306_X_OFFSET_UPPER, lcd_CMD); 
+;;;196    		for (j = LCD_X_RES - 1; j >= 0; j--)
+;;;197    		{
+;;;198    			LcdSend(LcdCache[((i * LCD_X_RES) + j)], lcd_DATA);
 000002  4e0f              LDR      r6,|L7.64|
-000004  2400              MOVS     r4,#0                 ;281
-000006  bf00              NOP                            ;283
+000004  2400              MOVS     r4,#0                 ;191
+000006  bf00              NOP                            ;193
                   |L7.8|
-000008  f10400b0          ADD      r0,r4,#0xb0           ;283
-00000c  b2c0              UXTB     r0,r0                 ;283
-00000e  2101              MOVS     r1,#1                 ;283
+000008  f10400b0          ADD      r0,r4,#0xb0           ;193
+00000c  b2c0              UXTB     r0,r0                 ;193
+00000e  2101              MOVS     r1,#1                 ;193
 000010  f7fffffe          BL       LcdSend
-000014  2101              MOVS     r1,#1                 ;284
-000016  2000              MOVS     r0,#0                 ;284
+000014  2101              MOVS     r1,#1                 ;194
+000016  2000              MOVS     r0,#0                 ;194
 000018  f7fffffe          BL       LcdSend
-00001c  2101              MOVS     r1,#1                 ;285
-00001e  2010              MOVS     r0,#0x10              ;285
+00001c  2101              MOVS     r1,#1                 ;195
+00001e  2010              MOVS     r0,#0x10              ;195
 000020  f7fffffe          BL       LcdSend
-000024  f05f057f          MOVS.W   r5,#0x7f              ;286
+000024  f05f057f          MOVS.W   r5,#0x7f              ;196
                   |L7.40|
 000028  eb0510c4          ADD      r0,r5,r4,LSL #7
 00002c  2102              MOVS     r1,#2
@@ -471,41 +417,41 @@
 000030  f7fffffe          BL       LcdSend
 000034  1e6d              SUBS     r5,r5,#1
 000036  d5f7              BPL      |L7.40|
-000038  1c64              ADDS     r4,r4,#1              ;286
-00003a  2c04              CMP      r4,#4                 ;282
+000038  1c64              ADDS     r4,r4,#1              ;196
+00003a  2c04              CMP      r4,#4                 ;192
 00003c  dbe4              BLT      |L7.8|
-;;;289    		}
-;;;290    	}
-;;;291    }
+;;;199    		}
+;;;200    	}
+;;;201    }
 00003e  bd70              POP      {r4-r6,pc}
-;;;292    
+;;;202    
                           ENDP
 
                   |L7.64|
-                          DCD      ||.bss||+0x14
+                          DCD      ||.bss||+0x15
 
                           AREA ||i.SPI_send||, CODE, READONLY, ALIGN=2
 
                   SPI_send PROC
-;;;111    
-;;;112    void SPI_send(uint8_t data)
+;;;74     
+;;;75     void SPI_send(uint8_t data)
 000000  b510              PUSH     {r4,lr}
-;;;113    {
-;;;114    	SPI_I2S_SendData(SPI1, data);
+;;;76     {
+;;;77     	SPI_I2S_SendData(SPI1, data);
 000002  4c06              LDR      r4,|L8.28|
 000004  4601              MOV      r1,r0
 000006  4620              MOV      r0,r4
 000008  f7fffffe          BL       SPI_I2S_SendData
                   |L8.12|
-;;;115    	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET);
+;;;78     	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET);
 00000c  2180              MOVS     r1,#0x80
 00000e  4620              MOV      r0,r4
 000010  f7fffffe          BL       SPI_I2S_GetFlagStatus
 000014  2801              CMP      r0,#1
 000016  d0f9              BEQ      |L8.12|
-;;;116    }
+;;;79     }
 000018  bd10              POP      {r4,pc}
-;;;117    
+;;;80     
                           ENDP
 
 00001a  0000              DCW      0x0000
@@ -515,23 +461,23 @@
                           AREA ||i.clean_lcd_buf||, CODE, READONLY, ALIGN=2
 
                   clean_lcd_buf PROC
-;;;326    
-;;;327    void clean_lcd_buf(void)        //очистка текстового буфера
+;;;236    
+;;;237    void clean_lcd_buf(void)        //очистка текстового буфера
 000000  2000              MOVS     r0,#0
-;;;328    {
-;;;329    	char i = 0;
-;;;330    
-;;;331    	for (i = 0; i < 20; i++)
-;;;332    		lcd_buf[i] = 0;
+;;;238    {
+;;;239    	char i = 0;
+;;;240    
+;;;241    	for (i = 0; i < 21; i++)
+;;;242    		lcd_buf[i] = 0x00;
 000002  4904              LDR      r1,|L9.20|
-000004  4602              MOV      r2,r0                 ;329
+000004  4602              MOV      r2,r0                 ;239
                   |L9.6|
 000006  540a              STRB     r2,[r1,r0]
 000008  1c40              ADDS     r0,r0,#1
-00000a  b2c0              UXTB     r0,r0                 ;331
-00000c  2814              CMP      r0,#0x14              ;331
+00000a  b2c0              UXTB     r0,r0                 ;241
+00000c  2815              CMP      r0,#0x15              ;241
 00000e  d3fa              BCC      |L9.6|
-;;;333    }
+;;;243    }
 000010  4770              BX       lr
                           ENDP
 
@@ -542,195 +488,159 @@
                           AREA ||i.display_on||, CODE, READONLY, ALIGN=2
 
                   display_on PROC
-;;;13     
-;;;14     void display_on()               // Инициализация порта LCD дисплея
+;;;12     
+;;;13     void display_on()               // Инициализация порта LCD дисплея
 000000  b5f0              PUSH     {r4-r7,lr}
-;;;15     {
-;;;16     	GPIO_InitTypeDef GPIO_InitStructure;
-;;;17     	SPI_InitTypeDef SPI_InitStructure;
-;;;18     
-;;;19     	Power.Display_active = ENABLE;
+;;;14     {
+;;;15     	GPIO_InitTypeDef GPIO_InitStructure;
+;;;16     	SPI_InitTypeDef SPI_InitStructure;
+;;;17     
+;;;18     	Power.Display_active = ENABLE;
 000002  4841              LDR      r0,|L10.264|
 000004  2501              MOVS     r5,#1
-000006  b087              SUB      sp,sp,#0x1c           ;15
+000006  b087              SUB      sp,sp,#0x1c           ;14
 000008  70c5              STRB     r5,[r0,#3]
-;;;20     	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
+;;;19     	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
 00000a  4629              MOV      r1,r5
 00000c  4628              MOV      r0,r5
 00000e  f7fffffe          BL       RCC_AHBPeriphClockCmd
-;;;21     	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
+;;;20     	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
 000012  2101              MOVS     r1,#1
 000014  2002              MOVS     r0,#2
 000016  f7fffffe          BL       RCC_AHBPeriphClockCmd
-;;;22     	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);
+;;;21     	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);
 00001a  2101              MOVS     r1,#1
 00001c  2004              MOVS     r0,#4
 00001e  f7fffffe          BL       RCC_AHBPeriphClockCmd
-;;;23     
-;;;24     	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE);
+;;;22     
+;;;23     	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE);
 000022  2101              MOVS     r1,#1
 000024  0308              LSLS     r0,r1,#12
 000026  f7fffffe          BL       RCC_APB2PeriphClockCmd
-;;;25     	
-;;;26     	GPIO_PinAFConfig(GPIOA, GPIO_PinSource5, GPIO_AF_SPI1), 
+;;;24     	
+;;;25     	GPIO_PinAFConfig(GPIOA, GPIO_PinSource5, GPIO_AF_SPI1), 
 00002a  4f38              LDR      r7,|L10.268|
 00002c  2205              MOVS     r2,#5
 00002e  4611              MOV      r1,r2
 000030  4638              MOV      r0,r7
 000032  f7fffffe          BL       GPIO_PinAFConfig
-;;;27     	//GPIO_PinAFConfig(GPIOA, GPIO_PinSource6, GPIO_AF_SPI1), 
-;;;28     	GPIO_PinAFConfig(GPIOA, GPIO_PinSource7, GPIO_AF_SPI1), 
+;;;26     	GPIO_PinAFConfig(GPIOA, GPIO_PinSource7, GPIO_AF_SPI1), 
 000036  2205              MOVS     r2,#5
 000038  2107              MOVS     r1,#7
 00003a  4638              MOV      r0,r7
 00003c  f7fffffe          BL       GPIO_PinAFConfig
-;;;29     	
-;;;30     	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_7;
+;;;27     	
+;;;28     	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_7;
 000040  20a0              MOVS     r0,#0xa0
-;;;31     	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+;;;29     	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
 000042  9000              STR      r0,[sp,#0]
 000044  2002              MOVS     r0,#2
 000046  f88d0004          STRB     r0,[sp,#4]
-;;;32     	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
+;;;30     	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
 00004a  2603              MOVS     r6,#3
 00004c  f88d6005          STRB     r6,[sp,#5]
-;;;33     	//GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-;;;34     	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+;;;31     	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 000050  2400              MOVS     r4,#0
 000052  f88d4006          STRB     r4,[sp,#6]
-;;;35     	GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;
+;;;32     	GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;
 000056  f88d4007          STRB     r4,[sp,#7]
-;;;36     	GPIO_Init(GPIOA, &GPIO_InitStructure);
+;;;33     	GPIO_Init(GPIOA, &GPIO_InitStructure);
 00005a  4669              MOV      r1,sp
 00005c  4638              MOV      r0,r7
 00005e  f7fffffe          BL       GPIO_Init
-;;;37     
-;;;38     	//	GPIO_WriteBit(SCK_MOSI_PORT, SCK_Pin, Bit_SET);
-;;;39     	//	GPIO_WriteBit(SCK_MOSI_PORT, MOSI_Pin, Bit_SET);
-;;;40     	//	GPIO_WriteBit(SCK_MOSI_PORT, MISO_Pin, Bit_SET);
-;;;41     
-;;;42     	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
-;;;43     	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+;;;34     
+;;;35     	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
+;;;36     	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
 000062  f88d5004          STRB     r5,[sp,#4]
-000066  2008              MOVS     r0,#8                 ;42
-;;;44     	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+000066  2008              MOVS     r0,#8                 ;35
+;;;37     	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 000068  f88d4006          STRB     r4,[sp,#6]
-00006c  9000              STR      r0,[sp,#0]            ;43
-;;;45     	GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;
+00006c  9000              STR      r0,[sp,#0]            ;36
+;;;38     	GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;
 00006e  f88d4007          STRB     r4,[sp,#7]
-;;;46     	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
+;;;39     	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
 000072  f88d6005          STRB     r6,[sp,#5]
-;;;47     	//GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-;;;48     
-;;;49     	GPIO_Init(GPIOA, &GPIO_InitStructure);
+;;;40     	GPIO_Init(GPIOA, &GPIO_InitStructure);
 000076  4669              MOV      r1,sp
 000078  4638              MOV      r0,r7
 00007a  f7fffffe          BL       GPIO_Init
-;;;50     	
-;;;51     	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
-;;;52     	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+;;;41     	
+;;;42     	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
+;;;43     	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
 00007e  f88d5004          STRB     r5,[sp,#4]
-000082  2010              MOVS     r0,#0x10              ;51
-;;;53     	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+000082  2010              MOVS     r0,#0x10              ;42
+;;;44     	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 000084  f88d4006          STRB     r4,[sp,#6]
-000088  9000              STR      r0,[sp,#0]            ;52
-;;;54     	GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_UP;
+000088  9000              STR      r0,[sp,#0]            ;43
+;;;45     	GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_UP;
 00008a  f88d5007          STRB     r5,[sp,#7]
-;;;55     	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
+;;;46     	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
 00008e  f88d6005          STRB     r6,[sp,#5]
-;;;56     	//GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-;;;57     
-;;;58     	GPIO_Init(GPIOA, &GPIO_InitStructure);
+;;;47     	GPIO_Init(GPIOA, &GPIO_InitStructure);
 000092  4669              MOV      r1,sp
 000094  4638              MOV      r0,r7
 000096  f7fffffe          BL       GPIO_Init
-;;;59     
-;;;60     	//	GPIO_WriteBit(CS_RST_PORT, RST_Pin,Bit_SET);
-;;;61     	//	GPIO_WriteBit(CS_RST_PORT, CS_Pin, Bit_SET);
-;;;62     
-;;;63     	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
-;;;64     	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
+;;;48     
+;;;49     	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+;;;50     	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
 00009a  f88d6005          STRB     r6,[sp,#5]
-00009e  2004              MOVS     r0,#4                 ;63
-;;;65     	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+00009e  2004              MOVS     r0,#4                 ;49
+;;;51     	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
 0000a0  f88d5004          STRB     r5,[sp,#4]
-0000a4  9000              STR      r0,[sp,#0]            ;64
-;;;66     	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+0000a4  9000              STR      r0,[sp,#0]            ;50
+;;;52     	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 0000a6  f88d4006          STRB     r4,[sp,#6]
-;;;67     	GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;
+;;;53     	GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;
 0000aa  f88d4007          STRB     r4,[sp,#7]
-;;;68     	//GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-;;;69     	GPIO_Init(GPIOA, &GPIO_InitStructure);
+;;;54     	GPIO_Init(GPIOA, &GPIO_InitStructure);
 0000ae  4669              MOV      r1,sp
 0000b0  4638              MOV      r0,r7
 0000b2  f7fffffe          BL       GPIO_Init
-;;;70     	
-;;;71     	
-;;;72     	
-;;;73     	
-;;;74     	SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
+;;;55     	
+;;;56     	SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
 0000b6  f8ad4008          STRH     r4,[sp,#8]
-;;;75     	//SPI_InitStructure.SPI_Direction = SPI_Direction_1Line_Tx;
-;;;76     	// указываем, что наше устройство - Master
-;;;77     	SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
+;;;57     	SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
 0000ba  f44f7082          MOV      r0,#0x104
 0000be  f8ad000a          STRH     r0,[sp,#0xa]
-;;;78     	// передавать будем по 8 бит (=1 байт)
-;;;79     	SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
-;;;80     	// режим 00
-;;;81     	SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;
-;;;82     	SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;
+;;;58     	SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
+;;;59     	SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;
+;;;60     	SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;
 0000c2  f8ad4010          STRH     r4,[sp,#0x10]
-;;;83     	SPI_InitStructure.SPI_NSS = SPI_NSS_Soft | SPI_NSSInternalSoft_Set;//SPI_NSS_Soft;
+;;;61     	SPI_InitStructure.SPI_NSS = SPI_NSS_Soft | SPI_NSSInternalSoft_Set;
 0000c6  0230              LSLS     r0,r6,#8
 0000c8  f8ad0012          STRH     r0,[sp,#0x12]
-;;;84     	SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_16;
+;;;62     	SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_16;
 0000cc  2018              MOVS     r0,#0x18
 0000ce  f8ad0014          STRH     r0,[sp,#0x14]
-0000d2  f8ad400c          STRH     r4,[sp,#0xc]          ;79
-0000d6  f8ad400e          STRH     r4,[sp,#0xe]          ;81
-;;;85     	// передаём данные старшим битом вперёд (т.е. слева направо)
-;;;86     	SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
+0000d2  f8ad400c          STRH     r4,[sp,#0xc]          ;58
+0000d6  f8ad400e          STRH     r4,[sp,#0xe]          ;59
+;;;63     	SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
 0000da  f8ad4016          STRH     r4,[sp,#0x16]
-;;;87     	SPI_InitStructure.SPI_CRCPolynomial = 7;
+;;;64     	SPI_InitStructure.SPI_CRCPolynomial = 7;
 0000de  2007              MOVS     r0,#7
-;;;88     	// внесём настройки в SPI
-;;;89     	//SPI_NSSInternalSoftwareConfig(SPI1, SPI_NSSInternalSoft_Set);
-;;;90     	SPI_Init(SPI1, &SPI_InitStructure);
+;;;65     	SPI_Init(SPI1, &SPI_InitStructure);
 0000e0  4c0b              LDR      r4,|L10.272|
-0000e2  f8ad0018          STRH     r0,[sp,#0x18]         ;87
+0000e2  f8ad0018          STRH     r0,[sp,#0x18]         ;64
 0000e6  a902              ADD      r1,sp,#8
 0000e8  4620              MOV      r0,r4
 0000ea  f7fffffe          BL       SPI_Init
-;;;91     	// включим  SPI1
-;;;92     	SPI_Cmd(SPI1, ENABLE);
+;;;66     	SPI_Cmd(SPI1, ENABLE);
 0000ee  2101              MOVS     r1,#1
 0000f0  4620              MOV      r0,r4
 0000f2  f7fffffe          BL       SPI_Cmd
-;;;93     	// ===============================================================================================  
-;;;94     	// LCD дисплей
-;;;95     	/*GPIO_StructInit(&GPIO_InitStructure);
-;;;96     	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2 | GPIO_Pin_3;
-;;;97     	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-;;;98     	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-;;;99     	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
-;;;100    	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-;;;101    	GPIO_Init(GPIOA, &GPIO_InitStructure);*/
-;;;102    
-;;;103    	//my_spi_init();
-;;;104    
-;;;105    	delay_ms(10);
+;;;67     
+;;;68     	delay_ms(10);
 0000f6  200a              MOVS     r0,#0xa
 0000f8  f7fffffe          BL       delay_ms
-;;;106    
-;;;107    	LcdInit();                    // Инициализируем дисплей
+;;;69     
+;;;70     	LcdInit();                    // Инициализируем дисплей
 0000fc  f7fffffe          BL       LcdInit
-;;;108    	LcdClear();
+;;;71     	LcdClear();
 000100  f7fffffe          BL       LcdClear
-;;;109    }
+;;;72     }
 000104  b007              ADD      sp,sp,#0x1c
 000106  bdf0              POP      {r4-r7,pc}
-;;;110    
+;;;73     
                           ENDP
 
                   |L10.264|
@@ -743,33 +653,33 @@
                           AREA ||i.ssd1306_SetDisplayOn||, CODE, READONLY, ALIGN=1
 
                   ssd1306_SetDisplayOn PROC
-;;;226    
-;;;227    void ssd1306_SetDisplayOn(const uint8_t on) {
+;;;148    
+;;;149    void ssd1306_SetDisplayOn(const uint8_t on) {
 000000  b108              CBZ      r0,|L11.6|
-;;;228    	uint8_t value;
-;;;229    	if (on) {
-;;;230    		value = 0xAF;   // Display on
+;;;150    	uint8_t value;
+;;;151    	if (on) {
+;;;152    		value = 0xAF;   // Display on
 000002  20af              MOVS     r0,#0xaf
 000004  e000              B        |L11.8|
                   |L11.6|
-;;;231    	}
-;;;232    	else {
-;;;233    		value = 0xAE;   // Display off
+;;;153    	}
+;;;154    	else {
+;;;155    		value = 0xAE;   // Display off
 000006  20ae              MOVS     r0,#0xae
                   |L11.8|
-;;;234    	}
-;;;235    	LcdSend(value, lcd_CMD);
+;;;156    	}
+;;;157    	LcdSend(value, lcd_CMD);
 000008  2101              MOVS     r1,#1
 00000a  f7ffbffe          B.W      LcdSend
-;;;236    }
-;;;237    
+;;;158    }
+;;;159    
                           ENDP
 
 
                           AREA ||.bss||, DATA, NOINIT, ALIGN=0
 
                   lcd_buf
-                          %        20
+                          %        21
                   LcdCache
                           %        512
 

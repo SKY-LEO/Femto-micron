@@ -44,7 +44,7 @@
 ;;;82     	delay_ms(10);
 00003c  200a              MOVS     r0,#0xa
 00003e  f7fffffe          BL       delay_ms
-;;;83     	GPIO_SetBits(GPIOA, GPIO_Pin_10);// устанавливаем напряжение на 3 вольта*/
+;;;83     	GPIO_SetBits(GPIOA, GPIO_Pin_10);// устанавливаем напряжение на 3 вольта
 000042  4621              MOV      r1,r4
 000044  4628              MOV      r0,r5
 000046  f7fffffe          BL       GPIO_SetBits

@@ -198,7 +198,7 @@ typedef struct
 static __IO uint8_t timer_is_reload = 0;        // counts 1ms timeTicks
 extern uint16_t key;            // массив нажатых кнопок [012]
 extern uint8_t menu_key_long;//TEST
-extern uint8_t timer6_is_on;//TEST
+extern uint8_t key_long_timer_is_on;//TEST
 extern uint32_t ix;
 extern uint32_t ix_update;
 

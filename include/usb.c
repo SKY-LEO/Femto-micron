@@ -534,6 +534,7 @@ void USB_off()
 //---------------------------------------------Отключение USB------------------------------------
   Power.USB_active = DISABLE;
 	Power.charging = DISABLE;
+	deactivate_charge_gpio();//TEST
   PowerOff();
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_USB, DISABLE);
   set_msi();

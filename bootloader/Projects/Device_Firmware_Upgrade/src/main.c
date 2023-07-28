@@ -80,7 +80,7 @@ int main(void)
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 	delay_ms(10);
-	GPIO_SetBits(GPIOA, GPIO_Pin_10);// устанавливаем напряжение на 3 вольта*/
+	GPIO_SetBits(GPIOA, GPIO_Pin_10);// устанавливаем напряжение на 3 вольта
 	delay_ms(100);
   
   DFU_Button_Config();

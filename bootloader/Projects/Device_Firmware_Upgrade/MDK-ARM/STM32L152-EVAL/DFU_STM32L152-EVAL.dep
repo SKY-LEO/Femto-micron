@@ -109,7 +109,7 @@ I (..\..\..\Utilities\STM32_EVAL\STM32L152_EVAL\stm32l152_eval.h)(0x62A0A7DD)
 I (..\inc\dfu_mal.h)(0x62A0A7DD)
 I (..\inc\usb_desc.h)(0x62A0A7DD)
 F (..\src\fsmc_nor.c)(0x62A0A7DD)()
-F (..\src\hw_config.c)(0x64AA76B7)(-c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\STM32L152-EVAL\\" -I ..\inc -I ..\..\..\Libraries\CMSIS\Device\ST\STM32L1xx\Include -I ..\..\..\Libraries\STM32_USB-FS-Device_Driver\inc -I ..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc -I ..\..\..\Utilities\STM32_EVAL -I ..\..\..\Utilities\STM32_EVAL\Common -I ..\..\..\Utilities\STM32_EVAL\STM32L152_EVAL-IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\Inc\ST\STM32L1xx-D__UVISION_VERSION="522" -DUSE_STDPERIPH_DRIVER -DSTM32L1XX_MD -DUSE_STM32L152_EVAL-o .\stm32l152-eval\hw_config.o --list_dir ".\\STM32L152-EVAL\\" --list --omf_browse .\stm32l152-eval\hw_config.crf --depend .\stm32l152-eval\hw_config.d)
+F (..\src\hw_config.c)(0x64C0FF1B)(-c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\STM32L152-EVAL\\" -I ..\inc -I ..\..\..\Libraries\CMSIS\Device\ST\STM32L1xx\Include -I ..\..\..\Libraries\STM32_USB-FS-Device_Driver\inc -I ..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc -I ..\..\..\Utilities\STM32_EVAL -I ..\..\..\Utilities\STM32_EVAL\Common -I ..\..\..\Utilities\STM32_EVAL\STM32L152_EVAL-IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\Inc\ST\STM32L1xx-D__UVISION_VERSION="522" -DUSE_STDPERIPH_DRIVER -DSTM32L1XX_MD -DUSE_STM32L152_EVAL-o .\stm32l152-eval\hw_config.o --list_dir ".\\STM32L152-EVAL\\" --list --omf_browse .\stm32l152-eval\hw_config.crf --depend .\stm32l152-eval\hw_config.d)
 I (..\inc\hw_config.h)(0x62A0A7DD)
 I (..\inc\platform_config.h)(0x64A96DCD)
 I (..\..\..\Libraries\CMSIS\Device\ST\STM32L1xx\Include\stm32l1xx.h)(0x64A96D84)
@@ -154,7 +154,7 @@ I (..\..\..\Libraries\STM32_USB-FS-Device_Driver\inc\usb_sil.h)(0x62A0A7DD)
 I (..\..\..\Libraries\STM32_USB-FS-Device_Driver\inc\usb_mem.h)(0x62A0A7DD)
 I (..\..\..\Libraries\STM32_USB-FS-Device_Driver\inc\usb_int.h)(0x62A0A7DD)
 I (..\inc\usb_pwr.h)(0x62A0A7DD)
-F (..\src\main.c)(0x64AAB8D6)(-c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\STM32L152-EVAL\\" -I ..\inc -I ..\..\..\Libraries\CMSIS\Device\ST\STM32L1xx\Include -I ..\..\..\Libraries\STM32_USB-FS-Device_Driver\inc -I ..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc -I ..\..\..\Utilities\STM32_EVAL -I ..\..\..\Utilities\STM32_EVAL\Common -I ..\..\..\Utilities\STM32_EVAL\STM32L152_EVAL-IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\Inc\ST\STM32L1xx-D__UVISION_VERSION="522" -DUSE_STDPERIPH_DRIVER -DSTM32L1XX_MD -DUSE_STM32L152_EVAL-o .\stm32l152-eval\main.o --list_dir ".\\STM32L152-EVAL\\" --list --omf_browse .\stm32l152-eval\main.crf --depend .\stm32l152-eval\main.d)
+F (..\src\main.c)(0x64C37F46)(-c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\STM32L152-EVAL\\" -I ..\inc -I ..\..\..\Libraries\CMSIS\Device\ST\STM32L1xx\Include -I ..\..\..\Libraries\STM32_USB-FS-Device_Driver\inc -I ..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc -I ..\..\..\Utilities\STM32_EVAL -I ..\..\..\Utilities\STM32_EVAL\Common -I ..\..\..\Utilities\STM32_EVAL\STM32L152_EVAL-IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\Inc\ST\STM32L1xx-D__UVISION_VERSION="522" -DUSE_STDPERIPH_DRIVER -DSTM32L1XX_MD -DUSE_STM32L152_EVAL-o .\stm32l152-eval\main.o --list_dir ".\\STM32L152-EVAL\\" --list --omf_browse .\stm32l152-eval\main.crf --depend .\stm32l152-eval\main.d)
 I (..\inc\main.h)(0x64AA6BF9)
 I (..\..\..\Libraries\CMSIS\Device\ST\STM32L1xx\Include\stm32l1xx.h)(0x64A96D84)
 I (C:\Keil_v5\ARM\CMSIS\Include\core_cm3.h)(0x559D31EA)
@@ -184,7 +184,7 @@ I (..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc\stm32l1xx_tim.h)(0x62A0A7DD
 I (..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc\stm32l1xx_usart.h)(0x62A0A7DD)
 I (..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc\stm32l1xx_wwdg.h)(0x62A0A7DD)
 I (..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc\misc.h)(0x62A0A7DD)
-I (..\inc\smallssd1306.h)(0x64AA6FF2)
+I (..\inc\smallssd1306.h)(0x64C382A0)
 I (..\inc\hw_config.h)(0x62A0A7DD)
 I (..\inc\platform_config.h)(0x64A96DCD)
 I (..\..\..\Utilities\STM32_EVAL\STM32L152_EVAL\stm32l152_eval.h)(0x62A0A7DD)
@@ -237,7 +237,7 @@ I (..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc\stm32l1xx_usart.h)(0x62A0A7
 I (..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc\stm32l1xx_wwdg.h)(0x62A0A7DD)
 I (..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc\misc.h)(0x62A0A7DD)
 I (..\..\..\Utilities\STM32_EVAL\STM32L152_EVAL\stm32l152_eval.h)(0x62A0A7DD)
-F (..\src\usb_istr.c)(0x64AAB33F)(-c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\STM32L152-EVAL\\" -I ..\inc -I ..\..\..\Libraries\CMSIS\Device\ST\STM32L1xx\Include -I ..\..\..\Libraries\STM32_USB-FS-Device_Driver\inc -I ..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc -I ..\..\..\Utilities\STM32_EVAL -I ..\..\..\Utilities\STM32_EVAL\Common -I ..\..\..\Utilities\STM32_EVAL\STM32L152_EVAL-IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\Inc\ST\STM32L1xx-D__UVISION_VERSION="522" -DUSE_STDPERIPH_DRIVER -DSTM32L1XX_MD -DUSE_STM32L152_EVAL-o .\stm32l152-eval\usb_istr.o --list_dir ".\\STM32L152-EVAL\\" --list --omf_browse .\stm32l152-eval\usb_istr.crf --depend .\stm32l152-eval\usb_istr.d)
+F (..\src\usb_istr.c)(0x64C38000)(-c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\STM32L152-EVAL\\" -I ..\inc -I ..\..\..\Libraries\CMSIS\Device\ST\STM32L1xx\Include -I ..\..\..\Libraries\STM32_USB-FS-Device_Driver\inc -I ..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc -I ..\..\..\Utilities\STM32_EVAL -I ..\..\..\Utilities\STM32_EVAL\Common -I ..\..\..\Utilities\STM32_EVAL\STM32L152_EVAL-IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\Inc\ST\STM32L1xx-D__UVISION_VERSION="522" -DUSE_STDPERIPH_DRIVER -DSTM32L1XX_MD -DUSE_STM32L152_EVAL-o .\stm32l152-eval\usb_istr.o --list_dir ".\\STM32L152-EVAL\\" --list --omf_browse .\stm32l152-eval\usb_istr.crf --depend .\stm32l152-eval\usb_istr.d)
 I (..\..\..\Libraries\STM32_USB-FS-Device_Driver\inc\usb_lib.h)(0x62A0A7DD)
 I (..\inc\hw_config.h)(0x62A0A7DD)
 I (..\inc\platform_config.h)(0x64A96DCD)
@@ -447,7 +447,7 @@ I (..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc\stm32l1xx_tim.h)(0x62A0A7DD
 I (..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc\stm32l1xx_usart.h)(0x62A0A7DD)
 I (..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc\stm32l1xx_wwdg.h)(0x62A0A7DD)
 I (..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc\misc.h)(0x62A0A7DD)
-F (..\src\smallssd1306.c)(0x64AA7D9B)(-c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\STM32L152-EVAL\\" -I ..\inc -I ..\..\..\Libraries\CMSIS\Device\ST\STM32L1xx\Include -I ..\..\..\Libraries\STM32_USB-FS-Device_Driver\inc -I ..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc -I ..\..\..\Utilities\STM32_EVAL -I ..\..\..\Utilities\STM32_EVAL\Common -I ..\..\..\Utilities\STM32_EVAL\STM32L152_EVAL-IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\Inc\ST\STM32L1xx-D__UVISION_VERSION="522" -DUSE_STDPERIPH_DRIVER -DSTM32L1XX_MD -DUSE_STM32L152_EVAL-o .\stm32l152-eval\smallssd1306.o --list_dir ".\\STM32L152-EVAL\\" --list --omf_browse .\stm32l152-eval\smallssd1306.crf --depend .\stm32l152-eval\smallssd1306.d)
+F (..\src\smallssd1306.c)(0x64C38390)(-c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections --asm --interleave --asm_dir ".\\STM32L152-EVAL\\" -I ..\inc -I ..\..\..\Libraries\CMSIS\Device\ST\STM32L1xx\Include -I ..\..\..\Libraries\STM32_USB-FS-Device_Driver\inc -I ..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc -I ..\..\..\Utilities\STM32_EVAL -I ..\..\..\Utilities\STM32_EVAL\Common -I ..\..\..\Utilities\STM32_EVAL\STM32L152_EVAL-IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\Inc\ST\STM32L1xx-D__UVISION_VERSION="522" -DUSE_STDPERIPH_DRIVER -DSTM32L1XX_MD -DUSE_STM32L152_EVAL-o .\stm32l152-eval\smallssd1306.o --list_dir ".\\STM32L152-EVAL\\" --list --omf_browse .\stm32l152-eval\smallssd1306.crf --depend .\stm32l152-eval\smallssd1306.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x57F64D08)
 I (..\inc\font5x8.h)(0x62A0A7DD)
 I (..\inc\main.h)(0x64AA6BF9)
@@ -479,7 +479,7 @@ I (..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc\stm32l1xx_tim.h)(0x62A0A7DD
 I (..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc\stm32l1xx_usart.h)(0x62A0A7DD)
 I (..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc\stm32l1xx_wwdg.h)(0x62A0A7DD)
 I (..\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc\misc.h)(0x62A0A7DD)
-I (..\inc\smallssd1306.h)(0x64AA6FF2)
+I (..\inc\smallssd1306.h)(0x64C382A0)
 I (..\inc\delay.h)(0x64A975AC)
 I (..\inc\lang.h)(0x62A0A7DD)
 F (..\src\system_stm32f10x.c)(0x62A0A7DD)()

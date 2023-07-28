@@ -16,5 +16,7 @@ FunctionalState check_license(void);
 float convert_mkr_sv(uint32_t);
 void check_isotop_time(void);
 void clear_sleep_time(void);
+void activate_charge_gpio(void);
+void deactivate_charge_gpio(void);
 
 #endif

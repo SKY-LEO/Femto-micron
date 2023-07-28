@@ -28162,8 +28162,8 @@ N  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE); // Подаем тактирование на
 X  RCC_AHBPeriphClockCmd(((uint32_t)0x00000002), ENABLE); 
 N  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;        // Режим ножки "вход"
 N  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;        // Подтяжка к +
-N  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;           // Номер ножки в порту
-X  GPIO_InitStructure.GPIO_Pin = ((uint16_t)0x0001);           
+N  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_2;           // Номер ножки в порту
+X  GPIO_InitStructure.GPIO_Pin = ((uint16_t)0x0001) | ((uint16_t)0x0004);           
 N  GPIO_Init(GPIOB, &GPIO_InitStructure);              // записиваем конфигурацию
 X  GPIO_Init(((GPIO_TypeDef *) ((((uint32_t)0x40000000) + 0x20000) + 0x0400)), &GPIO_InitStructure);              
 N}
@@ -28177,8 +28177,8 @@ N* Return         : Status
 N*******************************************************************************/
 Nuint8_t DFU_Button_Read (void)
 N{
-Nreturn GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_0);
-Xreturn GPIO_ReadInputDataBit(((GPIO_TypeDef *) ((((uint32_t)0x40000000) + 0x20000) + 0x0400)), ((uint16_t)0x0001));
+Nreturn GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_0) && GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_2);
+Xreturn GPIO_ReadInputDataBit(((GPIO_TypeDef *) ((((uint32_t)0x40000000) + 0x20000) + 0x0400)), ((uint16_t)0x0001)) && GPIO_ReadInputDataBit(((GPIO_TypeDef *) ((((uint32_t)0x40000000) + 0x20000) + 0x0400)), ((uint16_t)0x0004));
 N}
 N
 N/*******************************************************************************

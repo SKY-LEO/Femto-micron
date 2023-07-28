@@ -13,7 +13,7 @@ PumpDataDef PumpData;
 
 uint16_t key;                   // массив нажатых кнопок [012]
 uint8_t menu_key_long;//TEST
-uint8_t timer6_is_on;//TEST
+uint8_t key_long_timer_is_on;//TEST
 
 uint16_t Detector_massive[Detector_massive_pointer_max + 1];
 uint32_t ram_Doze_massive[doze_length + 1];     // 1 ячейка = 10 минут, на протяжении суток
@@ -156,6 +156,7 @@ int main(void)
     if((!Power.USB_active) && (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_9)))
     {
 			Power.charging = ENABLE;
+			activate_charge_gpio();//TEST
       usb_activate(0x0);        // Если питание USB начало подаваться включаем USB
     }
 
