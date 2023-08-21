@@ -80,19 +80,41 @@ void main_screen()
       if(ADCData.Batt_voltage < 3500)
 				minus_poweroff(0x00);   // Если меньше 3.5В выключаем прибор.
 			
+#ifdef DISPLAY_SSD1306
+			
+			#ifdef STM_15XCBX
+			if(Data.main_menu_stat != 0x0A)
+			#endif
+			
+			#ifdef STM_15XCCX
 			if(Data.main_menu_stat != 0x0D)
+			#endif
+			
 			{
 				battery_procent = ADCData.Batt_voltage;
 				battery_procent -= 3500;
 				battery_procent /= 5;
 				LcdBatt(104, 2, 104 + 10, 2 + 19, battery_procent, (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_9))); //LcdBatt(84, 19, 84 + 10, 19 + 19, battery_procent); TEST
 			}
-    }
+#endif
+			
+		}
+		
+#ifdef DISPLAY_CH1115
+				battery_procent = ADCData.Batt_voltage;
+				battery_procent -= 3500;
+				battery_procent /= 5;
+				LcdBatt(104, 2, 104 + 10, 2 + 19, battery_procent, (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_9))); //LcdBatt(84, 19, 84 + 10, 19 + 19, battery_procent); TEST
+#endif
 
-    if(Data.main_menu_stat > 13)
+    if(Data.main_menu_stat > num_of_main_menu_stat)
+		{
       Data.main_menu_stat = 1;
+		}
     if(Data.main_menu_stat < 1)
-      Data.main_menu_stat = 13;
+		{
+      Data.main_menu_stat = num_of_main_menu_stat;
+		}
 
     if(DataUpdate.Need_update_mainscreen_counters == ENABLE)    // Если требуется обновление счетчиков
     {
@@ -103,11 +125,13 @@ void main_screen()
       Data.Doze_month_count = 0;
       Data.Doze_hour_count = 0;
       Data.Doze_2month_count = 0;
+			
+#ifdef STM_15XCCX
 			Data.Doze_3month_count = 0;
 			Data.Doze_4month_count = 0;
 			Data.Doze_5month_count = 0;
 			//Data.Doze_6month_count = 0;
-			//Data.Doze_all_time = 0;
+#endif
 
       for (i = doze_length_5month; i > 0; i--)
       {
@@ -126,6 +150,8 @@ void main_screen()
           Data.Doze_month_count += flash_read_massive(i, dose_select);  // расчет месячной дозы
         if(i < doze_length_2month)
           Data.Doze_2month_count += flash_read_massive(i, dose_select); // расчет месячной дозы
+
+#ifdef STM_15XCCX
 				if(i < doze_length_3month)
           Data.Doze_3month_count += flash_read_massive(i, dose_select); // расчет месячной дозы
 				if(i < doze_length_4month)
@@ -134,6 +160,8 @@ void main_screen()
           Data.Doze_5month_count += flash_read_massive(i, dose_select); // расчет месячной дозы
 				//if(i < doze_length_6month)
         //  Data.Doze_6month_count += flash_read_massive(i, dose_select); // расчет месячной дозы
+#endif
+				
       }
     }
 
@@ -142,6 +170,12 @@ void main_screen()
       switch (Data.main_menu_stat)
       {
       case 0x01:
+#ifdef DISPLAY_CH1115
+				sprintf(lcd_buf, LANG_TIME);    // Пишем в буфер значение счетчика
+        LcdString(1, 4);        // // Выводим обычным текстом содержание буфера
+        sprintf(lcd_buf, LANG_DATE);    // Пишем в буфер значение счетчика
+        LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
+#endif
         //sprintf(lcd_buf, LANG_TIME);    // Пишем в буфер значение счетчика
         //LcdString(1, 4);        // // Выводим обычным текстом содержание буфера
         //sprintf(lcd_buf, LANG_DATE);    // Пишем в буфер значение счетчика
@@ -150,10 +184,19 @@ void main_screen()
         RTC_GetDate(RTC_Format_BIN, &RTC_DateStructure);
         RTC_GetTime(RTC_Format_BIN, &RTC_TimeStructure);
 
+#ifdef DISPLAY_SSD1306
 				sprintf(lcd_buf, "%0.2d:%0.2d:%0.2d,", RTC_TimeStructure.RTC_Hours, RTC_TimeStructure.RTC_Minutes, RTC_TimeStructure.RTC_Seconds);
         LcdString(1, 4);        // // Выводим обычным текстом содержание буфера
         sprintf(lcd_buf, "%0.2d.%0.2d.%0.4d", RTC_DateStructure.RTC_Date, RTC_DateStructure.RTC_Month, RTC_DateStructure.RTC_Year+2000);
         LcdString(11, 4);        // // Выводим обычным текстом содержание буфера
+#endif
+			
+#ifdef DISPLAY_CH1115
+				sprintf(lcd_buf, "%0.2d:%0.2d:%0.2d", RTC_TimeStructure.RTC_Hours, RTC_TimeStructure.RTC_Minutes, RTC_TimeStructure.RTC_Seconds);
+        LcdString(9, 4);        // // Выводим обычным текстом содержание буфера
+				sprintf(lcd_buf, "%0.2d.%0.2d.%0.2d", RTC_DateStructure.RTC_Date, RTC_DateStructure.RTC_Month, RTC_DateStructure.RTC_Year);
+        LcdString(9, 5);        // // Выводим обычным текстом содержание буфера
+#endif
 
         break;
         // -----------------------------------------
@@ -168,7 +211,15 @@ void main_screen()
         {
           sprintf(lcd_buf, LANG_9UMKZV, convert_mkr_sv(Data.Max_fon));  // Пишем в буфер значение счетчика
         }
+				
+#ifdef DISPLAY_SSD1306
         LcdString(9, 4);        // // Выводим обычным текстом содержание буфера
+#endif
+				
+#ifdef DISPLAY_CH1115
+        LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
+#endif
+				
         break;
         // -----------------------------------------
       case 0x03:
@@ -189,7 +240,15 @@ void main_screen()
         {
           sprintf(lcd_buf, LANG_DOSECALC);      // Пишем в буфер значение счетчика
         }
+				
+#ifdef DISPLAY_SSD1306
         LcdString(9, 4);        // // Выводим обычным текстом содержание буфера
+#endif
+
+#ifdef DISPLAY_CH1115
+        LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
+#endif
+				
         break;
         // -----------------------------------------
       case 0x04:
@@ -209,7 +268,15 @@ void main_screen()
         {
           sprintf(lcd_buf, LANG_DOSECALC);      // Пишем в буфер значение счетчика
         }
+				
+#ifdef DISPLAY_SSD1306
         LcdString(9, 4);        // // Выводим обычным текстом содержание буфера
+#endif
+
+#ifdef DISPLAY_CH1115
+        LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
+#endif
+				
         break;
         // -----------------------------------------
       case 0x05:
@@ -229,8 +296,15 @@ void main_screen()
         {
           sprintf(lcd_buf, LANG_DOSECALC);      // Пишем в буфер значение счетчика
         }
-
+				
+#ifdef DISPLAY_SSD1306
         LcdString(9, 4);        // // Выводим обычным текстом содержание буфера
+#endif
+
+#ifdef DISPLAY_CH1115
+        LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
+#endif
+				
         break;
         // -----------------------------------------
       case 0x06:
@@ -250,8 +324,15 @@ void main_screen()
         {
           sprintf(lcd_buf, LANG_DOSECALC);      // Пишем в буфер значение счетчика
         }
-
+				
+#ifdef DISPLAY_SSD1306
         LcdString(9, 4);        // // Выводим обычным текстом содержание буфера
+#endif
+
+#ifdef DISPLAY_CH1115
+        LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
+#endif
+				
         break;
         // -----------------------------------------
 
@@ -273,8 +354,15 @@ void main_screen()
         {
           sprintf(lcd_buf, LANG_DOSECALC);      // Пишем в буфер значение счетчика
         }
-
+				
+#ifdef DISPLAY_SSD1306
         LcdString(9, 4);        // // Выводим обычным текстом содержание буфера
+#endif
+
+#ifdef DISPLAY_CH1115
+        LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
+#endif
+				
         break;
         // -----------------------------------------
 
@@ -296,11 +384,18 @@ void main_screen()
         {
           sprintf(lcd_buf, LANG_DOSECALC);      // Пишем в буфер значение счетчика
         }
-
+				
+#ifdef DISPLAY_SSD1306
         LcdString(9, 4);        // // Выводим обычным текстом содержание буфера
+#endif
+
+#ifdef DISPLAY_CH1115
+        LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
+#endif
+				
         break;
         // -----------------------------------------
-				
+#ifdef STM_15XCCX	
 				// -----------------------------------------
       case 0x09:
         sprintf(lcd_buf, LANG_DOSE3MONTH);      // Пишем в буфер значение счетчика
@@ -319,8 +414,15 @@ void main_screen()
         {
           sprintf(lcd_buf, LANG_DOSECALC);      // Пишем в буфер значение счетчика
         }
-
+				
+	#ifdef DISPLAY_SSD1306
         LcdString(9, 4);        // // Выводим обычным текстом содержание буфера
+	#endif
+
+	#ifdef DISPLAY_CH1115
+        LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
+	#endif
+				
         break;
         // -----------------------------------------
 				
@@ -342,8 +444,15 @@ void main_screen()
         {
           sprintf(lcd_buf, LANG_DOSECALC);      // Пишем в буфер значение счетчика
         }
-
+				
+	#ifdef DISPLAY_SSD1306
         LcdString(9, 4);        // // Выводим обычным текстом содержание буфера
+	#endif
+
+	#ifdef DISPLAY_CH1115
+        LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
+	#endif
+				
         break;
         // -----------------------------------------
 				
@@ -365,8 +474,15 @@ void main_screen()
         {
           sprintf(lcd_buf, LANG_DOSECALC);      // Пишем в буфер значение счетчика
         }
-
+				
+	#ifdef DISPLAY_SSD1306
         LcdString(9, 4);        // // Выводим обычным текстом содержание буфера
+	#endif
+
+	#ifdef DISPLAY_CH1115
+        LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
+	#endif
+				
         break;
         // -----------------------------------------
 				
@@ -388,11 +504,19 @@ void main_screen()
 						sprintf(lcd_buf, LANG_DOSECALC);      // Пишем в буфер значение счетчика
 					}
 				
+	#ifdef DISPLAY_SSD1306
         LcdString(9, 4);        // // Выводим обычным текстом содержание буфера
+	#endif
+
+	#ifdef DISPLAY_CH1115
+        LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
+	#endif
+				
         break;
         // -----------------------------------------
 					
 				// -----------------------------------------
+	#ifdef DISPLAY_SSD1306
 			case 0x0D:
 				if((Settings.Second_count / 4) > 100)
 				{
@@ -402,8 +526,55 @@ void main_screen()
 					Draw_fon_graph(2, 126, 3, 29, BIG_SIZE, Detector_massive, Detector_massive_pointer, NORMAL);
 				}
         break;
+	#endif
         // -----------------------------------------
+#endif
+				
+#ifdef STM_15XCBX
+				// -----------------------------------------
+			case 0x09:
+        sprintf(lcd_buf, LANG_DOSEALLTIME, Data.working_days);      // Пишем в буфер значение счетчика
+        LcdString(1, 4);        // // Выводим обычным текстом содержание буфера
+				if(Data.working_days > 0)        // День
+					{
+						if(!Settings.units)
+						{
+							sprintf(lcd_buf, LANG_9UMKR, Data.Doze_all_time);      // Пишем в буфер значение счетчика
+						} else
+						{
+							sprintf(lcd_buf, LANG_9UMKZV, convert_mkr_sv(Data.Doze_all_time));       // Пишем в буфер значение счетчика
+						}
+					} else
+					{
+						sprintf(lcd_buf, LANG_DOSECALC);      // Пишем в буфер значение счетчика
+					}
+				
+	#ifdef DISPLAY_SSD1306
+        LcdString(9, 4);        // // Выводим обычным текстом содержание буфера
+	#endif
 
+	#ifdef DISPLAY_CH1115
+        LcdString(1, 5);        // // Выводим обычным текстом содержание буфера
+	#endif
+				
+        break;
+        // -----------------------------------------
+					
+				// -----------------------------------------
+	#ifdef DISPLAY_SSD1306
+			case 0x0A:
+				if((Settings.Second_count / 4) > 100)
+				{
+					Draw_fon_graph(2, 126, 3, 29, SMALL_SIZE, Detector_massive, Detector_massive_pointer, NORMAL);
+				} else
+				{
+					Draw_fon_graph(2, 126, 3, 29, BIG_SIZE, Detector_massive, Detector_massive_pointer, NORMAL);
+				}
+        break;
+	#endif
+        // -----------------------------------------
+#endif
+				
       default:
         break;
       }
@@ -411,7 +582,17 @@ void main_screen()
     {
       // Режим "Замер А-В"
       if(Settings.AB_mode > 0)
+				{
+				
+#ifdef DISPLAY_SSD1306
         Draw_fon_digit(2, 3, 0, Data.fon_level, BETA, 0);//Draw_fon_digit(4, 1, 0, Data.fon_level, BETA, 0); TEST
+#endif
+					
+#ifdef DISPLAY_CH1115
+        Draw_fon_digit(4, 1, 0, Data.fon_level, BETA, 0);
+#endif
+					
+				}
     }
 
     if(Settings.Cal_mode == 1)
@@ -423,9 +604,18 @@ void main_screen()
       LcdString(1, 2);          // // Выводим обычным текстом содержание буфера    
     } else
     {
+			
+#ifdef DISPLAY_SSD1306
 			if(Settings.AB_mode == 0)
 			{
+				
+#ifdef STM_15XCCX
 				if(Data.main_menu_stat != 0x0D)
+#endif
+				
+#ifdef STM_15XCBX
+				if(Data.main_menu_stat != 0x0A)
+#endif
 				{
 					if(!Settings.units)
 					{
@@ -436,16 +626,46 @@ void main_screen()
 					}
 				}
 			}
+#endif
+		
+#ifdef DISPLAY_CH1115
+			if(!Settings.units)
+      {
+        Draw_fon_digit(1, 1, 0, Data.fon_level, MKRH, 1);
+      } else
+      {
+        Draw_fon_digit(1, 1, 0, Data.fon_level, SIVERT, 1);
+      }
+#endif
+			
     }
-    /*if((Settings.Second_count / 4) > 100)
+		
+#ifdef DISPLAY_CH1115
+    if((Settings.Second_count / 4) > 100)
     {
-      Draw_fon_graph(2, 94, 67 - 25, 67, SMALL_SIZE, Detector_massive, Detector_massive_pointer, NORMAL);
+      Draw_fon_graph(2, 126, 42, 61, SMALL_SIZE, Detector_massive, Detector_massive_pointer, NORMAL);
     } else
     {
-      Draw_fon_graph(2, 94, 67 - 25, 67, BIG_SIZE, Detector_massive, Detector_massive_pointer, NORMAL);
-    }*///TEST
+      Draw_fon_graph(2, 126, 42, 61, BIG_SIZE, Detector_massive, Detector_massive_pointer, NORMAL);
+    }
+#endif
 
+#ifdef DISPLAY_SSD1306
+		
+		#ifdef STM_15XCBX
+    if(Data.auto_speedup_factor > 1 && Data.main_menu_stat != 0x0A)//TEST if(Data.auto_speedup_factor > 1)
+		#endif
+		
+		#ifdef STM_15XCCX
     if(Data.auto_speedup_factor > 1 && Data.main_menu_stat != 0x0D)//TEST if(Data.auto_speedup_factor > 1)
+		#endif
+		
+#endif
+		
+#ifdef DISPLAY_CH1115
+    if(Data.auto_speedup_factor > 1)//TEST if(Data.auto_speedup_factor > 1)
+#endif
+		
     {
       Draw_speedup(2, 94, 67 - 25, 67);
       sprintf(lcd_buf, "x%2u", Data.auto_speedup_factor);       // Пишем в буфер значение счетчика
@@ -457,7 +677,6 @@ void main_screen()
   }*/ //TEST
 
   LcdUpdate();                  // записываем данные из сформированного фрейм-буфера на дисплей
-
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -775,6 +994,8 @@ void stat_screen()
   switch (Data.stat_screen_number)
   {
   case 0:
+
+#ifdef DISPLAY_SSD1306
     sprintf(lcd_buf, LANG_STAT);
     LcdStringInv(1, 1);
     sprintf(lcd_buf, LANG_VOLTAGE_PUMP);     // Выводим на дисплей
@@ -801,23 +1022,69 @@ void stat_screen()
     LcdString(16, 4);            // // Выводим обычным текстом содержание буфера на строку 8
     //sprintf(lcd_buf, LANG_4IDN, Data.working_days);     // Выводим на дисплей
     //LcdString(9, 8);            // // Выводим обычным текстом содержание буфера на строку 8
+#endif
+		
+#ifdef DISPLAY_CH1115
+    sprintf(lcd_buf, LANG_STAT);
+    LcdStringInv(1, 1);
+    sprintf(lcd_buf, LANG_VOLTAGE);     // Выводим на дисплей
+    LcdString(1, 2);            // // Выводим обычным текстом содержание буфера на строку 8
+    sprintf(lcd_buf, LANG_AKB3VVV);     // Выводим на дисплей
+    LcdString(1, 3);            // // Выводим обычным текстом содержание буфера на строку 8
+    sprintf(lcd_buf, "%1i.%02i", ADCData.Batt_voltage / 1000, (ADCData.Batt_voltage % 1000) / 10);      // Выводим на дисплей
+    LcdString(1, 4);            // // Выводим обычным текстом содержание буфера на строку 8
+    sprintf(lcd_buf, "|%1i.%02i", ADCData.Power_voltage / 1000, (ADCData.Power_voltage % 1000) / 10);   // Выводим на дисплей
+    LcdString(8, 4);            // // Выводим обычным текстом содержание буфера на строку 8
+    sprintf(lcd_buf, "|%3is", Settings.Second_count);   // Выводим на дисплей
+    LcdString(16, 4);           // // Выводим обычным текстом содержание буфера на строку 8
+    sprintf(lcd_buf, LANG_PUMP);        // Выводим на дисплей
+    LcdString(1, 6);            // // Выводим обычным текстом содержание буфера на строку 8
+    sprintf(lcd_buf, LANG_IMPMINAR);    // Выводим на дисплей
+    LcdString(1, 7);            // // Выводим обычным текстом содержание буфера на строку 8
+    if(PumpData.pump_counter_avg_impulse_by_1sec[1] == 0)
+    {
+      sprintf(lcd_buf, LANG_CALC2);
+    }                           // Выводим на дисплей
+    else
+      sprintf(lcd_buf, "%5i ", PumpData.pump_counter_avg_impulse_by_1sec[1]);   // Выводим на дисплей
+    LcdString(1, 8);            // // Выводим обычным текстом содержание буфера на строку 8
+    sprintf(lcd_buf, LANG_4IDN, Data.working_days);     // Выводим на дисплей
+    LcdString(10, 8);            // // Выводим обычным текстом содержание буфера на строку 8
+#endif
+		
     break;
   case 1:
 
+#ifdef DISPLAY_SSD1306
     sprintf(lcd_buf, LANG_ABOUT);
     LcdStringInv(1, 1);
     sprintf(lcd_buf, LANG_DOZIK);
     LcdString(1, 2);
     sprintf(lcd_buf, LANG_AUTHOR);
     LcdString(1, 3);
-    //sprintf(lcd_buf, LANG_CITY);
-    //LcdString(1, 5);
-    //sprintf(lcd_buf, LANG_SITE);
-    //LcdString(1, 6);
     sprintf(lcd_buf, LANG_BUILD);
     LcdString(1, 4);
     sprintf(lcd_buf, " %s", __DATE__);
     LcdString(10, 4);
+#endif
+	
+#ifdef DISPLAY_CH1115
+		sprintf(lcd_buf, LANG_ABOUT);
+    LcdStringInv(1, 1);
+    sprintf(lcd_buf, LANG_DOZIK);
+    LcdString(1, 3);
+    sprintf(lcd_buf, LANG_AUTHOR);
+    LcdString(1, 4);
+    sprintf(lcd_buf, LANG_CITY);
+    LcdString(1, 5);
+    sprintf(lcd_buf, LANG_SITE);
+    LcdString(1, 6);
+    sprintf(lcd_buf, LANG_BUILD);
+    LcdString(1, 7);
+    sprintf(lcd_buf, "     %s", __DATE__);
+    LcdString(6, 8);
+#endif
+
     break;
   default:
     Data.stat_screen_number = 0;

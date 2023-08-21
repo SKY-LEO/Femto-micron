@@ -41,7 +41,7 @@
 #define LANG_CLEAR_FON "Сброс фона"
 #define LANG_BETA_MEAS "Замер A-B"
 #define LANG_SCINT_MEAS "Модуль-А"
-#define LANG_REF_VOLT  "кал.ИОН"
+#define LANG_REF_VOLT  "Калибр. ИОН"
 #define LANG_REF_VOLT_ "%uмВ"
 #define LANG_PUMP_AGR  "Нак.Агрес."
 #define LANG_ISOTOP    "Изотоп"
@@ -76,20 +76,39 @@
 
 ///////////////////////////////////////////////////////
 // Dose
-#define LANG_TIME        "Время"
-#define LANG_DATE        "Дата"
-#define LANG_MAXFON      "Макс.фон"
-#define LANG_DOSE10M     "Доза 10м"
-#define LANG_DOSEHOUR    "Доза час"
-#define LANG_DOSE24H     "Доза сут"
-#define LANG_DOSEWEEK    "Доза нед"
-#define LANG_DOSEMONTH   "Доза мес"
-#define LANG_DOSE2MONTH  "Доза 2м."
-#define LANG_DOSE3MONTH  "Доза 3м."
-#define LANG_DOSE4MONTH  "Доза 4м."
-#define LANG_DOSE5MONTH  "Доза 5м."
-#define LANG_DOSE6MONTH  "Доза 6м."
-#define LANG_DOSEALLTIME "Д. %4iд"
+#define LANG_TIME        "Время:"
+#define LANG_DATE        "Дата:"
+
+#ifdef DISPLAY_SSD1306
+        #define LANG_MAXFON      "Макс.фон"
+				#define LANG_DOSE10M     "Доза 10м"
+				#define LANG_DOSEHOUR    "Доза час"
+				#define LANG_DOSE24H     "Доза сут"
+				#define LANG_DOSEWEEK    "Доза нед"
+				#define LANG_DOSEMONTH   "Доза мес"
+				#define LANG_DOSE2MONTH  "Доза 2м."
+				#define LANG_DOSE3MONTH  "Доза 3м."
+				#define LANG_DOSE4MONTH  "Доза 4м."
+				#define LANG_DOSE5MONTH  "Доза 5м."
+				#define LANG_DOSE6MONTH  "Доза 6м."
+				#define LANG_DOSEALLTIME "Д. %4iд"
+#endif
+
+#ifdef DISPLAY_CH1115
+        #define LANG_MAXFON      "Максимальный фон"
+				#define LANG_DOSE10M     "Доза за 10мин"
+				#define LANG_DOSEHOUR    "Доза за час"
+				#define LANG_DOSE24H     "Доза за сутки"
+				#define LANG_DOSEWEEK    "Доза за неделю"
+				#define LANG_DOSEMONTH   "Доза за месяц"
+				#define LANG_DOSE2MONTH  "Доза за 2 месяца"
+				#define LANG_DOSE3MONTH  "Доза за 3 месяца"
+				#define LANG_DOSE4MONTH  "Доза за 4 месяца"
+				#define LANG_DOSE5MONTH  "Доза за 5 месяцев"
+				#define LANG_DOSE6MONTH  "Доза за 6 месяцев"
+				#define LANG_DOSEALLTIME "Доза за %4iд."
+#endif
+
 #define LANG_DOSECALC   "  *расчет*   "
 #define LANG_DOSECALCZV "  *расчет*   "
 #define LANG_9UMKR      "%9uмкР"
@@ -102,7 +121,9 @@
 #define LANG_STAT          "      Статистика     "
 #define LANG_VOLTAGE_PUMP  "Напряжение    Накачка"
 #define LANG_AKB3VVV_IMP   "АКБ |+3В |счет |имп/м"
-//#define LANG_IMPMINAR "имп/м | наработ."
+#define LANG_AKB3VVV  		 "АКБ    |+3В    |счет"
+#define LANG_IMPMINAR 		 "имп/м   |наработка"
+#define LANG_PUMP     "Накачка"
 #define LANG_CALC2    "расчет"
 #define LANG_4IDN     "%4iдн."
 
@@ -112,18 +133,18 @@
 #define LANG_DSENS    "Датчик %5i"
 
 #define LANG_ABOUT    		 "     О программе     "
-#define LANG_DOZIK         "    Фемто-Микрон    "
+#define LANG_DOZIK         "    Фемто-Микрон     "
 #define LANG_AUTHOR        "  (c)Shodan, SKYLEO  "
-//#define LANG_CITY          " г.Тула 2014-17г"
-//#define LANG_SITE          "    misrv.com   "
+#define LANG_CITY          "   г.Тула, г.Минск   "
+#define LANG_SITE          "  github.com/SKY-LEO "
 #define LANG_BUILD         "Прошивка:"
 ///////////////////////////////////////////////////////
 
-#define LANG_POWEROFF " Выключение.... "
+#define LANG_POWEROFF "    Выключение....   "
 
-#define LANG_REBOOTPR "Перезагрузка...."
-#define LANG_DONTOTO1 "   На клавиши   "
-#define LANG_DONTOTO2 "   НЕ нажимать! "
+#define LANG_REBOOTPR "   Перезагрузка....  "
+#define LANG_DONTOTO1 "     На джойстик     "
+#define LANG_DONTOTO2 "     НЕ нажимать!    "
 #define LANG_USBON    "USB активирован"
 #define LANG_USBOFF   "USB  выключен"
 #define LANG_ERRISO   " Нет калибровки "
@@ -153,6 +174,7 @@
 #define LANG_REBOOT   "Reboot/off"
 #define LANG_CONTRAST "Contrast"
 #define LANG_REVERSE  "Reverse"
+#define LANG_INVERSE  "Inverse"
 #define LANG_COUNT    "Count"
 #define LANG_VOLTAGE  "Voltage"
 #define LANG_SPEED    "Speedup"
@@ -179,7 +201,7 @@
 #define LANG_CLEAR_FON "Clear rad"
 #define LANG_BETA_MEAS "A-B meas."
 #define LANG_SCINT_MEAS "Module-A"
-#define LANG_REF_VOLT  "cal Vref"
+#define LANG_REF_VOLT  "Сal. Vref"
 #define LANG_REF_VOLT_ "%umV"
 #define LANG_PUMP_AGR  "Pump AGR"
 #define LANG_ISOTOP    "Isotop"
@@ -218,20 +240,39 @@
 
 ///////////////////////////////////////////////////////
 // Dose
-#define LANG_TIME       "Time"
-#define LANG_DATE       "Date"
-#define LANG_MAXFON     "Radiation max"
-#define LANG_DOSE10M    "10 min dose"
-#define LANG_DOSEHOUR   "Hour dose"
-#define LANG_DOSE24H    "Day dose"
-#define LANG_DOSEWEEK   "Week dose"
-#define LANG_DOSE2MONTH "2 Month dose"
-#define LANG_DOSE3MONTH "3 Month dose"
-#define LANG_DOSE4MONTH "4 Month dose"
-#define LANG_DOSE5MONTH "5 Month dose"
-#define LANG_DOSE6MONTH "6 Month dose"
-#define LANG_DOSEMONTH  "Month dose"
-#define LANG_DOSEALLTIME "Dose for %4id."
+#define LANG_TIME       "Time:"
+#define LANG_DATE       "Date:"
+
+#ifdef DISPLAY_SSD1306
+				#define LANG_MAXFON      "Rad. max"
+				#define LANG_DOSE10M     "Dose 10m"
+				#define LANG_DOSEHOUR    "Hour d."
+				#define LANG_DOSE24H     "Day dose"
+				#define LANG_DOSEWEEK    "Week d."
+				#define LANG_DOSEMONTH   "Month d."
+				#define LANG_DOSE2MONTH  "2m. dose"
+				#define LANG_DOSE3MONTH  "3m. dose"
+				#define LANG_DOSE4MONTH  "4m. dose"
+				#define LANG_DOSE5MONTH  "5m. dose"
+				#define LANG_DOSE6MONTH  "6m. dose"
+				#define LANG_DOSEALLTIME "D. %4id"
+#endif
+
+#ifdef DISPLAY_CH1115
+				#define LANG_MAXFON      "Radiation max"
+				#define LANG_DOSE10M     "10 min dose"
+				#define LANG_DOSEHOUR    "Hour dose"
+				#define LANG_DOSE24H     "Day dose"
+				#define LANG_DOSEWEEK    "Week dose"
+				#define LANG_DOSEMONTH   "Month dose"
+				#define LANG_DOSE2MONTH  "2 Month dose"
+				#define LANG_DOSE3MONTH  "3 Month dose"
+				#define LANG_DOSE4MONTH  "4 Month dose"
+				#define LANG_DOSE5MONTH  "5 Month dose"
+				#define LANG_DOSE6MONTH  "6 Month dose"
+				#define LANG_DOSEALLTIME "Dose for %4id."
+#endif
+
 #define LANG_DOSECALC   " *CALC*     "
 #define LANG_DOSECALCSV " *CALC*     "
 #define LANG_9UMKR      "%9u uR"
@@ -240,13 +281,16 @@
 
 ///////////////////////////////////////////////////////
 // Screen
-#define LANG_MENU     "      Menu      "
-#define LANG_STAT     "   Statistic    "
-#define LANG_ABOUT    "      About     "
+#define LANG_MENU     "         Menu        "
+#define LANG_STAT     "      Statistic      "
+#define LANG_ABOUT    "        About        "
 
-#define LANG_AKB3VVV  "BAT  |+3V  |cnt"
+#define LANG_VOLTAGE_PUMP  "Voltage        Pump  "
+#define LANG_AKB3VVV_IMP   "BAT |+3V |cnt  |imp/m"
+#define LANG_AKB3VVV  		 "BAT    |+3V    |count"
+#define LANG_IMPMINAR 		 "imp/m    |uptime   "
+
 #define LANG_PUMP     "Pump  "
-#define LANG_IMPMINAR "imp/m | uptime  "
 #define LANG_CALC2    "calc  "
 #define LANG_4IDN     "%4iday"
 
@@ -255,18 +299,17 @@
 #define LANG_DTIME    "Time  %6i"
 #define LANG_DSENS    "Sensor %5i"
 
-#define LANG_DOZIK    "  Ultra-Micron  "
-#define LANG_AUTHOR   " (c)Shodan,Tula "
-#define LANG_CITY     " Russia 2014-17 "
-#define LANG_SITE     "    misrv.com   "
-#define LANG_BUILD    " FW Build:"
+#define LANG_DOZIK         "    Femto-Micron     "
+#define LANG_AUTHOR        "  (c)Shodan, SKYLEO  "
+#define LANG_CITY          " Tula, RU; Minsk, BY "
+#define LANG_SITE          "  github.com/SKY-LEO "
+#define LANG_BUILD         "FW Build:"
 ///////////////////////////////////////////////////////
 
-#define LANG_POWEROFF "Power off...... "
-
-#define LANG_REBOOTPR "Rebooting......."
-#define LANG_DONTOTO1 "  DO NOT TOUCH  "
-#define LANG_DONTOTO2 "  ANY KEYS!!!   "
+#define LANG_POWEROFF "    Power off....    "
+#define LANG_REBOOTPR "    Rebooting....    "
+#define LANG_DONTOTO1 "    DO NOT TOUCH     "
+#define LANG_DONTOTO2 "     ANY KEYS!!!     "
 #define LANG_USBON    "USB enabled"
 #define LANG_USBOFF   "USB disabled"
 #define LANG_ERRISO   " No calibration "

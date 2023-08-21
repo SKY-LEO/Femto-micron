@@ -1,6 +1,12 @@
 #ifndef __main_user_H
 #define __main_user_H
 
+//#define DISPLAY_CH1115
+#define DISPLAY_SSD1306
+#define STM_15XCBX
+//#define LANG_EN
+//#define STM_15XCCX
+
 #include "stm32l1xx.h"
 
 #include "adc.h"
@@ -29,7 +35,6 @@
 #include "usb_istr.h"
 #include "usb_pwr.h"
 #include "usb_desc.h"
-
 
 // ------------- СЕРИЙНИК ! ------------- 
 #define U_ID_0 (*(uint32_t*) 0x1FF80050)        // MCU Serial
@@ -187,6 +192,8 @@ typedef struct
   FunctionalState Display_active;       // Включен дисплей
   FunctionalState USB_active;   // Включен USB
 	FunctionalState charging;     // Зарядка устройства TEST
+	FunctionalState display_offed;
+	FunctionalState display_just_onned;
 
   uint32_t APB1ENR;             //
 
@@ -250,7 +257,12 @@ extern uint32_t Detector_AB_massive[15];        // 1 минута, интервалами по 4 се
 
 #define FLASH_PAGE_SIZE                 0x100   // (НЕ ТРОГАТЬ! развилится оптимизация USB обмена!!)
 #define FLASH_START_ADDR                0x0800F000
-#define FLASH_END_ADDR                  0x0801FFFF //0x08039400 
+#ifdef STM_15XCBX
+	#define FLASH_END_ADDR                  0x0801FFFF
+#endif
+#ifdef STM_15XCCX
+	#define FLASH_END_ADDR                  0x08039400 
+#endif
 #define FLASH_MAX_PAGE                  (FLASH_END_ADDR - FLASH_START_ADDR) / FLASH_PAGE_SIZE // 10FFF -> 10F, 32B00 -> 32B, 2A400 -> 2A4
 #define FLASH_MAX_ELEMENT               FLASH_MAX_PAGE * (FLASH_PAGE_SIZE >> 3) //10F * 20 = 21E0 = 8672, 32B * 20 = 6560 = 25952, 2A4 * 20 = 5480 = 21632
 

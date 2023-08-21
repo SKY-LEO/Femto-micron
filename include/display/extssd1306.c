@@ -4,7 +4,6 @@
 #include "delay.h"
 #include "extssd1306.h"
 #include "lang.h"
-//#include "my_spi.h"
 
 
 char lcd_buf[21];               // текстовый буфер дл€ вывода на LCD
@@ -159,121 +158,95 @@ void LcdInit()
 	// Init OLED
 	ssd1306_SetDisplayOn(0); //display off
 
-	LcdSend(0x20, lcd_CMD); //Set Memory Addressing Mode
-	LcdSend(0x00, lcd_CMD); // 00b,Horizontal Addressing Mode; 01b,Vertical Addressing Mode;
-	// 10b,Page Addressing Mode (RESET); 11b,Invalid
-
-	LcdSend(0xB0, lcd_CMD); //Set Page Start Address for Page Addressing Mode,0-7
+	LcdSend(0x20, lcd_CMD); //Set Memory Addressing Mode //CH1115 нету
+	LcdSend(0x00, lcd_CMD); // 00b,Horizontal Addressing Mode; 01b,Vertical Addressing Mode; //CH1115 нету
+	LcdSend(0xB0, lcd_CMD); //Set Page Start Address for Page Addressing Mode,0-7 CH1115
 
 	if(Settings.Display_reverse == 0x00)
 	{
-		LcdSend(0xC0, lcd_CMD);
-		LcdSend(0xA1, lcd_CMD); //--set segment re-map 0 to 127 - CHECK
+#ifdef DISPLAY_SSD1306
+		LcdSend(0xC0, lcd_CMD); //CH1115
+		LcdSend(0xA1, lcd_CMD); //--set segment re-map 0 to 127 - CHECK CH1115
+#endif
+
+#ifdef DISPLAY_CH1115
+		LcdSend(0xC8, lcd_CMD);	//CH1115
+		LcdSend(0xA0, lcd_CMD); // Mirror horizontally
+#endif
 	}
 	else if (Settings.Display_reverse == 0x01)
 	{
-		LcdSend(0xC8, lcd_CMD);
+#ifdef DISPLAY_SSD1306
+		LcdSend(0xC8, lcd_CMD);	//CH1115
 		LcdSend(0xA0, lcd_CMD); // Mirror horizontally
+#endif
+
+#ifdef DISPLAY_CH1115
+		LcdSend(0xC0, lcd_CMD); //CH1115
+		LcdSend(0xA1, lcd_CMD); //--set segment re-map 0 to 127 - CHECK CH1115
+#endif
 	}
-/*#ifdef SSD1306_MIRROR_VERT
-	LcdSend(0xC0, lcd_CMD); // Mirror vertically
-#else
-	LcdSend(0xC8, lcd_CMD); //Set COM Output Scan Direction
-#endif*/
 
-	LcdSend(0x00, lcd_CMD); //---set low column address
-	LcdSend(0x10, lcd_CMD); //---set high column address
+	LcdSend(0x00, lcd_CMD); //---set low column address CH1115
+	LcdSend(0x10, lcd_CMD); //---set high column address CH1115
 
-	LcdSend(0x40, lcd_CMD); //--set start line address - CHECK
+	LcdSend(0x40, lcd_CMD); //--set start line address - CHECK CH1115
 
 	//установка контраста
-	LcdSend(0x81, lcd_CMD);
-	LcdSend(0x05 + 0xA * Settings.contrast, lcd_CMD);//от 0x00 до 0xFF LcdSend(0x96 + Settings.contrast, lcd_CMD)
+	LcdSend(0x81, lcd_CMD); //CH1115
+	LcdSend(0x05 + 0xA * Settings.contrast, lcd_CMD);//от 0x00 до 0xFF CH1115
 	//
-
-
-/*#ifdef SSD1306_MIRROR_HORIZ
-	LcdSend(0xA0, lcd_CMD); // Mirror horizontally
-#else
-	LcdSend(0xA1, lcd_CMD); //--set segment re-map 0 to 127 - CHECK
-#endif*/
 
 	if(Settings.Display_inverse == 0x00)
 	{
-		LcdSend(0xA6, lcd_CMD); //--set normal color
+		LcdSend(0xA6, lcd_CMD); //--set normal color CH1115
 	}
 	else if(Settings.Display_inverse == 0x01)
 	{
-		LcdSend(0xA7, lcd_CMD); //--set inverse color
+		LcdSend(0xA7, lcd_CMD); //--set inverse color CH1115
 	}
-/*#ifdef SSD1306_INVERSE_COLOR
-	LcdSend(0xA7, lcd_CMD); //--set inverse color
-#else
-	LcdSend(0xA6, lcd_CMD); //--set normal color
-#endif*/
-
-	// Set multiplex ratio.
-#if (SSD1306_HEIGHT == 128)
-	// Found in the Luma Python lib for SH1106.
-	LcdSend(0xFF, lcd_CMD);
-#else
-	LcdSend(0xA8, lcd_CMD); //--set multiplex ratio(1 to 64) - CHECK
-#endif
+	
+	LcdSend(0xA8, lcd_CMD); //--set multiplex ratio(1 to 64) - CHECK CH1115
 
 #if (SSD1306_HEIGHT == 32)
 	LcdSend(0x1F, lcd_CMD); //
 #elif (SSD1306_HEIGHT == 64)
-	LcdSend(0x3F, lcd_CMD); //
-#elif (SSD1306_HEIGHT == 128)
-	LcdSend(0x3F, lcd_CMD); // Seems to work for 128px high displays too.
-#else
-#error "Only 32, 64, or 128 lines of height are supported!"
+	LcdSend(0x3F, lcd_CMD); // CH1115
 #endif
 
-	LcdSend(0xA4, lcd_CMD); //0xa4,Output follows RAM content;0xa5,Output ignores RAM content
+	LcdSend(0xA4, lcd_CMD); //0xa4,Output follows RAM content;0xa5,Output ignores RAM content CH1115
 
-	LcdSend(0xD3, lcd_CMD); //-set display offset - CHECK
-	LcdSend(0x00, lcd_CMD); //-not offset
+	LcdSend(0xD3, lcd_CMD); //-set display offset - CHECK CH1115
+	LcdSend(0x00, lcd_CMD); //-not offset CH1115
 
-	LcdSend(0xD5, lcd_CMD); //--set display clock divide ratio/oscillator frequency
-	LcdSend(0xF0, lcd_CMD); //--set divide ratio
+	LcdSend(0xD5, lcd_CMD); //--set display clock divide ratio/oscillator frequency CH1115
+	LcdSend(0xF0, lcd_CMD); //--set divide ratio CH1115
 
-	LcdSend(0xD9, lcd_CMD); //--set pre-charge period
-	LcdSend(0x22, lcd_CMD); //
+	LcdSend(0xD9, lcd_CMD); //--set pre-charge period CH1115
+	LcdSend(0x22, lcd_CMD); //CH1115
 
-	LcdSend(0xDA, lcd_CMD); //--set com pins hardware configuration - CHECK
+	LcdSend(0xDA, lcd_CMD); //--set com pins hardware configuration - CHECK CH1115 возможно достаточно 0xA2
 #if (SSD1306_HEIGHT == 32)
 	LcdSend(0x02, lcd_CMD);
 #elif (SSD1306_HEIGHT == 64)
 	LcdSend(0x12, lcd_CMD);
-#elif (SSD1306_HEIGHT == 128)
-	LcdSend(0x12, lcd_CMD);
-#else
-#error "Only 32, 64, or 128 lines of height are supported!"
 #endif
 
-	LcdSend(0xDB, lcd_CMD); //--set vcomh
-	LcdSend(0x20, lcd_CMD); //0x20,0.77xVcc
+	LcdSend(0xDB, lcd_CMD); //--set vcomh CH1115
+	LcdSend(0x20, lcd_CMD); //0x20,0.77xVcc CH1115
 
-	LcdSend(0x8D, lcd_CMD); //--set DC-DC enable
-	LcdSend(0x14, lcd_CMD); //
+	LcdSend(0x8D, lcd_CMD); //--set DC-DC enable CH1115 0xAD
+	LcdSend(0x14, lcd_CMD); // CH1115 0x8B
 	ssd1306_SetDisplayOn(1); //--turn on SSD1306 panel
-
-
-	// Clear screen
-	//ssd1306_Fill();
-
-	// Flush buffer to screen
-	//ssd1306_UpdateScreen();
 }
 
 void ssd1306_SetDisplayOn(const uint8_t on) {
 	uint8_t value;
 	if (on) {
-		value = 0xAF;   // Display on
+		value = 0xAF;   // Display on CH1115
 	}
 	else {
-		value = 0xAE;   // Display off
+		value = 0xAE;   // Display off CH1115
 	}
 	LcdSend(value, lcd_CMD);
 }
@@ -282,19 +255,16 @@ void LcdSend(uint8_t data, uint8_t cmd) //Sends data to display controller
 {
 	if (cmd == lcd_CMD)
 	{
-		LCD_CS_L; //HAL_GPIO_WritePin(SSD1306_CS_Port, SSD1306_CS_Pin, GPIO_PIN_RESET); // select OLED
-		LCD_DC_L; //HAL_GPIO_WritePin(SSD1306_DC_Port, SSD1306_DC_Pin, GPIO_PIN_RESET); // command
+		LCD_CS_L;
+		LCD_DC_L;
 		SPI_send(data);
-		//SPI_I2S_SendData(SPI1, *(&data)); //HAL_SPI_Transmit(&SSD1306_SPI_PORT, (uint8_t*)&byte, 1, HAL_MAX_DELAY);
-		LCD_CS_H; //HAL_GPIO_WritePin(SSD1306_CS_Port, SSD1306_CS_Pin, GPIO_PIN_SET); // un-select OLED
+		LCD_CS_H;
 	}
 	else {
-		LCD_CS_L; //HAL_GPIO_WritePin(SSD1306_CS_Port, SSD1306_CS_Pin, GPIO_PIN_RESET); // select OLED
-		LCD_DC_H; //HAL_GPIO_WritePin(SSD1306_DC_Port, SSD1306_DC_Pin, GPIO_PIN_SET); // data
-		SPI_send(data); //SPI_I2S_SendData(SPI1, *(&data));
-		//SPI_send8b(SPI_periph, pBuff, BuffLen); //HAL_SPI_Transmit(&SSD1306_SPI_PORT, buffer, buff_size, HAL_MAX_DELAY);
-		LCD_CS_H; //HAL_GPIO_WritePin(SSD1306_CS_Port, SSD1306_CS_Pin, GPIO_PIN_SET); // un-select OLED
-		//LCD_DC_L;
+		LCD_CS_L;
+		LCD_DC_H;
+		SPI_send(data);
+		LCD_CS_H;
 	}
 }
 
@@ -407,18 +377,6 @@ void LcdLine(int x1, int y1, int x2, int y2, unsigned char mode)        //Draws 
 
 void LcdUpdate(void)            //Copies the LCD cache into the device RAM
 {
-	/*int i = 0, j = 0;
-
-	LcdSend(0xB0, lcd_CMD);       //ѕозицианируем курсор на начало координат
-	LcdSend(0x10, lcd_CMD);
-	LcdSend(0x00, lcd_CMD);
-
-	for (i = 0; i < (LCD_Y_RES >> 3); i++)        //грузим данные строками (было деление на 8)
-		for (j = LCD_X_RES - 1; j >= 0; j--)        //грузим данные столюиками по 8 пикселей
-		{
-			LcdSend(LcdCache[((i * LCD_X_RES) + j)], lcd_DATA);       //вычисл€ем адрес в фрейм буфере, и данные от туда грузим в дисплей.
-		}
-	*/
 	int i = 0, j = 0;
 	for (i = 0; i < SSD1306_HEIGHT / 8; i++) {
 		LcdSend(0xB0 + i, lcd_CMD); // Set the current RAM page address.
@@ -435,15 +393,22 @@ void LcdString(unsigned char x, unsigned char y)        //Displays a string at c
 {
 	unsigned char i = 0;
 
+#ifdef DISPLAY_SSD1306
 	if (x > 21 || y > 4)//TEST if (x > 17 || y > 8)
 		return;
+#endif
+
+#ifdef DISPLAY_CH1115
+	if (x > 21 || y > 8)//TEST if (x > 17 || y > 8)
+		return;
+#endif
+	
 	LcdGotoXYFont(x, y);
 	for (i = 0; i < 21; i++)//TEST for (i = 0; i < 17; i++)
 		if (lcd_buf[i])
 			LcdChr(lcd_buf[i]);
 	clean_lcd_buf();
 }
-
 
 void LcdChrBold(int ch)         //Displays a bold character at current cursor location and increment cursor location
 {
@@ -485,8 +450,17 @@ void LcdChrBold(int ch)         //Displays a bold character at current cursor lo
 void LcdStringBold(unsigned char x, unsigned char y)    //Displays a string at current cursor location
 {
 	unsigned char i = 0;
+
+#ifdef DISPLAY_SSD1306
 	if (x > 21 || y > 4)//TEST if (x > 17 || y > 8)
 		return;
+#endif
+
+#ifdef DISPLAY_CH1115
+	if (x > 21 || y > 8)//TEST if (x > 17 || y > 8)
+		return;
+#endif
+	
 	LcdGotoXYFont(x, y);
 	for (i = 0; i < 21 - x; i++)//for (i = 0; i < 17 - x; i++) TEST
 		if (lcd_buf[i])
@@ -532,8 +506,16 @@ void LcdStringBig(unsigned char x, unsigned char y)     //Displays a string at c
 {
 	unsigned char i = 0;
 
+#ifdef DISPLAY_SSD1306
 	if (x > 21 || y > 4)//TEST if (x > 17 || y > 8)
 		return;
+#endif
+
+#ifdef DISPLAY_CH1115
+	if (x > 21 || y > 8)//TEST if (x > 17 || y > 8)
+		return;
+#endif
+
 	LcdGotoXYFont(x, y);
 	for (i = 0; i < 21 - x; i++)//for (i = 0; i < 17 - x; i++) TEST
 		if (lcd_buf[i])
@@ -546,8 +528,16 @@ void LcdStringInv(unsigned char x, unsigned char y)     //Displays a string at c
 {
 	unsigned char i = 0;
 
+#ifdef DISPLAY_SSD1306
 	if (x > 21 || y > 4)//TEST if (x > 17 || y > 8)
 		return;
+#endif
+
+#ifdef DISPLAY_CH1115
+	if (x > 21 || y > 8)//TEST if (x > 17 || y > 8)
+		return;
+#endif
+	
 	LcdGotoXYFont(x, y);
 	for (i = 0; i < 21; i++)//for (i = 0; i < 17 - x; i++) TEST
 		if (lcd_buf[i])
@@ -616,7 +606,10 @@ void Draw_fon_graph(uint8_t x_start, uint8_t x_end, uint8_t y_start, uint8_t y_e
 	uint32_t q = 0, i = 0, j = 0, pointer = 0;
 	uint32_t scalling_factor = 0;
 
+#ifdef DISPLAY_SSD1306
 	LcdClear_massive();//TEST
+#endif
+	
 	for (i = x_start; i <= x_end; i++)
 	{
 		for (j = y_start; j <= y_end; j++)

@@ -374,12 +374,24 @@ void plus_reboot(uint32_t * param)      // перезагрузка
   if(Power.USB_active)
     USB_off();
   LcdClear_massive();
+	
+#ifdef DISPLAY_SSD1306
   sprintf(lcd_buf, LANG_REBOOTPR);      // Пишем в буфер значение счетчика
   LcdString(1, 1);              // // Выводим обычным текстом содержание буфера
   sprintf(lcd_buf, LANG_DONTOTO1);      // Пишем в буфер значение счетчика
-  LcdString(1, 2);              // // Выводим обычным текстом содержание буфера
-  sprintf(lcd_buf, LANG_DONTOTO2);      // Пишем в буфер значение счетчика
   LcdString(1, 3);              // // Выводим обычным текстом содержание буфера
+  sprintf(lcd_buf, LANG_DONTOTO2);      // Пишем в буфер значение счетчика
+  LcdString(1, 4);              // // Выводим обычным текстом содержание буфера
+#endif
+	
+#ifdef DISPLAY_CH1115
+  sprintf(lcd_buf, LANG_REBOOTPR);      // Пишем в буфер значение счетчика
+  LcdString(1, 5);              // // Выводим обычным текстом содержание буфера
+  sprintf(lcd_buf, LANG_DONTOTO1);      // Пишем в буфер значение счетчика
+  LcdString(1, 7);              // // Выводим обычным текстом содержание буфера
+  sprintf(lcd_buf, LANG_DONTOTO2);      // Пишем в буфер значение счетчика
+  LcdString(1, 8);              // // Выводим обычным текстом содержание буфера
+#endif
 
   LcdUpdate();                  // записываем данные из сформированного фрейм-буфера на дисплей
   delay_ms(3000);
@@ -399,12 +411,24 @@ void minus_poweroff(uint32_t * param)   // выключение
   if(Power.USB_active)
     USB_off();
   LcdClear_massive();
+
+#ifdef DISPLAY_SSD1306
   sprintf(lcd_buf, LANG_POWEROFF);      // Пишем в буфер значение счетчика
   LcdString(1, 1);              // // Выводим обычным текстом содержание буфера
   sprintf(lcd_buf, LANG_DONTOTO1);      // Пишем в буфер значение счетчика
-  LcdString(1, 2);              // // Выводим обычным текстом содержание буфера
-  sprintf(lcd_buf, LANG_DONTOTO2);      // Пишем в буфер значение счетчика
   LcdString(1, 3);              // // Выводим обычным текстом содержание буфера
+  sprintf(lcd_buf, LANG_DONTOTO2);      // Пишем в буфер значение счетчика
+  LcdString(1, 4);              // // Выводим обычным текстом содержание буфера
+#endif
+	
+#ifdef DISPLAY_CH1115
+  sprintf(lcd_buf, LANG_POWEROFF);      // Пишем в буфер значение счетчика
+  LcdString(1, 5);              // // Выводим обычным текстом содержание буфера
+  sprintf(lcd_buf, LANG_DONTOTO1);      // Пишем в буфер значение счетчика
+  LcdString(1, 7);              // // Выводим обычным текстом содержание буфера
+  sprintf(lcd_buf, LANG_DONTOTO2);      // Пишем в буфер значение счетчика
+  LcdString(1, 8);              // // Выводим обычным текстом содержание буфера
+#endif
 
   LcdUpdate();                  // записываем данные из сформированного фрейм-буфера на дисплей
 
@@ -512,12 +536,24 @@ void minus_poweroff(uint32_t * param)   // выключение
   sleep_mode(DISABLE);
 
   LcdClear_massive();
+
+#ifdef DISPLAY_SSD1306
   sprintf(lcd_buf, LANG_REBOOTPR);      // Пишем в буфер значение счетчика
   LcdString(1, 1);              // // Выводим обычным текстом содержание буфера
   sprintf(lcd_buf, LANG_DONTOTO1);      // Пишем в буфер значение счетчика
-  LcdString(1, 2);              // // Выводим обычным текстом содержание буфера
-  sprintf(lcd_buf, LANG_DONTOTO2);      // Пишем в буфер значение счетчика
   LcdString(1, 3);              // // Выводим обычным текстом содержание буфера
+  sprintf(lcd_buf, LANG_DONTOTO2);      // Пишем в буфер значение счетчика
+  LcdString(1, 4);              // // Выводим обычным текстом содержание буфера
+#endif
+	
+#ifdef DISPLAY_CH1115
+  sprintf(lcd_buf, LANG_REBOOTPR);      // Пишем в буфер значение счетчика
+  LcdString(1, 5);              // // Выводим обычным текстом содержание буфера
+  sprintf(lcd_buf, LANG_DONTOTO1);      // Пишем в буфер значение счетчика
+  LcdString(1, 7);              // // Выводим обычным текстом содержание буфера
+  sprintf(lcd_buf, LANG_DONTOTO2);      // Пишем в буфер значение счетчика
+  LcdString(1, 8);              // // Выводим обычным текстом содержание буфера
+#endif
 
   LcdUpdate();                  // записываем данные из сформированного фрейм-буфера на дисплей
 

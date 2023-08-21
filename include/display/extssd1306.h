@@ -35,11 +35,27 @@
 #define PIXEL_XOR	2
 
 #define LCD_X_RES               128      // разрешение экрана
+
+#ifdef DISPLAY_SSD1306
 #define LCD_Y_RES               32
+#endif
+
+#ifdef DISPLAY_CH1115
+#define LCD_Y_RES               64
+#endif
+
 #define LCD_CACHSIZE          LCD_X_RES*LCD_Y_RES>>3
 
 #define Cntr_X_RES              128      // разрешение контроллера
+
+#ifdef DISPLAY_SSD1306
 #define Cntr_Y_RES              32
+#endif
+
+#ifdef DISPLAY_CH1115
+#define Cntr_Y_RES              64
+#endif
+
 #define Cntr_buf_size           Cntr_X_RES*Cntr_Y_RES>>3
 
 #define SSD1306_HEIGHT LCD_Y_RES //

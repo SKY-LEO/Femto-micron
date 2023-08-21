@@ -138,6 +138,12 @@ void EXTI1_IRQHandler(void)
 				menu_key_long = 0;
 				key_long_timer_Config();
 			}
+			if(Power.display_offed == ENABLE)
+			{	
+				ssd1306_SetDisplayOn(1);
+				Power.display_offed = DISABLE;
+				Power.display_just_onned = ENABLE;
+			}
       Sound_key_pressed = ENABLE;
       Alarm.Tick_beep_count = 0;
 			clear_sleep_time();

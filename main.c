@@ -78,6 +78,9 @@ int main(void)
   Power.sleep_time = Settings.Sleep_time;
   Power.Display_active = ENABLE;
 	Power.charging = DISABLE;
+	
+	Power.display_offed = DISABLE;
+	Power.display_just_onned = DISABLE;
 
   timer10_Config();
   tim3_Config();
@@ -89,8 +92,6 @@ int main(void)
 //--------------------------------------------------------------------
   delay_ms(50);                 // подождать установки напряжения
 	display_on();
-  LcdInit();
-  LcdClear();
 //--------------------------------------------------------------------
   adc_init();
   delay_ms(100);
@@ -124,7 +125,17 @@ int main(void)
     if(DataUpdate.Need_fon_update == ENABLE)
       geiger_calc_fon();
     if(key > 0)
-      keys_proccessing();
+		{
+			if(Power.display_just_onned == ENABLE)
+			{
+				delay_ms(300);
+				Power.display_just_onned = DISABLE;
+				key = 0;
+			}else
+			{
+				keys_proccessing();
+			}
+		}
     if(DataUpdate.Need_batt_voltage_update)
       adc_check_event();
 
@@ -188,8 +199,15 @@ int main(void)
 
       }
 
-    } else
+    } else {
       USB_work();               // если USB активен, попробовать передать данные
+						
+			if(Power.display_offed == DISABLE && Power.sleep_time == 0 && !Alarm.Alarm_active)
+			{
+				ssd1306_SetDisplayOn(0);
+				Power.display_offed = ENABLE;
+			}
+		}
   }
 /////////////////////////////////////////////////////////////////////////////// 
 }
