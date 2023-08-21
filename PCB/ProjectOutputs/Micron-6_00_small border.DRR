@@ -1,0 +1,18 @@
+----------------------------------------------------------------------------------------------------------------------------------
+NCDrill File Report For: Micron-6_00_small border.PcbDoc   09.05.2023  17:03:03
+----------------------------------------------------------------------------------------------------------------------------------
+
+Layer Pair : Top Layer to Bottom Layer
+ASCII RoundHoles File : Micron-6_00_small border.TXT
+
+Tool       Hole Size               Hole Tolerance               Hole Type       Hole Count   Plated         Tool Travel
+----------------------------------------------------------------------------------------------------------------------------------
+T1      12mil (0.3mm)                                             Round             71        PTH        7.99inch (202.94mm)
+T2      16mil (0.4mm)                                             Round             24        PTH        4.73inch (120.03mm)
+T3      20mil (0.5mm)                                             Round             2         PTH        0.14inch (3.50mm)
+T4      43mil (1.1mm)                                             Round             2         PTH        0.26inch (6.60mm)
+T5      43mil (1.1mm)                                             Round             2         NPTH       0.15inch (3.80mm)
+----------------------------------------------------------------------------------------------------------------------------------
+Totals                                                                              101
+
+Total Processing Time (hh:mm:ss) : 00:00:01

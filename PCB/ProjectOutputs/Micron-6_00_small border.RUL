@@ -1,0 +1,14 @@
+DRC Rules Export File for PCB: D:\Загрузки\Dosimeter-Ultra-Micron-master\Платы\PCB\Micron-6_00_small border.PcbDoc
+RuleKind=Clearance|RuleName=Clearance_NetD2_1|Scope=Board|Minimum=11.81
+RuleKind=Clearance|RuleName=Clearance_NetC1_2|Scope=Board|Minimum=11.81
+RuleKind=Clearance|RuleName=Clearance_NetC1_1|Scope=Board|Minimum=7.87
+RuleKind=Clearance|RuleName=Clearance_400V|Scope=Board|Minimum=19.69
+RuleKind=ShortCircuit|RuleName=ShortCircuit_1|Scope=Board|Allowed=0
+RuleKind=ShortCircuit|RuleName=ShortCircuit|Scope=Board|Allowed=0
+RuleKind=Clearance|RuleName=Clearance|Scope=Board|Minimum=6.00
+RuleKind=Width|RuleName=Width|Scope=Board|Minimum=5.98
+RuleKind=SolderMaskExpansion|RuleName=SolderMaskExpansion|Scope=Board|Minimum=1.97
+RuleKind=MinimumAnnularRing|RuleName=MinimumAnnularRing|Scope=Board|Minimum=5.91
+RuleKind=Clearance|RuleName=Clearance_poly|Scope=Board|Minimum=7.87
+RuleKind=Width|RuleName=Width_pw_|Scope=Board|Minimum=9.84
+RuleKind=MinimumAnnularRing|RuleName=MinimumAnnularRing_pw_|Scope=Board|Minimum=7.87

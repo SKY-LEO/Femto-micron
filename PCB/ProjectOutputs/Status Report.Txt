@@ -1,0 +1,19 @@
+Output: Gerber Files
+Type  : Gerber
+From  : Variant [[No Variations]] of Project [Micron-6.PrjPcb]
+   Generated File[Micron-6_00_small border.GTO]
+   Generated File[Micron-6_00_small border.GTS]
+   Generated File[Micron-6_00_small border.GTL]
+   Generated File[Micron-6_00_small border.GBL]
+   Generated File[Micron-6_00_small border.GBS]
+   Generated File[Micron-6_00_small border.GBO]
+   Generated File[Micron-6_00_small border.GKO]
+   Generated File[Micron-6_00_small border.RUL]
+   Generated File[Micron-6_00_small border.EXTREP]
+   Generated File[Micron-6_00_small border.REP]
+
+
+Files Generated   : 10
+Documents Printed : 0
+
+Finished Output Generation At 17:21:17 On 09.05.2023
