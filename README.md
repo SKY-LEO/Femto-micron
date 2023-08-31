@@ -2,9 +2,8 @@
 ## Описание
 Крошечный дозиметр с функцией логгирования радиационного фона за период 60 дней (в случае использования STM32L15XCCU6 - 5 месяцев) и выгрузкой на ПК.
 ## Фото устройства
-![PXL_20230824_165723446](https://github.com/SKY-LEO/Femto-micron/assets/69394830/ebbdf0a9-15c1-4418-b1ea-780771233b1d)
-![IMG_20230826_190237](https://github.com/SKY-LEO/Femto-micron/assets/69394830/7e5d5959-dbd6-4c98-86c2-dc705467601e)
-
+![PXL_20230824_165723446](https://github.com/SKY-LEO/Femto-micron/assets/69394830/ac7a7eaf-3b8a-4518-b4a0-6b986c5ddaa1)
+![IMG_20230826_190237](https://github.com/SKY-LEO/Femto-micron/assets/69394830/75b6e58c-5fd5-45db-beeb-8a2deb0d01ff)
 ## Внимание
 Устройство находится в процессе разработки!
 - На данный момент не внесены изменения в схему печатной платы;
